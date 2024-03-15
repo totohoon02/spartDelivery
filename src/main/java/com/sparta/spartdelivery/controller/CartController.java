@@ -26,4 +26,22 @@ public class CartController {
         model.addAttribute("totalPrice", total);
         return "cart";
     }
+
+    @GetMapping("/checkout")
+    public String viewCheckout(Model model) {
+        List<CartItem> orderItems = Arrays.asList(
+                new CartItem("Classic Cheeseburger", "yummy", 8.99, 2),
+                new CartItem("Veggie Delight Sandwich","yummy",  7.50, 1),
+                new CartItem("Grilled Salmon", "yummy", 12.99, 3),
+                new CartItem("Pepperoni Pizza", "yummy", 9.99, 1)
+        );
+
+        double totalPrice = orderItems.stream()
+                .mapToDouble(item -> item.getPrice() * item.getQuantity())
+                .sum();
+
+        model.addAttribute("orderItems", orderItems);
+        model.addAttribute("totalPrice", totalPrice);
+        return "checkout";
+    }
 }

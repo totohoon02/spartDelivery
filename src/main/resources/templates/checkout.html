@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check Out</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>주문번호 #1</h1>
+    <p>전화번호: 000-000-0000</p>
+    <p>주소: 123 Main St, Cityville, 12345</p>
+    <p class="total-price" th:text="'총 결제 금액: ' + ${totalPrice} + '원'">총 결제 금액: 25,000원</p>
+    <button class="btn-pay">주문 완료</button>
+  </div>
+  <div class="order-details">
+    <h2>주문내역</h2>
+    <div th:each="item : ${orderItems}" class="menu-item">
+      <h3 th:text="${item.menuName}">Menu Name</h3>
+      <p th:text="${item.description}">Description</p>
+      <p th:text="'Quantity: ' + ${item.quantity}">Quantity</p>
+      <p th:text="'Price: ' + ${item.price}">Price</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
