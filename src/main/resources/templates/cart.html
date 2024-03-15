@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Layout</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+
+<div class="menu-container">
+    <header>
+        <h1>장바구니</h1>
+        <div class="rating">★ 4.9 (1,234)</div>
+    </header>
+    <section class="menu-section">
+        <div th:each="cartItem : ${cartItems}" class="menu-item">
+            <h2 th:text="${cartItem.menuName}">Menu Name</h2>
+            <p th:text="'Price: $' + ${cartItem.price}">Price</p>
+            <p th:text="'Quantity: ' + ${cartItem.quantity}">Quantity</p>
+            <button>주문</button>
+        </div>
+    </section>
+    <footer>
+        <!-- Assuming you want to calculate the total price -->
+        <button class="checkout-button" th:text="'결제금액 ' + ${#aggregates.sum(cartItems.![price * quantity])} + '원 결제하기'">결제하기</button>
+    </footer>
+</div>
+
+</body>
+</html>
