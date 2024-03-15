@@ -23,7 +23,7 @@
     </section>
     <footer>
         <!-- Assuming you want to calculate the total price -->
-        <button class="checkout-button" th:text="'결제금액 ' + ${#aggregates.sum(cartItems.![price * quantity])} + '원 결제하기'">결제하기</button>
+        <button class="checkout-button" th:text="'결제금액 ' + ${totalPrice} + '원 결제하기'">결제하기</button>
     </footer>
 </div>
 

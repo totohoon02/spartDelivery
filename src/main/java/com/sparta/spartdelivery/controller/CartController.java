@@ -19,7 +19,11 @@ public class CartController {
                 new CartItem("Grilled Salmon", 12.99, 3),
                 new CartItem("Pepperoni Pizza", 9.99, 1)
         );
+        double total = cartItems.stream()
+                .mapToDouble(item -> item.getPrice() * item.getQuantity())
+                .sum();
         model.addAttribute("cartItems", cartItems);
+        model.addAttribute("totalPrice", total);
         return "cart";
     }
 }
