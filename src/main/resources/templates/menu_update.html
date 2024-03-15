@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/reset.css}" />
+    <link rel="stylesheet" th:href="@{/css/store_update.css}" />
+  </head>
+  <body>
+    <!-- NAV BAR -->
+    <header class="navbar">
+      <div class="leftBox">
+        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />
+        <p class="navTitle">Business Management</p>
+      </div>
+      <div class="rightBox">
+        <p class="navMenu" id="dashboard">Dashboard</p>
+        <p class="navMenu" id="business">Business Management</p>
+        <p class="navMenu" id="menu">Menu Management</p>
+        <p class="navMenu" id="order">Order Management</p>
+      </div>
+    </header>
+    <hr />
+
+    <div class="container">
+      <div class="titleBox">
+        <p class="title1">Register Menu</p>
+        <p class="title2">메뉴 수정</p>
+        <span class="description"
+          >변경사항이 있나요?<br />
+          메뉴 정보를 입력해 주세요.</span
+        >
+      </div>
+      <div class="formBox">
+        <label for="menuImage">메뉴 사진을 추가해 주세요. *</label>
+        <input type="text" id="menuImage" placeholder="메뉴 이미지 URL" />
+        <label for="menuName">메뉴 이름을 입력해주세요. *</label>
+        <input
+          type="text"
+          id="menuName"
+          placeholder="메뉴 이름을 입력해주세요"
+        />
+        <label for="menuPrice">메뉴 가격을 입력해 주세요. *</label>
+        <input
+          type="text"
+          id="menuPrice"
+          placeholder="메뉴 가격을 입력해 주세요"
+        />
+        <label for="menuExplain">메뉴 설명을 입력해주세요.</label>
+        <input
+          type="text"
+          id="menuExplain"
+          placeholder="메뉴 설명을 입력해주세요"
+        />
+      </div>
+      <div class="buttonContainer">
+        <button class="submitButton">취소하기</button>
+        <button class="submitButton">등록하기</button>
+      </div>
+      <p class="deleteStore">메뉴 삭제하기</p>
+    </div>
+
+    <!-- JS -->
+    <script th:src="@{/js/signup.js}"></script>
+  </body>
+</html>

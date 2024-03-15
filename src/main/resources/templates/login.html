@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/reset.css}" />
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="titleBox">
+        <p class="title1">배달의 민족</p>
+        <p class="title2">배달의 민족(가제)</p>
+        <span class="description"
+          >배달의 민족에 오신 것을 환영합니다!<br />
+          로그인을 진행해 주세요.</span
+        >
+      </div>
+      <div class="formBox">
+        <label for="email">이메일 *</label>
+        <input type="text" id="email" placeholder="이메일을 입력해 주세요" />
+        <label for="password">비밀번호 *</label>
+        <input
+          type="text"
+          id="password"
+          placeholder="비밀번호를 입력해 주세요"
+        />
+      </div>
+      <button class="submitButton" id="login">로그인</button>
+      <p class="signup" id="signup">회원 가입</p>
+    </div>
+
+    <!-- JS -->
+    <script th:src="@{/js/login.js}"></script>
+  </body>
+</html>

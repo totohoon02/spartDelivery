@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/reset.css}" />
+    <link rel="stylesheet" th:href="@{/css/store_new.css}" />
+  </head>
+  <body>
+    <!-- NAV BAR -->
+    <header class="navbar">
+      <div class="leftBox">
+        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />
+        <p class="navTitle">Business Management</p>
+      </div>
+      <div class="rightBox">
+        <p class="navMenu" id="dashboard">Dashboard</p>
+        <p class="navMenu" id="business">Business Management</p>
+        <p class="navMenu" id="menu">Menu Management</p>
+        <p class="navMenu" id="order">Order Management</p>
+      </div>
+    </header>
+    <hr />
+
+    <div class="container">
+      <div class="titleBox">
+        <p class="title1">Register Business</p>
+        <p class="title2">업장 등록하기</p>
+        <span class="description"
+          >배달의 민족에 오신 것을 환영합니다!<br />
+          회원 가입을 진행해 주세요.</span
+        >
+      </div>
+      <div class="formBox">
+        <label for="storeName">업체명을 입력해주세요. *</label>
+        <input
+          type="text"
+          id="storeName"
+          placeholder="대표 업체명을 입력해주세요"
+        />
+        <label for="category">업종을 입력해주세요. *</label>
+        <input type="text" id="category" placeholder="업종을 입력해주세요" />
+        <label for="phoneNumber">전화번호를 입력해주세요. *</label>
+        <input type="text" id="phoneNumber" placeholder="- 없이 입력" />
+        <label for="storeName">주소를 입력해주세요. *</label>
+        <input type="text" id="storeName" placeholder="도로명 주소" />
+      </div>
+      <button class="submitButton">등록하기</button>
+    </div>
+
+    <!-- JS -->
+    <script th:src="@{/js/signup.js}"></script>
+  </body>
+</html>
