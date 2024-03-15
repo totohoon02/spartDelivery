@@ -44,13 +44,14 @@
         <input type="text" id="category" placeholder="업종을 입력해주세요" />
         <label for="phoneNumber">전화번호를 입력해주세요. *</label>
         <input type="text" id="phoneNumber" placeholder="- 없이 입력" />
-        <label for="storeName">주소를 입력해주세요. *</label>
-        <input type="text" id="storeName" placeholder="도로명 주소" />
+        <label for="storeAddress">주소를 입력해주세요. *</label>
+        <input type="text" id="storeAddress" placeholder="도로명 주소" />
       </div>
-      <button class="submitButton">등록하기</button>
+      <button class="submitButton" id="submitButton">등록하기</button>
     </div>
 
     <!-- JS -->
-    <script th:src="@{/js/signup.js}"></script>
+    <script th:src="@{/js/navbar.js}"></script>
+    <script th:src="@{/js/store_new.js}"></script>
   </body>
 </html>
