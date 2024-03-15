@@ -16,6 +16,7 @@
     <section class="menu-section">
         <div th:each="cartItem : ${cartItems}" class="menu-item">
             <h2 th:text="${cartItem.menuName}">Menu Name</h2>
+            <p th:text="${cartItem.description}">Menu Name</p>
             <p th:text="'Price: $' + ${cartItem.price}">Price</p>
             <p th:text="'Quantity: ' + ${cartItem.quantity}">Quantity</p>
             <button>주문</button>
