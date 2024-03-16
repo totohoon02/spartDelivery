@@ -3,16 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Form</title>
+    <title>Review Form</title>
     <link rel="stylesheet" th:href="@{/css/review-write.css}">
 </head>
 <body>
+<!-- NAV BAR -->
+<header class="navbar">
+    <div class="leftBox">
+        <!--        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />-->
+        <p class="navTitle">Write Review</p>
+    </div>
+    <div class="rightBox">
+        <p class="navMenu navMenuTarget" id="dashboard">Dashboard</p>
+        <p class="navMenu" id="profile">Profile</p>
+        <p class="navMenu" id="cart">Cart</p>
+        <!--        <p class="navMenu" id="order">Order Management</p>-->
+    </div>
+</header>
 
 <div class="form-container">
-    <h1>리뷰</h1>
+    <h1>리뷰 작성</h1>
     <form>
-        <label for="subject">제목을 입력하세요</label>
-        <input type="text" id="subject" name="subject" placeholder="제목을 입력하세요 (선택 입력)">
+        <label for="rating">점수를 선택하세요 *</label>
+        <div id="rating">
+            <input type="radio" id="star5" name="rating" value="5" /><label for="star5">★</label>
+            <input type="radio" id="star4" name="rating" value="4" /><label for="star4">★</label>
+            <input type="radio" id="star3" name="rating" value="3" /><label for="star3">★</label>
+            <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
+            <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
+        </div>
 
         <label for="content">리뷰를 입력하세요 *</label>
         <textarea id="content" name="content" placeholder="리뷰를 입력하세요" required></textarea>
@@ -20,6 +39,8 @@
         <button type="submit" class="submit-button">리뷰 등록하기</button>
     </form>
 </div>
+
+<script th:src="@{/js/navbar.js}"></script>
 
 </body>
 </html>
