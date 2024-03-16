@@ -36,7 +36,9 @@
 .navMenu:hover {
   color: blue;
 }
-
+.navMenuTarget{
+  color: #6941c6;
+}
 /* 공통설정 */
 
 .container {
