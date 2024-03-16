@@ -7,32 +7,52 @@
     <link rel="stylesheet" th:href="@{/css/store-detail.css}"/>
 </head>
 <body>
+<!-- NAV BAR -->
+<header class="navbar">
+    <div class="leftBox">
+        <!--        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />-->
+        <p class="navTitle">Menu</p>
+    </div>
+    <div class="rightBox">
+        <p class="navMenu navMenuTarget" id="dashboard">Dashboard</p>
+        <p class="navMenu" id="profile">Profile</p>
+        <p class="navMenu" id="cart">Cart</p>
+        <!--        <p class="navMenu" id="order">Order Management</p>-->
+    </div>
+</header>
+<div class="store-container">
+    <div class="header">
+        <h1 th:text="${store.name}" style="margin:16px">Store Name</h1>
+        <p th:text="'Address: ' + ${store.address}" style="margin:12px">Address</p>
+        <p th:text="'Phone: ' + ${store.phoneNumber}" style="margin:12px">Phone Number</p>
+        <div class="rating" th:text="${'★ ' + store.rating + ' (' + '1,234' + ')'}">Rating</div>
+        <a href="/store/1/reviews" class="review-button" style="margin: 10px">리뷰 보기</a>
+    </div>
 
-<div class="container">
-    <header>
-        <h1>상품 이름</h1>
-        <div class="rating">★ 4.9 (1,234)</div>
-    </header>
 
-    <div class="card">
+    <div class="cards">
         <div class="menu-info">
-            <div class="row row-cols-1 row-cols-md-4 g-4 mx-auto w-75 pb-5">
+            <div class="row row-cols-1 row-cols-md-4 g-4 mx-auto w-75 pb-5" style="margin-bottom: 30px">
                 <div th:each="menu : ${menus}" class="col">
                     <div class="card h-100">
-                        <img th:src="${menu.imageUrl}" th:alt="${menu.name}" class="card-img-top" style="height: 200px;">
+                        <img th:src="${menu.imageUrl}" th:alt="${menu.name}" class="card-img-top">
                         <div class="card-body">
-                            <h5 class="card-title" th:text="${menu.name}" style="font-size: 18px;"></h5>
-                            <p class="card-text" th:text="${menu.price}" style="font-size: 15px;"></p>
+                            <h5 class="card-title" th:text="${menu.name}" style="font-size: 20px;"></h5>
+                            <p th:text="${menu.description}" class="menu-description" style="font-size: 15px;"></p>
+                            <p th:text="'가격' + ${menu.price} + '원'" class="menu-price" style="font-size: 15px;"></p>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
-        <button class="review-button">리뷰 보기</button>
-
-        <button class="order-button">주문하기</button>
     </div>
+        <form action="/cart" method="get">
+            <button class="order-button">장바구니 보기</button>
+        </form>
 </div>
+<script th:src="@{/js/navbar.js}"></script>
+<script th:src="@{/js/store-detail.js}"></script>
 
 </body>
 </html>
