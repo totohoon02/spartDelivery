@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+</head>
+<body>
+
+<div class="profile-container">
+    <a href="#" class="back-button">‹</a>
+    <h1>내 정보</h1>
+    <div class="user-info">
+        <p th:text="${userProfile.username}">Username</p>
+        <p th:text="'Phone Number: ' + ${userProfile.phoneNumber}">Phone Number</p>
+        <p th:text="'Address: ' + ${userProfile.address}">Address</p>
+        <p th:text="'Points Remaining: ' + ${userProfile.remainingPoints}">Points Remaining</p>
+    </div>
+    <div class="points-form">
+        <button class="redeem-button">포인트 사용내역 확인하기</button>
+    </div>
+</div>
+
+</body>
+</html>
