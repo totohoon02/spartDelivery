@@ -3,17 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Check Out</title>
-  <link rel="stylesheet" th:href="@{/style.css}">
+  <title>결제 완료</title>
+  <link rel="stylesheet" th:href="@{/css/checkout.css}">
 </head>
 <body>
-
+<!-- NAV BAR -->
+<header class="navbar">
+  <div class="leftBox">
+    <!--        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />-->
+    <p class="navTitle">Cart</p>
+  </div>
+  <div class="rightBox">
+    <!--        <p class="navMenu" id="dashboard">Dashboard</p>-->
+    <p class="navMenu" id="profile">Profile</p>
+    <p class="navMenu navMenuTarget" id="cart">Cart</p>
+    <!--        <p class="navMenu" id="order">Order Management</p>-->
+  </div>
+</header>
 <div class="container">
   <div class="header">
-    <h1>주문번호 #1</h1>
+    <h1>주문번호 # <span th:text="${orderNumber}"></span></h1>
+
     <p>전화번호: 000-000-0000</p>
     <p>주소: 123 Main St, Cityville, 12345</p>
     <p class="total-price" th:text="'총 결제 금액: ' + ${totalPrice} + '원'">총 결제 금액: 25,000원</p>
+
     <button class="btn-pay">주문 완료</button>
   </div>
   <div class="order-details">
@@ -22,7 +36,7 @@
       <h3 th:text="${item.menuName}">Menu Name</h3>
       <p th:text="${item.description}">Description</p>
       <p th:text="'Quantity: ' + ${item.quantity}">Quantity</p>
-      <p th:text="'Price: ' + ${item.price}">Price</p>
+      <p th:text="'Price: ' + ${#numbers.formatDecimal(item.price * item.quantity, 1, 0)} + '원'">Price</p>
     </div>
   </div>
 </div>
