@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Store {
     private String name;
-    private String phoneNumber;
     private String address;
+    private String phoneNumber;
+    private double rating;
 }

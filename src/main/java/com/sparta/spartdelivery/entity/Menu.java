@@ -10,6 +10,7 @@ import lombok.Getter;
 public class Menu {
     private String id;
     private String name;
+    private String description;
     private String price;
     private String imageUrl;
 }
