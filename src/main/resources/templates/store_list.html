@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/reset.css}" />
+    <link rel="stylesheet" th:href="@{/css/store_list.css}" />
+</head>
+<body>
+<!-- NAV BAR -->
+<header class="navbar">
+    <div class="leftBox">
+        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />
+        <p class="navTitle">Dashboard</p>
+    </div>
+    <div class="rightBox">
+        <p class="navMenu navMenuTarget" id="dashboard">Dashboard</p>
+        <p class="navMenu" id="business">Business Management</p>
+        <p class="navMenu" id="menu">Menu Management</p>
+        <p class="navMenu" id="order">Order Management</p>
+    </div>
+</header>
+<hr />
+
+<div class="container">
+    <div class="titleBox">
+        <p class="title1">View Restaurants</p>
+        <p class="title2">음식점 탐색</p>
+    </div>
+    <div class="search-bar">
+        <div class="search-icon">
+            <img th:src="@{/images/search.png}" alt="Search"/>
+        </div>
+        <label for="search-input">Search:</label>
+        <input type="text" id="search-input" placeholder="Search...">
+        <button type="submit">검색</button>
+    </div>
+</div>
+<div class="gallery">
+    <div th:each="store : ${storeInfos}" class="image-card">
+        <img th:src="@{${store.storeImageUrl}}" alt="Burger Image" th:alt="${store.storeName}"/>
+        <div class="image-category" th:text="${store.category}">카테고리</div>
+        <div class="image-title" th:text="${store.storeName}">상호명</div>
+    </div>
+</div>
+
+<!-- JS -->
+<script th:src="@{/js/navbar.js}"></script>
+</body>
+</html>
