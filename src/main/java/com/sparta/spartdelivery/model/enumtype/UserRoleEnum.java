@@ -1,8 +1,8 @@
 package com.sparta.spartdelivery.model.enumtype;
 
 public enum UserRoleEnum {
-    BOSS(Authority.BOSS),  // 사용자 권한
-    CLIENT(Authority.CLIENT);  // 관리자 권한
+    BOSS(Authority.BOSS),       // 사장 권한
+    CLIENT(Authority.CLIENT);   // 고객 권한
 
     private final String authority;
 

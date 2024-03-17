@@ -1,4 +1,4 @@
-package com.sparta.spartdelivery.security;
+package com.sparta.spartdelivery.external.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.spartdelivery.model.dto.LoginRequestDto;

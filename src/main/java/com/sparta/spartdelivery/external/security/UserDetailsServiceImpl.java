@@ -1,4 +1,4 @@
-package com.sparta.spartdelivery.security;
+package com.sparta.spartdelivery.external.security;
 
 import com.sparta.spartdelivery.model.entity.User;
 import com.sparta.spartdelivery.repository.UserRepository;

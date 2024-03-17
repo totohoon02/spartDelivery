@@ -1,4 +1,4 @@
-package com.sparta.spartdelivery.security;
+package com.sparta.spartdelivery.external.security;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;

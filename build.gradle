@@ -22,12 +22,15 @@ repositories {
 }
 
 dependencies {
-    // 회원가입&로그인 시 jwt기능 from 성찬
+    // email인증 기능 from 성찬
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // JWT 기능 from 성찬
     compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
-    // 회원가입&로그인 시 @Valid기능 from 성찬
+    // 회원가입&로그인 시 @Valid 기능 from 성찬
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
