@@ -34,7 +34,7 @@
 </div>
 <div th:each="menu : ${menuInfos}" class="menu-card">
     <div class="menu-image"
-         th:style="'background-image:url(' + @{${menu.menuImageUrl}} + '); background-size: cover; background-position: center;'">
+         th:style="'background-image:url(' + ${menu.menuImageUrl} + '); background-size: cover; background-position: center;'">
     </div>
     <div class="order-details">
         <h2 th:text="${menu.menuName}"></h2>
