@@ -28,7 +28,7 @@
   margin-right: 10px;
 }
 .navMenu {
-  margin: 0px 10px;
+  margin: 10px;
   font-weight: bold;
   font-size: 15px;
   cursor: pointer;
@@ -75,7 +75,7 @@
   border-radius: 5px;
   background-color: #7f56d9;
   border: none;
-  padding: 10px 0px;
+  padding: 10px;
   cursor: pointer;
 }
 
