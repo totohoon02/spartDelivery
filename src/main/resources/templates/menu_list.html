@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/reset.css}"/>
+    <link rel="stylesheet" th:href="@{/css/menu_list.css}"/>
+    <link rel="stylesheet" href="../static/css/order_manage.css">
+</head>
+<body>
+<!-- NAV BAR -->
+<header class="navbar">
+    <div class="leftBox">
+        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg"/>
+        <p class="navTitle">Dashboard</p>
+    </div>
+    <div class="rightBox">
+        <p class="navMenu" id="dashboard">Dashboard</p>
+        <p class="navMenu" id="business">Business Management</p>
+        <p class="navMenu navMenuTarget" id="menu">Menu Management</p>
+        <p class="navMenu" id="order">Order Management</p>
+    </div>
+</header>
+<hr/>
+
+<div class="container">
+    <div class="titleBox">
+        <p class="title1">Manage Menus</p>
+        <p class="title2">메뉴 관리</p>
+    </div>
+    <button class="submitButton" id="submitButton">메뉴 추가</button>
+</div>
+<div th:each="menu : ${menuInfos}" class="menu-card">
+    <div class="menu-image"
+         th:style="'background-image:url(' + @{${menu.menuImageUrl}} + '); background-size: cover; background-position: center;'">
+    </div>
+    <div class="order-details">
+        <h2 th:text="${menu.menuName}"></h2>
+        <p class="order-total" th:text="'가격: ' + ${menu.price} + '원'"></p>
+        <p th:text="${menu.menuDescription}"></p>
+    </div>
+    <div class="order-buttons">
+        <button type="button" class="button"
+                th:data-menu="${menu.menuJson}">
+            수정하기
+        </button>
+    </div>
+</div>
+
+<!-- JS -->
+<script th:src="@{/js/navbar.js}"></script>
+<script th:src="@{/js/menu_list.js}"></script>
+</body>
+</html>
