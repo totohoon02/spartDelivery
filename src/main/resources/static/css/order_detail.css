@@ -1,0 +1,95 @@
+/* 네브바설정 */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+  height: 10vh;
+}
+.leftBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logoImg {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+}
+.navTitle {
+  font-weight: bolder;
+  font-size: 20px;
+}
+
+.rightBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+.navMenu {
+  margin: 10px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+.navMenuTarget{
+  color: #6941c6;
+}
+.navMenu:hover {
+  color: blue;
+}
+
+/* 공통설정 */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  padding-top: 10vh;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.title1 {
+  color: #6941c6;
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 12px;
+}
+.title2 {
+  font-size: 24px;
+  font-weight: bolder;
+  margin-bottom: 15px;
+}
+.title3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+.titleBox {
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  margin-bottom: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+.order-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.order-image {
+  width: 120px;
+  height: 120px;
+  background-color: #f0f0f0;
+  margin-right: 20px;
+}
+.order-details {
+  flex-grow: 1;
+}

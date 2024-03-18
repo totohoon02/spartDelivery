@@ -49,3 +49,16 @@ btnDelete.addEventListener("click", ()=>{
             window.location.href = "/";
         })
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const menuData = localStorage.getItem('menuData'); // 메뉴 데이터 검색
+    if (menuData) {
+        const menu = JSON.parse(menuData);
+        // 이제 menu 객체를 사용하여 form 요소를 채울 수 있음
+        document.getElementById('menuImage').value = menu.menuImageUrl || '';
+        document.getElementById('menuName').value = menu.menuName || '';
+        document.getElementById('menuPrice').value = menu.price || '';
+        document.getElementById('menuExplain').value = menu.menuDescription || '';
+    }
+});
+

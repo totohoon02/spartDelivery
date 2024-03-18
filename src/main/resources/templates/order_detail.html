@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/reset.css}" />
+    <link rel="stylesheet" th:href="@{/css/order_detail.css}" />
+</head>
+<body>
+<!-- NAV BAR -->
+<header class="navbar">
+    <div class="leftBox">
+        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />
+        <p class="navTitle">Dashboard</p>
+    </div>
+    <div class="rightBox">
+        <p class="navMenu" id="dashboard">Dashboard</p>
+        <p class="navMenu" id="business">Business Management</p>
+        <p class="navMenu" id="menu">Menu Management</p>
+        <p class="navMenu navMenuTarget" id="order">Order Management</p>
+    </div>
+</header>
+<hr />
+
+<div class="container">
+    <div class="titleBox">
+        <p class="title1">Manage Orders</p>
+        <p class="title2" th:text="'주문번호 #' + ${orderInfo.orderId}"></p>
+        <p class="title3" th:text="'전화번호: ' + ${orderInfo.phoneNumber}">Manage Orders</p>
+        <p class="title3" th:text="'주소: ' + ${orderInfo.address}">Manage Orders</p>
+        <p class="title3" th:text="'주문 시간: ' + ${orderInfo.orderedAt}">Manage Orders</p>
+        <p class="title2" th:text="'총결제금액: ' + ${orderInfo.totalPrice} + ' 원'"></p>
+    </div>
+</div>
+<div th:each="orderDetail : ${orderInfo.orderDetailInfos}" class="order-card">
+    <div class="order-image" th:style="'background-image:url(' + ${orderDetail.menuImageUrl} + '); background-size: cover; background-position: center;'">
+    </div>
+    <div class="order-details">
+        <h2 th:text="${orderDetail.menuName}"></h2>
+        <p th:text="'가격: ' + ${orderDetail.price} + '원'"></p>
+        <p th:text="'수량: ' + ${orderDetail.quantity}"></p>
+    </div>
+</div>
+
+<!-- JS -->
+<script th:src="@{/js/navbar.js}"></script>
+</body>
+</html>
