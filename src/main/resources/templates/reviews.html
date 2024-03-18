@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reviews</title>
+  <link rel="stylesheet" th:href="@{/css/reviews.css}">
+</head>
+<body>
+<!-- NAV BAR -->
+<header class="navbar">
+  <div class="leftBox">
+    <!--        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />-->
+    <p class="navTitle">Menu</p>
+  </div>
+  <div class="rightBox">
+    <p class="navMenu navMenuTarget" id="dashboard">Dashboard</p>
+    <p class="navMenu" id="profile">Profile</p>
+    <p class="navMenu" id="cart">Cart</p>
+    <!--        <p class="navMenu" id="order">Order Management</p>-->
+  </div>
+</header>
+<div class="reviews-container">
+<!--  <h1>리뷰</h1>-->
+  <h1 th:text="${store.name} + ' - ' + ${store.rating} + ' ★'">Restaurant Name - Current Rating ★</h1>
+  <button class="write-review-btn" onclick="window.location.href='/store/1/reviews/write'">리뷰 작성하기</button>
+
+  <div th:each="review : ${reviews}" class="review">
+    <h2 th:text="${review.reviewerName}" class="reviewer-name">Reviewer Name</h2>
+    <span class="rating" th:text="${review.rating}">★★★★★</span>
+    <span class="score" th:text="${review.score}">5/5</span>
+    <p th:text="${review.comment}" class="review-comment">Comment</p>
+  </div>
+</div>
+
+<script th:src="@{/js/navbar.js}"></script>
+
+</body>
+</html>

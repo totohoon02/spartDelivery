@@ -1,0 +1,113 @@
+/* 네브바설정 */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 10vh;
+    background-color: white;
+    z-index: 1000;
+    box-shadow: 0px 1px grey;
+}
+
+.leftBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 50px;
+}
+.logoImg {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+}
+.navTitle {
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+.rightBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 50px;
+}
+.navMenu {
+    margin: 0px 10px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+}
+.navMenu:hover {
+    color: blue;
+}
+.navMenuTarget{
+    color: #6941c6;
+}
+
+body {
+    display: flex;
+    background: white;
+    height: 100%;
+    margin: 0;
+    padding-top: 10vh;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    justify-content: center;
+}
+
+.container {
+    width: 80%;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.header h1 {
+    color: #333;
+}
+
+.total-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.btn-pay {
+    background-color: #6e57e0;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.order-details {
+    border-top: 2px dashed #ccc;
+    padding-top: 10px;
+}
+
+.menu-item {
+    border: 2px dashed #aaa;
+    border-radius: 8px;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.menu-item h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.menu-item p {
+    color: #666;
+    font-size: 0.9rem;
+}
