@@ -19,7 +19,8 @@ btnLogin.addEventListener("click", ()=>{
             'Content-Type': 'application/json'
         },
         body: {
-            email, password
+            email:email.value,
+            password:password.value
         }
     })
         .then(res =>{

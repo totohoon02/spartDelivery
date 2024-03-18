@@ -12,7 +12,7 @@ btnSubmit.addEventListener("click", ()=>{
         return;
     }
 
-    fetch("/create-menu", {
+    fetch("/menu", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'

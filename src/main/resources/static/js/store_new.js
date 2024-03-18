@@ -12,7 +12,7 @@ btnSubmit.addEventListener("click", ()=>{
         return;
     }
 
-    fetch("/create-store", {
+    fetch("/store", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
