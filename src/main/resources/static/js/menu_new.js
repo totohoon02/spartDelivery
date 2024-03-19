@@ -12,13 +12,16 @@ btnSubmit.addEventListener("click", ()=>{
         return;
     }
 
-    fetch("/create-menu", {
+    fetch("/menu", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
         body: {
-            menuName, menuImage, menuPrice, menuExplain
+            menuName:menuName.value,
+            menuImage:menuImage.value,
+            menuPrice:menuPrice.value,
+            menuExplain:menuExplain.value
         }
     })
         .then(res => {

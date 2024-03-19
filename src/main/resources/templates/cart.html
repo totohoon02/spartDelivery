@@ -24,7 +24,7 @@
     <header>
         <h1 style="display: flex; justify-content: center;">장바구니</h1>
         <div class="store-info" style="display: flex; flex-direction: column; align-items: center;">
-            <h2 th:text="${storeInfo.name}">Store Name</h2>
+            <h2 th:text="${storeInfo.getStoreName}">Store Name</h2>
             <p th:text="'Phone: ' + ${storeInfo.phoneNumber}">Phone Number</p>
             <p th:text="'Address: ' + ${storeInfo.address}">Address</p>
         </div>
