@@ -27,16 +27,16 @@ public class CartController {
                 .mapToDouble(item -> item.getPrice() * item.getQuantity())
                 .sum();
 
-        Store storeInfo = new Store("Burger Joint", "123 Burger Lane, Flavor Town", "010-1234-5678", 4.9);
-
-        // Storing cart data in the session
-        request.getSession().setAttribute("cartItems", cartItems);
-        request.getSession().setAttribute("totalPrice", total);
-        request.getSession().setAttribute("storeInfo", storeInfo);
-
-        model.addAttribute("cartItems", cartItems);
-        model.addAttribute("totalPrice", total);
-        model.addAttribute("storeInfo", storeInfo);
+//        Store storeInfo = new Store("Burger Joint", "123 Burger Lane, Flavor Town", "010-1234-5678", 4.9);
+//
+//        // Storing cart data in the session
+//        request.getSession().setAttribute("cartItems", cartItems);
+//        request.getSession().setAttribute("totalPrice", total);
+//        request.getSession().setAttribute("storeInfo", storeInfo);
+//
+//        model.addAttribute("cartItems", cartItems);
+//        model.addAttribute("totalPrice", total);
+//        model.addAttribute("storeInfo", storeInfo);
         return "cart";
     }
 
