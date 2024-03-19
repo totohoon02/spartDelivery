@@ -26,8 +26,10 @@ btnLogin.addEventListener("click", ()=>{
         .then(res =>{
             if(!res.ok){
                 alert("로그인 실패!");
+                window.location.href = "/";
+            }else{
+                window.location.href = "/";
             }
             // redirect if login success
-            window.location.href = "/";
         })
 })

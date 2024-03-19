@@ -52,8 +52,9 @@ btnSignup.addEventListener("click", () => {
         .then(res => {
             if (!res.ok) {
                 alert("회원가입 실패!");
+            }else{
+                alert("회원가입 성공!");
+                window.location.href = "/";
             }
-            // redirect if signup success
-            window.location.href = "/";
         })
 });

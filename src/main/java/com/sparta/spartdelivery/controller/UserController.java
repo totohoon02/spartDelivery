@@ -1,5 +1,6 @@
 package com.sparta.spartdelivery.controller;
 
+import com.sparta.spartdelivery.dto.LoginRequestDto;
 import com.sparta.spartdelivery.dto.SignupRequestDto;
 import com.sparta.spartdelivery.service.UserService;
 import jakarta.validation.Valid;
