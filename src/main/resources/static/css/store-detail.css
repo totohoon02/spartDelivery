@@ -125,7 +125,7 @@ body {
     margin: 5px;
 }
 
-.order-button {
+.cart-button {
     background-color: #6e57e0;
     color: #ffffff;
     padding: 1rem 2rem;
@@ -138,7 +138,7 @@ body {
     transition: background-color 0.3s;
 }
 
-.order-button:hover {
+.cart-button:hover {
     background-color: #5d4bcf;
 }
 

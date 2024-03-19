@@ -10,7 +10,7 @@
 <!-- NAV BAR -->
 <header class="navbar">
     <div class="leftBox">
-        <!--        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />-->
+                <img src="@{/images/logo.png}" alt="x" class="logoImg" />
         <p class="navTitle">Menu</p>
     </div>
     <div class="rightBox">
@@ -21,20 +21,22 @@
     </div>
 </header>
 <div class="store-container">
-    <div class="header">
-        <h1 th:text="${store.name}" style="margin:16px">Store Name</h1>
-        <p th:text="'Address: ' + ${store.address}" style="margin:12px">Address</p>
-        <p th:text="'Phone: ' + ${store.phoneNumber}" style="margin:12px">Phone Number</p>
-        <div class="rating" th:text="${'★ ' + store.rating + ' (' + '1,234' + ')'}">Rating</div>
-        <a href="/store/1/reviews" class="review-button" style="margin: 10px">리뷰 보기</a>
+    <div class="header" th:attr="data-store-id=${store.storeId}">
+        <h1 th:text="${store.storeName}">Store Name</h1>
+        <p th:text="'Address: ' + ${store.address}">Address</p>
+        <p th:text="'Phone: ' + ${store.phoneNumber}">Phone Number</p>
+        <div class="rating" th:text="'Rating: ' + ${#numbers.formatDecimal(store.rating, 1, 'COMMA', 2, 'POINT')}">Rating</div>
+        <form action="/store/1/reviews" method="get">
+            <button class="review-button" style="margin: 10px">리뷰 보기</button>
+        </form>
     </div>
 
 
     <div class="cards">
         <div class="menu-info">
             <div class="row row-cols-1 row-cols-md-4 g-4 mx-auto w-75 pb-5" style="margin-bottom: 30px">
-                <div th:each="menu : ${menus}" class="col">
-                    <div class="card h-100">
+                <div th:each="menu : ${store.menus}" class="col">
+                    <div class="card h-100" th:attr="data-menu-id=${menu.menuId}">
                         <img th:src="${menu.imageUrl}" th:alt="${menu.name}" class="card-img-top">
                         <div class="card-body">
                             <h5 class="card-title" th:text="${menu.name}" style="font-size: 20px;"></h5>
@@ -47,9 +49,13 @@
             </div>
         </div>
     </div>
-        <form action="/cart" method="get">
-            <button class="order-button">장바구니 보기</button>
-        </form>
+    <form action="/cart" method="get">
+<!--        userId 넣는 로직 필요-->
+<!--        <input type="hidden" name="userId" th:value="${userId}">-->
+        <input type="hidden" name="userId" value=1>
+
+        <button class="cart-button">장바구니 보기</button>
+    </form>
 </div>
 <script th:src="@{/js/navbar.js}"></script>
 <script th:src="@{/js/store-detail.js}"></script>
