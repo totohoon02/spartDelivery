@@ -1,8 +1,7 @@
-package com.sparta.spartdelivery.model.dto;
+package com.sparta.spartdelivery.dto;
 
-import com.sparta.spartdelivery.model.enumtype.UserRoleEnum;
+import com.sparta.spartdelivery.entity.UserRoleEnum;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 
 // 회원가입 Dto

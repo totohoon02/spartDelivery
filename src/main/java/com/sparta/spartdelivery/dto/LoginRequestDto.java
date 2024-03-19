@@ -1,4 +1,4 @@
-package com.sparta.spartdelivery.model.dto;
+package com.sparta.spartdelivery.dto;
 
 import lombok.Getter;
 

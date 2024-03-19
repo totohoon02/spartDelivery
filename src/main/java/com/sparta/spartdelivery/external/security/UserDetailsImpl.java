@@ -1,7 +1,7 @@
 package com.sparta.spartdelivery.external.security;
 
-import com.sparta.spartdelivery.model.entity.User;
-import com.sparta.spartdelivery.model.enumtype.UserRoleEnum;
+import com.sparta.spartdelivery.entity.User;
+import com.sparta.spartdelivery.entity.UserRoleEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

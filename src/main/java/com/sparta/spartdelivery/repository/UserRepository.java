@@ -1,6 +1,6 @@
 package com.sparta.spartdelivery.repository;
 
-import com.sparta.spartdelivery.model.entity.User;
+import com.sparta.spartdelivery.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

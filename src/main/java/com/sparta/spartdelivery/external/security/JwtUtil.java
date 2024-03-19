@@ -1,6 +1,6 @@
 package com.sparta.spartdelivery.external.security;
 
-import com.sparta.spartdelivery.model.enumtype.UserRoleEnum;
+import com.sparta.spartdelivery.entity.UserRoleEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;

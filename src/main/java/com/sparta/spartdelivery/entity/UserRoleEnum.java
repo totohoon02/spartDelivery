@@ -1,4 +1,4 @@
-package com.sparta.spartdelivery.model.enumtype;
+package com.sparta.spartdelivery.entity;
 
 public enum UserRoleEnum {
     BOSS(Authority.BOSS),       // 사장 권한

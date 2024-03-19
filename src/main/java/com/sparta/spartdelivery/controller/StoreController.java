@@ -39,15 +39,15 @@ public class StoreController {
 
     @GetMapping("/{storeId}")
     public String storeDetail(Model model) {
-        List<Menu> menus = Arrays.asList(
-                new Menu("1", "Classic Cheeseburger", "delicious", 9,
-                        "https://korean.visitseoul.net/data/POST/20170425//201704251508226961")
-        );
-
-        Store store = new Store("Burger Joint", CategoryEnum.KOREAN, "010-1234-5678", "123 Burger Lane, Flavor Town",
-                "https://korean.visitseoul.net/data/POST/20170425//201704251508226961", 95, 15);
-        model.addAttribute("store", store);
-        model.addAttribute("menus", menus);
+//        List<Menu> menus = Arrays.asList(
+//                new Menu("Classic Cheeseburger", "delicious", 9,
+//                        "https://korean.visitseoul.net/data/POST/20170425//201704251508226961")
+//        );
+//
+//        Store store = new Store("Burger Joint", CategoryEnum.KOREAN, "010-1234-5678", "123 Burger Lane, Flavor Town",
+//                "https://korean.visitseoul.net/data/POST/20170425//201704251508226961", 95, 15);
+//        model.addAttribute("store", store);
+//        model.addAttribute("menus", menus);
         return "store-detail";
     }
 

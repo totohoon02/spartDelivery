@@ -1,6 +1,6 @@
 package com.sparta.spartdelivery.external.security;
 
-import com.sparta.spartdelivery.model.entity.User;
+import com.sparta.spartdelivery.entity.User;
 import com.sparta.spartdelivery.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,6 +1,5 @@
 package com.sparta.spartdelivery.external.email;
 
-import com.sparta.spartdelivery.model.enumtype.UserRoleEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

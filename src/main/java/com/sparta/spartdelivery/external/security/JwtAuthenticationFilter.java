@@ -1,8 +1,8 @@
 package com.sparta.spartdelivery.external.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.spartdelivery.model.dto.LoginRequestDto;
-import com.sparta.spartdelivery.model.enumtype.UserRoleEnum;
+import com.sparta.spartdelivery.dto.LoginRequestDto;
+import com.sparta.spartdelivery.entity.UserRoleEnum;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,7 +22,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        setFilterProcessesUrl("/login");
+        setFilterProcessesUrl("/login2");
     }
 
     @Override

@@ -1,9 +1,9 @@
 package com.sparta.spartdelivery.service;
 
+import com.sparta.spartdelivery.entity.User;
 import com.sparta.spartdelivery.external.email.EmailCode;
 import com.sparta.spartdelivery.external.email.EmailCodeRepository;
-import com.sparta.spartdelivery.model.dto.SignupRequestDto;
-import com.sparta.spartdelivery.model.entity.User;
+import com.sparta.spartdelivery.dto.SignupRequestDto;
 import com.sparta.spartdelivery.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
