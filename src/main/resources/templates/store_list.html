@@ -33,20 +33,20 @@
         <div class="search-icon">
             <img th:src="@{/images/search.png}" alt="Search"/>
         </div>
-        <label for="search-input">Search:</label>
         <input type="text" id="search-input" placeholder="Search...">
-        <button type="submit">검색</button>
+        <button type="submit" id="btnSubmit">검색</button>
     </div>
 </div>
 <div class="gallery">
     <div th:each="store : ${storeInfos}" class="image-card">
-        <img th:src="@{${store.storeImageUrl}}" alt="Burger Image" th:alt="${store.storeName}"/>
-        <div class="image-category" th:text="${store.category}">카테고리</div>
+        <img th:src="@{${store.imageUrl}}" alt="Burger Image" th:alt="${store.storeName}"/>
+        <div class="image-category" th:text="${store.categoryValue}">카테고리</div>
         <div class="image-title" th:text="${store.storeName}">상호명</div>
     </div>
 </div>
 
 <!-- JS -->
 <script th:src="@{/js/navbar.js}"></script>
+<script th:src="@{/js/store_list.js}"></script>
 </body>
 </html>
