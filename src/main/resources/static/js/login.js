@@ -18,16 +18,18 @@ btnLogin.addEventListener("click", ()=>{
         headers: {
             'Content-Type': 'application/json'
         },
-        body: {
+        body: JSON.stringify({
             email:email.value,
             password:password.value
-        }
+        })
     })
         .then(res =>{
             if(!res.ok){
                 alert("로그인 실패!");
+                window.location.href = "/";
+            }else{
+                window.location.href = "/";
             }
             // redirect if login success
-            window.location.href = "/";
         })
 })

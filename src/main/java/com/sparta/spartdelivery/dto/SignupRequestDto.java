@@ -17,6 +17,6 @@ public class SignupRequestDto {
     // @Pattern(regexp = "^[A-Za-z\\d@$!%*?&]{8,15}$")
     private String password;
 
-    private String username;
+    private String userName;
     private UserRoleEnum role;
 }

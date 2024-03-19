@@ -19,12 +19,12 @@ btnSubmit.addEventListener("click", ()=>{
         headers: {
             'Content-Type': 'application/json'
         },
-        body: {
+        body: JSON.stringify({
             storeName:storeName.value,
             category:category.value,
             phoneNumber:phoneNumber.value,
             storeAddress:storeAddress.value
-        }
+        })
     })
         .then(res => {
             if (!res.ok) {
