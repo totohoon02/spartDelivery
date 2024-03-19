@@ -39,7 +39,7 @@ public class UserService {
         }
 
         // 사용자 등록
-        User user = new User(email, password, requestDto.getUsername(), requestDto.getRole());
+        User user = new User(email, password, requestDto.getUserName(), requestDto.getRole());
         userRepository.save(user);
     }
 }

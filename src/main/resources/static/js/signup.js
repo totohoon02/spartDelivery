@@ -41,13 +41,13 @@ btnSignup.addEventListener("click", () => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: {
+        body: JSON.stringify({
             email: email.value,
             emailCode: emailCode.value,
             password: password.value,
             userName: userName.value,
             role: role.value
-        }
+        })
     })
         .then(res => {
             if (!res.ok) {

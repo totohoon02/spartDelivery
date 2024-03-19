@@ -13,15 +13,15 @@ btnLogin.addEventListener("click", ()=>{
         alert("입력 값을 확인해 주세요.");
         return;
     }
-    fetch("/login", {
+    fetch("/login2", {
         method:"POST",
         headers: {
             'Content-Type': 'application/json'
         },
-        body: {
+        body: JSON.stringify({
             email:email.value,
             password:password.value
-        }
+        })
     })
         .then(res =>{
             if(!res.ok){
