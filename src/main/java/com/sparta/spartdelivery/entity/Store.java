@@ -5,38 +5,67 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@Table(name= "store")
 @NoArgsConstructor
 public class Store {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long storeId;
+    private Integer storeId;
+
+    @Column(nullable = false, unique = true)
     private String storeName;
-    private String address;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private CategoryEnum categoryEnum;
+
+    @Column
     private String phoneNumber;
-    private double rating = 0.0d;
 
+    @Column
+    private String address;
 
-    public Store(StoreRequestDto requestDto) {
-        this.storeName = requestDto.getStoreName();
-        this.address = requestDto.getStoreAddress();
-        this.phoneNumber = requestDto.getPhoneNumber();
-    }
+    @Column
+    private String imageUrl;
 
-    public Store(String storeName, String address, String phoneNumber, double rating) {
+    @Column
+    private Integer totalRatings;
+
+    @Column
+    private Integer ratingsCount;
+
+//    public Store(StoreRequestDto requestDto) {
+//        this.storeName = requestDto.getStoreName();
+//        this.address = requestDto.getStoreAddress();
+//        this.phoneNumber = requestDto.getPhoneNumber();
+//    }
+
+//    public Store(String storeName, String address, String phoneNumber, double rating) {
+//        this.storeName = storeName;
+//        this.address = address;
+//        this.phoneNumber = phoneNumber;
+////        this.rating = rating;
+//    }
+
+//    public void updateStore(StoreRequestDto requestDto) {
+//        storeName = requestDto.getStoreName();
+//        address = requestDto.getStoreAddress();
+//        phoneNumber = requestDto.getPhoneNumber();
+//    }
+
+    public Store(String storeName, CategoryEnum categoryEnum, String phoneNumber, String address, String imageUrl, Integer totalRatings, Integer ratingsCount) {
         this.storeName = storeName;
-        this.address = address;
+        this.categoryEnum = categoryEnum;
         this.phoneNumber = phoneNumber;
-        this.rating = rating;
-    }
-
-    public void updateStore(StoreRequestDto requestDto) {
-        storeName = requestDto.getStoreName();
-        address = requestDto.getStoreAddress();
-        phoneNumber = requestDto.getPhoneNumber();
+        this.address = address;
+        this.imageUrl = imageUrl;
+        this.totalRatings = totalRatings;
+        this.ratingsCount = ratingsCount;
     }
 }
