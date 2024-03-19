@@ -11,18 +11,20 @@ btnSubmit.addEventListener("click", ()=>{
         alert("입력 값을 확인해주세요.");
         return;
     }
+    const token = localStorage.getItem('token');
 
     fetch("/menu", {
         method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': token
         },
-        body: {
+        body: JSON.stringify({
             menuName:menuName.value,
             menuImage:menuImage.value,
             menuPrice:menuPrice.value,
             menuExplain:menuExplain.value
-        }
+        })
     })
         .then(res => {
             if (!res.ok) {

@@ -12,10 +12,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function markOrderAsDelivered(orderId) {
+    const token = localStorage.getItem('token');
+
     fetch('/orders/' + orderId + '/deliver', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': token
         },
         body: JSON.stringify({ orderId: orderId })
     })
