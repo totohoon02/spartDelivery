@@ -10,7 +10,7 @@
 <!-- NAV BAR -->
 <header class="navbar">
     <div class="leftBox">
-        <!--        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />-->
+        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />
         <p class="navTitle">Cart</p>
     </div>
     <div class="rightBox">
@@ -24,15 +24,15 @@
     <header>
         <h1 style="display: flex; justify-content: center;">장바구니</h1>
         <div class="store-info" style="display: flex; flex-direction: column; align-items: center;">
-            <h2 th:text="${storeInfo.name}">Store Name</h2>
-            <p th:text="'Phone: ' + ${storeInfo.phoneNumber}">Phone Number</p>
-            <p th:text="'Address: ' + ${storeInfo.address}">Address</p>
+            <h2 th:text="${store.name}">Store Name</h2>
+            <p th:text="'Phone: ' + ${store.phoneNumber}">Phone Number</p>
+            <p th:text="'Address: ' + ${store.address}">Address</p>
         </div>
     </header>
     <section class="menu-section">
-        <div th:each="cartItem, iterStat : ${cartItems}" class="menu-item" th:data-price="${cartItem.price}">
+        <div th:each="cartItem, iterStat : ${cartItems}" class="menu-item" th:data-price="${cartItem.price}" th:attr="data-menu-id=${cartItem.menuId}">
             <div class="item-header">
-                <h2 th:text="${cartItem.menuName}">Menu Name</h2>
+                <h2 th:text="${cartItem.name}">Menu Name</h2>
                 <p th:text="${cartItem.description}">Menu Description</p>
             </div>
             <p th:text="${cartItem.price} + '원'">Price</p>
@@ -42,15 +42,16 @@
                 <input type="text" th:value="${cartItem.quantity}" readonly class="menu-quantity">
                 <button th:attr="data-index='${iterStat.index}'" class="increase-quantity">+</button>
             </div>
-            <p class = "total-price-item" th:text="${#numbers.formatDecimal(cartItem.price * cartItem.quantity, 1, 0)} + '원'">Total Price</p>
+            <p class="total-price-item" th:text="${#numbers.formatDecimal(cartItem.price * cartItem.quantity, 1, 'COMMA', 0, 'POINT')} + '원'">Total Price</p>
             <button th:attr="data-index='${iterStat.index}'" class="delete-item-btn">X</button>
         </div>
     </section>
-    <footer>
-        <form action="/cart/checkout" method="post">
-        <button class="checkout-button" th:text="${#numbers.formatInteger(totalPrice, 0)} + '원 결제하기'">결제하기</button>
-        </form>
+
+    <footer id="checkout">
+        <input type="hidden" id="userId" name="userId" value="1">
+        <button type="button" id="checkoutButton" class="checkout-button" th:text="${#numbers.formatInteger(totalPrice, 0)} + '원 결제하기'">결제하기</button>
     </footer>
+
 </div>
 <!-- JS -->
 <script th:src="@{/js/navbar.js}"></script>
