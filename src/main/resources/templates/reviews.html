@@ -22,13 +22,18 @@
 </header>
 <div class="reviews-container">
 <!--  <h1>리뷰</h1>-->
-  <h1 th:text="${store.name} + ' - ' + ${store.rating} + ' ★'">Restaurant Name - Current Rating ★</h1>
-  <button class="write-review-btn" onclick="window.location.href='/store/1/reviews/write'">리뷰 작성하기</button>
+  <h1 th:text="${store.storeName} + ' - ' +${#numbers.formatDecimal(store.rating, 1, 'COMMA', 2, 'POINT')}+ ' ★'">Restaurant Name - Current Rating ★</h1>
+  <button class="write-review-btn" th:onclick="'window.location.href=\'/store/'+${store.storeId}+'/review\''">리뷰 작성하기</button>
 
   <div th:each="review : ${reviews}" class="review">
-    <h2 th:text="${review.reviewerName}" class="reviewer-name">Reviewer Name</h2>
-    <span class="rating" th:text="${review.rating}">★★★★★</span>
-    <span class="score" th:text="${review.score}">5/5</span>
+    <h2 th:text="${review.userName}" class="reviewer-name">Reviewer Name</h2>
+    <span class="rating">
+        <th:block th:each="i : ${#numbers.sequence(1,5)}">
+            <span th:if="${review.rating >= i}" th:text="'★'">Star</span>
+            <span th:if="${review.rating < i}" th:text="'☆'">Star</span>
+        </th:block>
+    </span>
+    <span class="score" th:text="${review.rating}">5/5</span>
     <p th:text="${review.comment}" class="review-comment">Comment</p>
   </div>
 </div>
