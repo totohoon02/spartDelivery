@@ -16,7 +16,7 @@ import lombok.Setter;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId; // 변수명 작성룰에 따라 Snake가 아닌 Camel케이스로 작성
+    private Integer userId; // 변수명 작성룰에 따라 Snake가 아닌 Camel케이스로 작성
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -25,7 +25,7 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private String username;
+    private String userName;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -34,10 +34,13 @@ public class User {
     @Column(nullable = false)
     private int point = 1000000; // 100만 포인트를 여기서 지급
 
+    @Column(nullable = true) // 고객일 경우 null
+    private Integer storeId;
+
     public User(String email, String password, String username, UserRoleEnum role) {
         this.email = email;
         this.password = password;
-        this.username = username;
+        this.userName = username;
         this.role = role;
     }
 }
