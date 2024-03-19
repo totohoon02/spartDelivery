@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @Getter
 public class CheckoutResponseDto {
-    private Long orderId;
+    private Integer orderId;
     private Store store;
     private String orderStatus;
     private LocalDateTime orderedAt;

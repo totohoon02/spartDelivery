@@ -13,10 +13,10 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderResponseDto {
-    private Long orderId;
+    private Integer orderId;
     private String phoneNumber;
     private String address;
-    private Double totalPrice;
+    private Integer totalPrice;
     private String orderStatus;
     private List<OrderDetailDto> orderDetails;
 }

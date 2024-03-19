@@ -31,12 +31,11 @@ public class ReviewService {
     }
 
     @Transactional
-    public ReviewResponseDto saveReview(Long storeId, ReviewSubmissionDto reviewDto) {
-        User user = userRepository.findById(reviewDto.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다."));
-
-        Store store = storeRepository.findById(storeId)
-                .orElseThrow(() -> new EntityNotFoundException("상점을 찾을 수 없습니다."));
+    public ReviewResponseDto saveReview(Integer storeId, ReviewSubmissionDto reviewDto) {
+        User user = userRepository.findById(Long.valueOf(reviewDto.getUserId()))
+                .orElseThrow(() -> new EntityNotFoundException("User not found."));
+        Store store = storeRepository.findById(Long.valueOf(storeId))
+                .orElseThrow(() -> new EntityNotFoundException("Store not found."));
 
         Review review = new Review();
         review.setUser(user);
@@ -44,18 +43,21 @@ public class ReviewService {
         review.setComment(reviewDto.getComment());
         review.setRating(reviewDto.getRating());
 
+        store.addRating(review.getRating());
+        storeRepository.save(store);
+
         Review savedReview = reviewRepository.save(review);
         return entityToDto(savedReview);
     }
 
-    public List<ReviewResponseDto> getAllReviews(Long storeId) {
-        List<Review> reviews = reviewRepository.findByStoreId(storeId);
+    public List<ReviewResponseDto> getAllReviews(Integer storeId) {
+        List<Review> reviews = reviewRepository.findByStore_storeId(storeId);
         return reviews.stream().map(this::entityToDto).collect(Collectors.toList());
     }
 
     @Transactional
-    public ReviewResponseDto updateReview(Long reviewId, ReviewSubmissionDto reviewDto) {
-        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
+    public ReviewResponseDto updateReview(Integer reviewId, ReviewSubmissionDto reviewDto) {
+        Review review = reviewRepository.findById(Long.valueOf(reviewId)).orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
         review.setComment(reviewDto.getComment());
         review.setRating(reviewDto.getRating());
         Review updatedReview = reviewRepository.save(review);
@@ -64,17 +66,17 @@ public class ReviewService {
     }
 
     @Transactional
-    public void deleteReview(Long reviewId) {
-        reviewRepository.deleteById(reviewId);
+    public void deleteReview(Integer reviewId) {
+        reviewRepository.deleteById(Long.valueOf(reviewId));
     }
 
     private ReviewResponseDto entityToDto(Review review) {
         ReviewResponseDto dto = new ReviewResponseDto();
-        dto.setReviewId(review.getId());
+        dto.setReviewId(review.getReviewId());
         dto.setUserName(review.getUser().getUserName());
         dto.setComment(review.getComment());
         dto.setRating(review.getRating());
-        dto.setStoreId(review.getStore().getId());
+        dto.setStoreId(review.getStore().getStoreId());
 
         return dto;
     }

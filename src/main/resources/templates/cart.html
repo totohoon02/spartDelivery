@@ -24,7 +24,7 @@
     <header>
         <h1 style="display: flex; justify-content: center;">장바구니</h1>
         <div class="store-info" style="display: flex; flex-direction: column; align-items: center;">
-            <h2 th:text="${store.name}">Store Name</h2>
+            <h2 th:text="${store.storeName}">Store Name</h2>
             <p th:text="'Phone: ' + ${store.phoneNumber}">Phone Number</p>
             <p th:text="'Address: ' + ${store.address}">Address</p>
         </div>
@@ -32,7 +32,7 @@
     <section class="menu-section">
         <div th:each="cartItem, iterStat : ${cartItems}" class="menu-item" th:data-price="${cartItem.price}" th:attr="data-menu-id=${cartItem.menuId}">
             <div class="item-header">
-                <h2 th:text="${cartItem.name}">Menu Name</h2>
+                <h2 th:text="${cartItem.menuName}">Menu Name</h2>
                 <p th:text="${cartItem.description}">Menu Description</p>
             </div>
             <p th:text="${cartItem.price} + '원'">Price</p>

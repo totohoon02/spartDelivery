@@ -11,21 +11,22 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "reviews")
+@Table(name = "Review")
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer reviewId;
 
     @ManyToOne
-    @JoinColumn(name = "store_id", nullable = false)
+    @JoinColumn(name = "store_id", referencedColumnName = "storeId", nullable = false)
     private Store store;
 
     private String comment;
 
+    private Byte rating;
+
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User user;
 
-    private byte rating;
 }

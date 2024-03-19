@@ -7,10 +7,10 @@ import lombok.Setter;
 @Setter
 // 장바구니 추가 request body
 public class CartAddItemRequestDto {
-    private Long userId;
+    private Integer userId;
 
-    private Long menuId;
+    private Integer menuId;
 
-    private Long storeId;
+    private Integer storeId;
 
 }

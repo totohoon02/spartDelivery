@@ -6,9 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProfileResponseDto {
-    private Long id;
+    private Integer userId;
     private String userName;
     private String phoneNumber;
     private String address;
-    private int point;
+    private Integer point;
 }

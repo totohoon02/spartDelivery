@@ -47,9 +47,9 @@ public class CartService {
 
     // 장바구니에 메뉴 추가
     public CartItemResponseDto addToCart(CartAddItemRequestDto cartAddItemRequestDto) {
-        User user = userRepository.findById(cartAddItemRequestDto.getUserId())
+        User user = userRepository.findById(Long.valueOf(cartAddItemRequestDto.getUserId()))
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
-        Menu menu = menuRepository.findById(cartAddItemRequestDto.getMenuId())
+        Menu menu = menuRepository.findById(Long.valueOf(cartAddItemRequestDto.getMenuId()))
                 .orElseThrow(() -> new EntityNotFoundException("Menu not found"));
         Store store = menu.getStore();
         Optional<CartItem> existingCartItem = cartItemRepository.findByUserAndMenu(user, menu);
@@ -57,41 +57,41 @@ public class CartService {
         // 동일한 메뉴 추가 시 수량만 업데이트
         if (existingCartItem.isPresent()) {
             cartItem = existingCartItem.get();
-            cartItem.setQuantity(cartItem.getQuantity() + 1);
+            cartItem.setQuantity((short) (cartItem.getQuantity() + 1));
         } else {
             cartItem = new CartItem();
             cartItem.setUser(user);
             cartItem.setMenu(menu);
             cartItem.setStore(store);
-            cartItem.setQuantity(1); // 초기 수량 설정
+            cartItem.setQuantity((short) 1); // 초기 수량 설정
         }
         cartItemRepository.save(cartItem);
 
         CartItemResponseDto responseDto = new CartItemResponseDto();
-        responseDto.setMenuId(menu.getId());
+        responseDto.setMenuId(menu.getMenuId());
         responseDto.setQuantity(cartItem.getQuantity());
-        responseDto.setName(menu.getName());
+        responseDto.setMenuName(menu.getMenuName());
 
         return responseDto;
     }
 
     // 장바구니 조회
-    public CartResponseDto getCartItems(Long userId) {
-        List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
+    public CartResponseDto getCartItems(Integer userId) {
+        List<CartItem> cartItems = cartItemRepository.findByUser_userId(userId);
         if (cartItems.isEmpty()) {
             return new CartResponseDto();
         }
 
         CartResponseDto cartResponse = new CartResponseDto();
         List<CartItemResponseDto> cartItemDtos = new ArrayList<>();
-        double totalPrice = 0;
+        Integer totalPrice = 0;
 
         Store store = cartItems.get(0).getMenu().getStore();
 
         for (CartItem cartItem : cartItems) {
             CartItemResponseDto cartItemDto = new CartItemResponseDto();
-            cartItemDto.setMenuId(cartItem.getMenu().getId());
-            cartItemDto.setName(cartItem.getMenu().getName());
+            cartItemDto.setMenuId(cartItem.getMenu().getMenuId());
+            cartItemDto.setMenuName(cartItem.getMenu().getMenuName());
             cartItemDto.setPrice(cartItem.getMenu().getPrice());
             cartItemDto.setDescription(cartItem.getMenu().getDescription());
             cartItemDto.setQuantity(cartItem.getQuantity());
@@ -107,12 +107,12 @@ public class CartService {
     }
 
     @Transactional
-    public void updateCartItem( Long menuId, UpdateCartItemDto updateCartItemDto) {
+    public void updateCartItem(Integer menuId, UpdateCartItemDto updateCartItemDto) {
         // 유저 인증 추가 필요
-        CartItem cartItem = cartItemRepository.findByUserIdAndMenuId(1L, menuId)
-                .orElseThrow(() -> new RuntimeException("CartItem not found for menuId: " + menuId + " and userId: " + 1));
+        CartItem cartItem = cartItemRepository.findByUser_userIdAndMenu_menuId(1, menuId)
+                .orElseThrow(() -> new EntityNotFoundException("CartItem not found for menuId: " + menuId + " and userId: " + 1));
 
-        int updatedQuantity = updateCartItemDto.getQuantity();
+        Short updatedQuantity = updateCartItemDto.getQuantity();
 
         // If the quantity is less than or equal to 0, remove the item from the cart
         if (updatedQuantity <= 0) {
@@ -125,8 +125,8 @@ public class CartService {
     }
 
     // 장바구니에서 아이템 삭제
-    public String deleteCartItem(Long userId, Long menuId) {
-        Optional<CartItem> cartItem = cartItemRepository.findByUserIdAndMenuId(userId, menuId);
+    public String deleteCartItem(Integer userId, Integer menuId) {
+        Optional<CartItem> cartItem = cartItemRepository.findByUser_userIdAndMenu_menuId(userId, menuId);
         if (cartItem.isPresent()) {
             cartItemRepository.delete(cartItem.get());
             return "해당 상품이 장바구니에서 삭제되었습니다.";
@@ -136,9 +136,9 @@ public class CartService {
     }
 
     // 장바구니 전체 삭제
-    public String clearCart(Long userId) {
+    public String clearCart(Integer userId) {
         // 사용자 ID로 모든 CartItems 조회 후 삭제
-        List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
+        List<CartItem> cartItems = cartItemRepository.findByUser_userId(userId);
         cartItemRepository.deleteAll(cartItems);
         return "장바구니가 비워졌습니다.";
     }

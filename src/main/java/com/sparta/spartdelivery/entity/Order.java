@@ -15,26 +15,29 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "orders")
+@Table(name = "Orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer orderId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user; // Assuming you have a User entity
+    private Integer userId;
+
+    private Integer storeId;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
-    private LocalDateTime orderedAt;
-    private LocalDateTime deliveredAt;
-    private Double totalPrice;
-
-
     @Enumerated(EnumType.STRING)
-    private OrderStatusEnum orderStatus;
+    private OrderStatusEnum orderStatusEnum;
+
+    private LocalDateTime orderedAt;
+
+    private LocalDateTime deliveredAt;
+
+    private Integer totalPrice;
+
+
 
 
 }

@@ -10,7 +10,7 @@
 <!-- NAV BAR -->
 <header class="navbar">
     <div class="leftBox">
-                <img src="@{/images/logo.png}" alt="x" class="logoImg" />
+                <img src="@{/images/logo.jpg}" alt="x" class="logoImg" />
         <p class="navTitle">Menu</p>
     </div>
     <div class="rightBox">
@@ -37,9 +37,9 @@
             <div class="row row-cols-1 row-cols-md-4 g-4 mx-auto w-75 pb-5" style="margin-bottom: 30px">
                 <div th:each="menu : ${store.menus}" class="col">
                     <div class="card h-100" th:attr="data-menu-id=${menu.menuId}">
-                        <img th:src="${menu.imageUrl}" th:alt="${menu.name}" class="card-img-top">
+                        <img th:src="${menu.imageUrl}" th:alt="${menu.menuName}" class="card-img-top">
                         <div class="card-body">
-                            <h5 class="card-title" th:text="${menu.name}" style="font-size: 20px;"></h5>
+                            <h5 class="card-title" th:text="${menu.menuName}" style="font-size: 20px;"></h5>
                             <p th:text="${menu.description}" class="menu-description" style="font-size: 15px;"></p>
                             <p th:text="'가격' + ${menu.price} + '원'" class="menu-price" style="font-size: 15px;"></p>
                         </div>

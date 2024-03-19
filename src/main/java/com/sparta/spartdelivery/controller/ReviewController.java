@@ -33,7 +33,7 @@ public class ReviewController {
 
     @PostMapping("/{storeId}/review")
     // 리뷰 작성
-    public ResponseEntity<ReviewResponseDto> saveReview(@PathVariable Long storeId,
+    public ResponseEntity<ReviewResponseDto> saveReview(@PathVariable Integer storeId,
                                                         @RequestBody ReviewSubmissionDto reviewDto) {
         ReviewResponseDto createdReview = reviewService.saveReview(storeId, reviewDto);
         return ResponseEntity.ok(createdReview);
@@ -48,7 +48,7 @@ public class ReviewController {
 
     @GetMapping("/{storeId}/reviews")
     // 상점 전체 리뷰 조회
-    public String getALlReviews(@PathVariable Long storeId, Model model) {
+    public String getALlReviews(@PathVariable Integer storeId, Model model) {
         List<ReviewResponseDto> reviews = reviewService.getAllReviews(storeId);
         StoreDetailResponseDto storeDetail = storeService.getStoreDetail(storeId);
 
@@ -58,14 +58,14 @@ public class ReviewController {
     }
 
     @PutMapping("/{storeId}/review/{reviewId}")
-    public ResponseEntity<ReviewResponseDto> updateReview(@PathVariable Long reviewId,
+    public ResponseEntity<ReviewResponseDto> updateReview(@PathVariable Integer reviewId,
                                                           @RequestBody ReviewSubmissionDto reviewDto) {
         ReviewResponseDto updatedReview = reviewService.updateReview(reviewId, reviewDto);
         return ResponseEntity.ok(updatedReview);
     }
 
     @DeleteMapping("/{storeId}/review/{reviewId}")
-    public ResponseEntity<?> deleteReview(@PathVariable Long reviewId) {
+    public ResponseEntity<?> deleteReview(@PathVariable Integer reviewId) {
         reviewService.deleteReview(reviewId);
         return ResponseEntity.ok().body("리뷰가 성공적으로 삭제되었습니다.");
     }

@@ -8,22 +8,20 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "order_details")
+@Table(name = "OrderDetail")
 public class OrderDetail{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer orderDetailId;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id",referencedColumnName = "orderId",  nullable = false)
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "menu_id", nullable = false)
-    private Menu menu; // Assuming you have a Product entity
+    @JoinColumn(name = "menu_id", referencedColumnName = "menuId", nullable = false)
+    private Menu menu;
 
     private int quantity;
-    private Integer price; // Price at the time of order for history
-
 
 }

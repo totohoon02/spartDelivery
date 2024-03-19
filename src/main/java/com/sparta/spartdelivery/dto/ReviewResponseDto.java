@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReviewResponseDto {
-    private Long reviewId;
+    private Integer reviewId;
     private String userName;
     private String comment;
-    private byte rating;
-    private Long storeId;
+    private Byte rating;
+    private Integer storeId;
 }

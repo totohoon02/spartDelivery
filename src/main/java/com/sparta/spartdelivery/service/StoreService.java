@@ -1,46 +1,77 @@
 package com.sparta.spartdelivery.service;
 
+import com.sparta.spartdelivery.dto.GetStoreResponseDto;
 import com.sparta.spartdelivery.dto.MenuResponseDto;
 import com.sparta.spartdelivery.dto.ReviewResponseDto;
 import com.sparta.spartdelivery.dto.StoreDetailResponseDto;
+import com.sparta.spartdelivery.entity.User;
+import com.sparta.spartdelivery.enums.CategoryEnum;
 import com.sparta.spartdelivery.entity.Menu;
 import com.sparta.spartdelivery.entity.Review;
 import com.sparta.spartdelivery.entity.Store;
 import com.sparta.spartdelivery.repository.MenuRepository;
 import com.sparta.spartdelivery.repository.ReviewRepository;
 import com.sparta.spartdelivery.repository.StoreRepository;
+import com.sparta.spartdelivery.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class StoreService {
     private StoreRepository storeRepository;
     private MenuRepository menuRepository;
     private ReviewRepository reviewRepository;
+    private UserRepository userRepository;
 
     @Autowired
-
-    public StoreService(StoreRepository storeRepository, MenuRepository menuRepository, ReviewRepository reviewRepository) {
+    public StoreService(StoreRepository storeRepository, MenuRepository menuRepository,
+                        ReviewRepository reviewRepository, UserRepository userRepository) {
         this.storeRepository = storeRepository;
         this.menuRepository = menuRepository;
         this.reviewRepository = reviewRepository;
+        this.userRepository = userRepository;
     }
 
-    public StoreDetailResponseDto getStoreDetail(Long storeId) {
-        Store store = storeRepository.findById(storeId)
+
+    // 메인페이지 - 상점 리스트 GET
+    public List<GetStoreResponseDto> getStoreList(){
+        return storeRepository.findAll()
+                .stream().map(GetStoreResponseDto::new)
+                .toList();
+    }
+
+    // 메인페이지 - 상점 검색 리스트 GET
+    public List<GetStoreResponseDto> getFilteredStoreList(String searchValue) {
+        List<Store> responseList = new ArrayList<>();
+        // 1. 카테고리 명이 동일한 경우
+        responseList.addAll(storeRepository.findAllByCategoryEnum(
+                CategoryEnum.findByValue(searchValue)));
+
+        // 2. 가게명 LIKE 검색이 되는 경우
+        responseList.addAll(storeRepository.findByStoreNameLike("%"+searchValue+"%"));
+
+        // 3. 지역명 LIKE 검색이 되는 경우
+        responseList.addAll(storeRepository.findByAddressLike("%"+searchValue+"%"));
+
+    return responseList
+                .stream().map(GetStoreResponseDto::new)
+                .toList();
+    }
+
+    // 상점 상세 페이지 - 상점 정보와 메뉴 리스트 GET
+    public StoreDetailResponseDto getStoreDetail(Integer storeId) {
+        Store store = storeRepository.findById(Long.valueOf(storeId))
                 .orElseThrow(() -> new RuntimeException("Store not found with id: " + storeId));
 
         StoreDetailResponseDto responseDto = new StoreDetailResponseDto();
-        responseDto.setStoreId(store.getId());
-        responseDto.setStoreName(store.getName());
+        responseDto.setStoreId(store.getStoreId());
+        responseDto.setStoreName(store.getStoreName());
         responseDto.setPhoneNumber(store.getPhoneNumber());
         responseDto.setAddress(store.getAddress());
-        responseDto.setDescription(store.getDescription());
-        responseDto.setCategory(store.getCategory());
+        responseDto.setCategory(store.getCategoryEnum().toString());
         responseDto.setRating(store.getRating());
 
         List<Menu> menus = menuRepository.findByStore(store);
@@ -48,15 +79,15 @@ public class StoreService {
 
         for (Menu menu : menus) {
             MenuResponseDto menuDto = new MenuResponseDto();
-            menuDto.setMenuId(menu.getId());
-            menuDto.setName(menu.getName());
+            menuDto.setMenuId(menu.getMenuId());
+            menuDto.setMenuName(menu.getMenuName());
             menuDto.setPrice(menu.getPrice());
             menuDto.setImageUrl(menu.getImageUrl());
             menuDto.setDescription(menu.getDescription());
             menuResponseDtos.add(menuDto);
         }
 
-        List<Review> reviews = reviewRepository.findByStore(store);
+        List<Review> reviews = reviewRepository.findByStore_storeId(storeId);
         List<ReviewResponseDto> reviewResponseDto = new ArrayList<>(reviews.size());
 
         for (Review review : reviews) {

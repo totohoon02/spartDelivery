@@ -12,11 +12,11 @@ import java.util.Optional;
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Long>{
 
-    List<CartItem> findByUserId(Long userId);
-//    List<CartItem> findByUser_Id(Long userId);
+    List<CartItem> findByUser(User user);
 
     Optional<CartItem> findByUserAndMenu(User user, Menu menu);
 
-    Optional<CartItem> findByUserIdAndMenuId(Long userId, Long menuId);
-//    Optional<CartItem> findByUser_IdAndMenu_Id(Long userId, Long menuId);
+    List<CartItem> findByUser_userId(Integer userId);
+
+    Optional<CartItem> findByUser_userIdAndMenu_menuId(int i, Integer menuId);
 }

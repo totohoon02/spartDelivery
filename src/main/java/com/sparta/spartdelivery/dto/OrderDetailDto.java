@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDetailDto {
-    private Long menuId;
+    private Integer menuId;
     private String menuName;
     private String description;
     private int quantity;

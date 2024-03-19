@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateCartItemDto {
-    private int quantity;
+    private Short quantity;
 }

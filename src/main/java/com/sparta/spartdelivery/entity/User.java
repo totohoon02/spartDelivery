@@ -1,21 +1,50 @@
 package com.sparta.spartdelivery.entity;
 
-
+import com.sparta.spartdelivery.enums.UserRoleEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "User")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer userId;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+
+    @Column(nullable = false)
+    private Integer point;
+
+    @Column(nullable = false)
     private String userName;
+
     private String phoneNumber;
+
     private String address;
-    private int point;
+
+    @Column
+    private Integer storeId;
+
+    public User(String email, String password, String username, UserRoleEnum role) {
+        this.email = email;
+        this.password = password;
+        this.userName = username;
+        this.role = role;
+    }
 }
+
+
+

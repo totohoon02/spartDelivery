@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/reset.css}" />
+    <link rel="stylesheet" th:href="@{/css/signup.css}" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="titleBox">
+        <p class="title1">배달의 민족</p>
+        <p class="title2">배달의 민족(가제)</p>
+        <span class="description"
+          >배달의 민족에 오신 것을 환영합니다!<br />
+          회원 가입을 진행해 주세요.</span
+        >
+      </div>
+      <div class="formBox">
+        <label for="userName">사용자 이름 *</label>
+        <input type="text" id="userName" placeholder="이름을 입력해 주세요" />
+        <label for="email">이메일 *</label>
+        <input type="text" id="email" placeholder="이메일을 입력해 주세요" />
+        <label for="password">비밀번호 *</label>
+        <input
+          type="text"
+          id="password"
+          placeholder="비밀번호를 입력해 주세요"
+        />
+        <label for="usertype">계정 종류 *</label>
+        <input type="text" id="usertype" placeholder="CLIENT/BOSS" />
+      </div>
+
+      <button class="authButton" id="btnAuth">인증 요청</button>
+
+      <div class="submitContainer" id="submitContainer">
+      <label for="emailCode">인증 번호 *</label>
+      <input type="text" id="emailCode" placeholder="인증번호를 입력하세요" />
+      <button class="submitButton" id="signup">등록하기</button>
+      </div>
+    </div>
+
+    <!-- JS -->
+    <script th:src="@{/js/signup.js}"></script>
+  </body>
+</html>

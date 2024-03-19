@@ -12,5 +12,5 @@ import java.util.List;
 public class CartResponseDto {
     private Store store;
     private List<CartItemResponseDto> cartItems;
-    private double totalPrice;
+    private Integer totalPrice;
 }

@@ -10,5 +10,5 @@ import lombok.Setter;
 public class ReviewSubmissionDto {
     private String comment;
     private Byte rating;
-    private Long userId;
+    private Integer userId;
 }
