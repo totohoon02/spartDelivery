@@ -48,6 +48,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
         UserRoleEnum role = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getRole();
 
+        System.out.println("username = " + username);
         String token = jwtUtil.createToken(username, role);
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
 
@@ -55,6 +56,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
+//            response.sendRedirect("/store/stores");
             out.print("{\"message\": \"로그인 성공!\"}");
         } catch (IOException e) {
             log.error("응답에 실패했습니다: {}", e.getMessage());

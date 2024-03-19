@@ -5,6 +5,8 @@ import com.sparta.spartdelivery.entity.CategoryEnum;
 import com.sparta.spartdelivery.entity.Menu;
 import com.sparta.spartdelivery.entity.Store;
 import com.sparta.spartdelivery.service.StoreService;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
