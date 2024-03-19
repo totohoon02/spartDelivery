@@ -10,11 +10,11 @@
 <!-- NAV BAR -->
 <header class="navbar">
   <div class="leftBox">
-    <!--        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />-->
+            <img th:src="@{static/images/logo.png}" alt="x" class="logoImg" />
     <p class="navTitle">Checkout</p>
   </div>
   <div class="rightBox">
-    <!--        <p class="navMenu" id="dashboard">Dashboard</p>-->
+            <p class="navMenu" id="dashboard">Dashboard</p>
     <p class="navMenu" id="profile">Profile</p>
     <p class="navMenu navMenuTarget" id="cart">Cart</p>
     <!--        <p class="navMenu" id="order">Order Management</p>-->
@@ -22,17 +22,18 @@
 </header>
 <div class="container">
   <div class="header">
-    <h1>주문번호 # <span th:text="${orderNumber}"></span></h1>
+    <h1>주문번호 # <span th:text="${orders.orderId}"></span></h1>
 
-    <p>전화번호: 000-000-0000</p>
-    <p>주소: 123 Main St, Cityville, 12345</p>
-    <p class="total-price" th:text="'총 결제 금액: ' + ${totalPrice} + '원'">총 결제 금액: 25,000원</p>
+    <p th:text="'전화번호: ' + ${orders.phoneNumber}">phoneNumber</p>
+    <p th:text="'주소: ' + ${orders.address}">address</p>
 
-    <button class="btn-pay">주문 완료</button>
+    <p class="total-price" th:text="'총 결제 금액: ' + ${#numbers.formatInteger(orders.totalPrice, 0)} + '원'">총 결제 금액: 25,000원</p>
+
+    <button class="btn-pay" th:text="${orders.orderStatus}">주문 완료</button>
   </div>
   <div class="order-details">
     <h2>주문내역</h2>
-    <div th:each="item : ${orderItems}" class="menu-item">
+    <div th:each="item : ${orders.orderDetails}" class="menu-item">
       <h3 th:text="${item.menuName}">Menu Name</h3>
       <p th:text="${item.description}">Description</p>
       <p th:text="'Quantity: ' + ${item.quantity}">Quantity</p>
