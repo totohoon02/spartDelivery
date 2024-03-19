@@ -15,27 +15,27 @@ public class Store {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeId;
-    private String name;
+    private String storeName;
     private String address;
     private String phoneNumber;
     private double rating = 0.0d;
 
 
     public Store(StoreRequestDto requestDto) {
-        this.name = requestDto.getStoreName();
+        this.storeName = requestDto.getStoreName();
         this.address = requestDto.getStoreAddress();
         this.phoneNumber = requestDto.getPhoneNumber();
     }
 
-    public Store(String name, String address, String phoneNumber, double rating) {
-        this.name = name;
+    public Store(String storeName, String address, String phoneNumber, double rating) {
+        this.storeName = storeName;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.rating = rating;
     }
 
     public void updateStore(StoreRequestDto requestDto) {
-        name = requestDto.getStoreName();
+        storeName = requestDto.getStoreName();
         address = requestDto.getStoreAddress();
         phoneNumber = requestDto.getPhoneNumber();
     }

@@ -4,7 +4,7 @@ const btnAuth = document.querySelector("#btnAuth")
 const submitContainer = document.querySelector("#submitContainer");
 
 // values
-const username = document.querySelector("#username");
+const userName = document.querySelector("#userName");
 const email = document.querySelector("#email");
 const password = document.querySelector("#password");
 const role = document.querySelector("#usertype");
@@ -30,7 +30,7 @@ btnAuth.addEventListener("click", () => {
 
 
 btnSignup.addEventListener("click", () => {
-    if (username.value === "" || email.value === "" || password.value === "" || role.value === "" || emailCode.value === "") {
+    if (userName.value === "" || email.value === "" || password.value === "" || role.value === "" || emailCode.value === "") {
         alert("입력 값을 확인해주세요.");
         return;
     }
@@ -45,7 +45,7 @@ btnSignup.addEventListener("click", () => {
             email: email.value,
             emailCode: emailCode.value,
             password: password.value,
-            username: username.value,
+            userName: userName.value,
             role: role.value
         }
     })

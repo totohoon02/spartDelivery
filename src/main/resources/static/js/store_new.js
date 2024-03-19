@@ -18,7 +18,10 @@ btnSubmit.addEventListener("click", ()=>{
             'Content-Type': 'application/json'
         },
         body: {
-            storeName, category, phoneNumber, storeAddress
+            storeName:storeName.value,
+            category:category.value,
+            phoneNumber:phoneNumber.value,
+            storeAddress:storeAddress.value
         }
     })
         .then(res => {

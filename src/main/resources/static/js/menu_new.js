@@ -18,7 +18,10 @@ btnSubmit.addEventListener("click", ()=>{
             'Content-Type': 'application/json'
         },
         body: {
-            menuName, menuImage, menuPrice, menuExplain
+            menuName:menuName.value,
+            menuImage:menuImage.value,
+            menuPrice:menuPrice.value,
+            menuExplain:menuExplain.value
         }
     })
         .then(res => {

@@ -11,7 +11,7 @@ public class StoreResponseDto {
 
     public StoreResponseDto(Store store) {
         this.storeId = store.getStoreId();
-        this.name = store.getName();
+        this.name = store.getStoreName();
         this.address = store.getAddress();
         this.phoneNumber = store.getPhoneNumber();
         this.rating = store.getRating();

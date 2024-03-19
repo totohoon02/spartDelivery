@@ -22,7 +22,7 @@
 </header>
 <div class="reviews-container">
 <!--  <h1>리뷰</h1>-->
-  <h1 th:text="${store.name} + ' - ' + ${store.rating} + ' ★'">Restaurant Name - Current Rating ★</h1>
+  <h1 th:text="${store.getStoreName} + ' - ' + ${store.rating} + ' ★'">Restaurant Name - Current Rating ★</h1>
   <button class="write-review-btn" onclick="window.location.href='/store/1/reviews/write'">리뷰 작성하기</button>
 
   <div th:each="review : ${reviews}" class="review">

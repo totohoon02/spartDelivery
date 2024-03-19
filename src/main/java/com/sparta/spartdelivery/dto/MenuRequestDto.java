@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class MenuRequestDto {
-    private String name;
+    private String menuName;
     private String description;
-    private String price;
+    private Integer price;
     private String imageUrl;
 }

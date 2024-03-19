@@ -5,13 +5,13 @@ import lombok.Getter;
 
 @Getter
 public class MenuResponseDto {
-    private String name;
-    private String description;
-    private String price;
-    private String imageUrl;
+    private final String menuName;
+    private final String description;
+    private final Integer price;
+    private final String imageUrl;
 
     public MenuResponseDto(Menu menu) {
-        name = menu.getName();
+        menuName = menu.getMenuName();
         description = menu.getDescription();
         price = menu.getPrice();
         imageUrl = menu.getImageUrl();

@@ -16,21 +16,21 @@ import lombok.NoArgsConstructor;
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
-    private String name;
+    private String menuId;
+    private String menuName;
     private String description;
-    private String price;
+    private Integer price;
     private String imageUrl;
 
     public Menu(MenuRequestDto requestDto) {
-        name = requestDto.getName();
+        menuName = requestDto.getMenuName();
         description = requestDto.getDescription();
         price = requestDto.getPrice();
         imageUrl = requestDto.getImageUrl();
     }
 
     public void updateMenu(MenuRequestDto requestDto) {
-        name = requestDto.getName();
+        menuName = requestDto.getMenuName();
         description = requestDto.getDescription();
         price = requestDto.getPrice();
         imageUrl = requestDto.getImageUrl();

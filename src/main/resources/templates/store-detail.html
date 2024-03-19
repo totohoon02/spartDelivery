@@ -22,7 +22,7 @@
 </header>
 <div class="store-container">
     <div class="header">
-        <h1 th:text="${store.name}" style="margin:16px">Store Name</h1>
+        <h1 th:text="${store.getStoreName}" style="margin:16px">Store Name</h1>
         <p th:text="'Address: ' + ${store.address}" style="margin:12px">Address</p>
         <p th:text="'Phone: ' + ${store.phoneNumber}" style="margin:12px">Phone Number</p>
         <div class="rating" th:text="${'★ ' + store.rating + ' (' + '1,234' + ')'}">Rating</div>
@@ -35,9 +35,9 @@
             <div class="row row-cols-1 row-cols-md-4 g-4 mx-auto w-75 pb-5" style="margin-bottom: 30px">
                 <div th:each="menu : ${menus}" class="col">
                     <div class="card h-100">
-                        <img th:src="${menu.imageUrl}" th:alt="${menu.name}" class="card-img-top">
+                        <img th:src="${menu.imageUrl}" th:alt="${menu.getMenuName}" class="card-img-top">
                         <div class="card-body">
-                            <h5 class="card-title" th:text="${menu.name}" style="font-size: 20px;"></h5>
+                            <h5 class="card-title" th:text="${menu.getMenuName}" style="font-size: 20px;"></h5>
                             <p th:text="${menu.description}" class="menu-description" style="font-size: 15px;"></p>
                             <p th:text="'가격' + ${menu.price} + '원'" class="menu-price" style="font-size: 15px;"></p>
                         </div>
