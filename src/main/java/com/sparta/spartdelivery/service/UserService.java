@@ -1,6 +1,8 @@
 package com.sparta.spartdelivery.service;
 
+import com.sparta.spartdelivery.dto.ProfileResponseDto;
 import com.sparta.spartdelivery.entity.User;
+import com.sparta.spartdelivery.enums.UserRoleEnum;
 import com.sparta.spartdelivery.external.email.EmailCode;
 import com.sparta.spartdelivery.external.email.EmailCodeRepository;
 import com.sparta.spartdelivery.dto.SignupRequestDto;
@@ -40,6 +42,25 @@ public class UserService {
 
         // 사용자 등록
         User user = new User(email, password, requestDto.getUserName(), requestDto.getRole());
+        if (requestDto.getRole() == UserRoleEnum.CLIENT) {
+            user.setPoint(1000000);
+        } else {
+            user.setPoint(0);
+        }
+
         userRepository.save(user);
+    }
+
+    public ProfileResponseDto getUserProfile(Integer userId) {
+        User user = userRepository.findById(Long.valueOf(userId))
+                .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+
+        ProfileResponseDto profileDto = new ProfileResponseDto();
+        profileDto.setUserId(user.getUserId());
+        profileDto.setUserName(user.getUserName());
+        profileDto.setPhoneNumber(user.getPhoneNumber());
+        profileDto.setAddress(user.getAddress());
+        profileDto.setPoint(user.getPoint());
+        return profileDto;
     }
 }

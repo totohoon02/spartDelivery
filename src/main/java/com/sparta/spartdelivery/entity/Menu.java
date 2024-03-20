@@ -1,25 +1,36 @@
 package com.sparta.spartdelivery.entity;
 
 import com.sparta.spartdelivery.dto.MenuRequestDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
+@Setter
 @AllArgsConstructor
-@Entity
 @NoArgsConstructor
+@Entity
+@Table(name = "Menu")
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer menuId;
+
+    @ManyToOne
+    @JoinColumn(name = "store_id", referencedColumnName = "storeId", nullable = false)
+    private Store store;
+
     private String menuName;
-    private String description;
+
     private Integer price;
+
+    private String description;
+
     private String imageUrl;
 
     public Menu(MenuRequestDto requestDto) {

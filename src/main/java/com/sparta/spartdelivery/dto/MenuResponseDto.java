@@ -2,13 +2,18 @@ package com.sparta.spartdelivery.dto;
 
 import com.sparta.spartdelivery.entity.Menu;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class MenuResponseDto {
-    private final String menuName;
-    private final String description;
-    private final Integer price;
-    private final String imageUrl;
+    private Integer menuId;
+    private String menuName;
+    private String description;
+    private Integer price;
+    private String imageUrl;
 
     public MenuResponseDto(Menu menu) {
         menuName = menu.getMenuName();

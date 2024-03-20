@@ -1,6 +1,6 @@
 package com.sparta.spartdelivery.repository;
 
-import com.sparta.spartdelivery.entity.CategoryEnum;
+import com.sparta.spartdelivery.enums.CategoryEnum;
 import com.sparta.spartdelivery.entity.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +16,5 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     @Query("SELECT s FROM Store s WHERE s.address LIKE :searchValue")
     List<Store> findByAddressLike(@Param("searchValue") String searchValue);
+
 }

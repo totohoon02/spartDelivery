@@ -1,13 +1,17 @@
 package com.sparta.spartdelivery.entity;
 
+import com.sparta.spartdelivery.enums.CategoryEnum;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.List;
 
 @Getter
+@Setter
 @Entity
-@Table(name= "store")
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "Store")
 public class Store {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,47 +24,27 @@ public class Store {
     @Enumerated(EnumType.STRING)
     private CategoryEnum categoryEnum;
 
-    @Column
     private String phoneNumber;
 
-    @Column
     private String address;
 
-    @Column
     private String imageUrl;
 
-    @Column
-    private Integer totalRatings;
+    private Integer totalRatings = 0;
 
-    @Column
-    private Integer ratingsCount;
+    private Integer ratingsCount = 0;
 
-//    public Store(StoreRequestDto requestDto) {
-//        this.storeName = requestDto.getStoreName();
-//        this.address = requestDto.getStoreAddress();
-//        this.phoneNumber = requestDto.getPhoneNumber();
-//    }
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
 
-//    public Store(String storeName, String address, String phoneNumber, double rating) {
-//        this.storeName = storeName;
-//        this.address = address;
-//        this.phoneNumber = phoneNumber;
-////        this.rating = rating;
-//    }
-
-//    public void updateStore(StoreRequestDto requestDto) {
-//        storeName = requestDto.getStoreName();
-//        address = requestDto.getStoreAddress();
-//        phoneNumber = requestDto.getPhoneNumber();
-//    }
-
-    public Store(String storeName, CategoryEnum categoryEnum, String phoneNumber, String address, String imageUrl, Integer totalRatings, Integer ratingsCount) {
-        this.storeName = storeName;
-        this.categoryEnum = categoryEnum;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.imageUrl = imageUrl;
-        this.totalRatings = totalRatings;
-        this.ratingsCount = ratingsCount;
+    public void addRating(Byte rating) {
+        this.totalRatings += rating;
+        this.ratingsCount++;
     }
+    public double getRating() {
+        if (this.ratingsCount == 0) return 0;
+        return (double) this.totalRatings / this.ratingsCount;
+    }
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Menu> menus;
 }

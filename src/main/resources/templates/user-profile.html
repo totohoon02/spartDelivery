@@ -10,7 +10,7 @@
 <!-- NAV BAR -->
 <header class="navbar">
     <div class="leftBox">
-        <!--        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />-->
+                <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />
         <p class="navTitle">Menu</p>
     </div>
     <div class="rightBox">
@@ -23,10 +23,10 @@
     <a href="#" class="back-button">‹</a>
     <h1>내 정보</h1>
     <div class="user-info">
-        <p th:text="${userProfile.username}">Username</p>
+        <p th:text="${userProfile.userName}">Username</p>
         <p th:text="'Phone Number: ' + ${userProfile.phoneNumber}">Phone Number</p>
         <p th:text="'Address: ' + ${userProfile.address}">Address</p>
-        <p th:text="'Points Remaining: ' + ${userProfile.remainingPoints}">Points Remaining</p>
+        <p th:text="'Points Remaining: ' + ${userProfile.point}">Points Remaining</p>
     </div>
     <div class="points-form">
         <button class="redeem-button">내 주문내역 확인하기</button>

@@ -1,21 +1,18 @@
 package com.sparta.spartdelivery.controller;
 
 import com.sparta.spartdelivery.dto.GetStoreResponseDto;
-import com.sparta.spartdelivery.entity.CategoryEnum;
-import com.sparta.spartdelivery.entity.Menu;
-import com.sparta.spartdelivery.entity.Store;
+import com.sparta.spartdelivery.dto.StoreDetailResponseDto;
 import com.sparta.spartdelivery.service.StoreService;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Arrays;
 import java.util.List;
+
 
 @Controller
 @RequestMapping("/store")
@@ -24,13 +21,6 @@ public class StoreController {
 
     public StoreController(StoreService storeService) {
         this.storeService = storeService;
-    }
-
-    @GetMapping()
-    @ResponseBody
-    @PreAuthorize("hasAuthority('ROLE_BOSS') or hasAuthority('ROLE_CLIENT')")
-    public String testGet(){
-        return "testing";
     }
 
     @GetMapping("/stores")
@@ -48,21 +38,15 @@ public class StoreController {
     }
 
     @GetMapping("/{storeId}")
-    public String storeDetail(Model model) {
-//        List<Menu> menus = Arrays.asList(
-//                new Menu("Classic Cheeseburger", "delicious", 9,
-//                        "https://korean.visitseoul.net/data/POST/20170425//201704251508226961")
-//        );
-//
-//        Store store = new Store("Burger Joint", CategoryEnum.KOREAN, "010-1234-5678", "123 Burger Lane, Flavor Town",
-//                "https://korean.visitseoul.net/data/POST/20170425//201704251508226961", 95, 15);
-//        model.addAttribute("store", store);
-//        model.addAttribute("menus", menus);
+    public String getStoreDetail(@PathVariable Integer storeId, Model model) {
+        StoreDetailResponseDto storeDetail = storeService.getStoreDetail(storeId);
+        model.addAttribute("store", storeDetail);
         return "store-detail";
     }
 
     // store 등록, 수정
     @GetMapping("/create-store")
+    @PreAuthorize("hasAuthority('ROLE_BOSS')")
     public String createPage() {
         return "store_new";
     }
@@ -72,14 +56,4 @@ public class StoreController {
         return "store_new";
     }
 
-//    @PostMapping()
-//    public ResponseEntity<StoreResponseDto> createStore(@RequestBody StoreRequestDto requestDto) {
-//        return storeService.createStore(requestDto);
-//    }
-//
-//    @PutMapping("/{storeId}")
-//    public ResponseEntity<StoreResponseDto> updateStore(@PathVariable("storeId") Long storeId,
-//            @RequestBody StoreRequestDto requestDto) {
-//        return storeService.updateStore(storeId, requestDto);
-//    }
 }

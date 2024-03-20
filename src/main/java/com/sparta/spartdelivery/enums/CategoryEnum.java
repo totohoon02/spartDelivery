@@ -1,4 +1,4 @@
-package com.sparta.spartdelivery.entity;
+package com.sparta.spartdelivery.enums;
 
 import com.sparta.spartdelivery.util.EnumModel;
 

@@ -1,6 +1,6 @@
 package com.sparta.spartdelivery.dto;
 
-import com.sparta.spartdelivery.entity.UserRoleEnum;
+import com.sparta.spartdelivery.enums.UserRoleEnum;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 

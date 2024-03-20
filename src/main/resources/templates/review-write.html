@@ -10,7 +10,7 @@
 <!-- NAV BAR -->
 <header class="navbar">
     <div class="leftBox">
-        <!--        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />-->
+                <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />
         <p class="navTitle">Write Review</p>
     </div>
     <div class="rightBox">
@@ -23,7 +23,10 @@
 
 <div class="form-container">
     <h1>리뷰 작성</h1>
-    <form>
+    <form id="reviewForm">
+        <input type="hidden" id="userId" name="userId" value=1>
+        <input type="hidden" id="storeId" name="storeId" value=1>
+
         <label for="rating">점수를 선택하세요 *</label>
         <div id="rating">
             <input type="radio" id="star5" name="rating" value="5" /><label for="star5">★</label>
@@ -34,13 +37,16 @@
         </div>
 
         <label for="content">리뷰를 입력하세요 *</label>
-        <textarea id="content" name="content" placeholder="리뷰를 입력하세요" required></textarea>
+        <textarea id="content" name="comment" placeholder="리뷰를 입력하세요" required></textarea>
+
 
         <button type="submit" class="submit-button">리뷰 등록하기</button>
     </form>
 </div>
 
 <script th:src="@{/js/navbar.js}"></script>
+<script th:src="@{/js/review-write.js}"></script>
+
 
 </body>
 </html>
