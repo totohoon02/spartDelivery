@@ -1,19 +1,17 @@
 package com.sparta.spartdelivery.service;
 
-import com.sparta.spartdelivery.dto.GetStoreResponseDto;
-import com.sparta.spartdelivery.dto.MenuResponseDto;
-import com.sparta.spartdelivery.dto.ReviewResponseDto;
-import com.sparta.spartdelivery.dto.StoreDetailResponseDto;
-import com.sparta.spartdelivery.entity.User;
-import com.sparta.spartdelivery.enums.CategoryEnum;
+import com.sparta.spartdelivery.dto.*;
 import com.sparta.spartdelivery.entity.Menu;
 import com.sparta.spartdelivery.entity.Review;
+import com.sparta.spartdelivery.enums.CategoryEnum;
 import com.sparta.spartdelivery.entity.Store;
 import com.sparta.spartdelivery.repository.MenuRepository;
 import com.sparta.spartdelivery.repository.ReviewRepository;
 import com.sparta.spartdelivery.repository.StoreRepository;
 import com.sparta.spartdelivery.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -107,5 +105,10 @@ public class StoreService {
         responseDto.setReviews(reviewResponseDto);
 
         return responseDto;
+    }
+    public ResponseEntity<StoreResponseDto> createStore(StoreRequestDto requestDto) {
+        Store store = new Store(requestDto);
+        storeRepository.save(store);
+        return new ResponseEntity<>(new StoreResponseDto(store), HttpStatus.OK);
     }
 }
