@@ -26,14 +26,13 @@
         <p th:text="'Address: ' + ${store.address}">Address</p>
         <p th:text="'Phone: ' + ${store.phoneNumber}">Phone Number</p>
         <div class="rating" th:text="'Rating: ' + ${#numbers.formatDecimal(store.rating, 1, 'COMMA', 2, 'POINT')}">Rating</div>
-        <form action="/store/${store.storeId}/review" method="get">
+        <form th:action="@{/store/{storeId}/reviews(storeId=${store.storeId})}" method="get">
             <button class="review-button" style="margin: 10px">리뷰 보기</button>
         </form>
     </div>
 
 
-    <div class="cards">
-        <div class="menu-info">
+    <div class="menu-info">
             <div class="row row-cols-1 row-cols-md-4 g-4 mx-auto w-75 pb-5" style="margin-bottom: 30px">
                 <div th:each="menu : ${store.menus}" class="col">
                     <div class="card h-100" th:attr="data-menu-id=${menu.menuId}">
