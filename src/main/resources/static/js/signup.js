@@ -53,10 +53,14 @@ btnSignup.addEventListener("click", () => {
     })
         .then(res => {
             if (!res.ok) {
-                alert("회원가입 실패!");
-            }else{
-                alert("회원가입 성공!");
-                window.location.href = "/";
+                throw new Error('회원가입 실패!');
             }
         })
+        .then(data => {
+            alert("회원가입 성공!");
+            window.location.href = "/login";
+        })
+        .catch(error => {
+            alert(error.message);
+        });
 });
