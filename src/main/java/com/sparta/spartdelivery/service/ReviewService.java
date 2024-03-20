@@ -10,6 +10,9 @@ import com.sparta.spartdelivery.repository.StoreRepository;
 import com.sparta.spartdelivery.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,8 +35,22 @@ public class ReviewService {
 
     @Transactional
     public ReviewResponseDto saveReview(Integer storeId, ReviewSubmissionDto reviewDto) {
-        User user = userRepository.findById(Long.valueOf(reviewDto.getUserId()))
-                .orElseThrow(() -> new EntityNotFoundException("User not found."));
+        // Obtain the current authentication object
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Ensure there is an authenticated user
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("No authenticated user");
+        }
+
+        // Assuming the principal can be cast to UserDetails and contains the username (email)
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String userEmail = userDetails.getUsername();
+
+        // Find the user by email (or username)
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with email: " + userEmail));
+
         Store store = storeRepository.findById(Long.valueOf(storeId))
                 .orElseThrow(() -> new EntityNotFoundException("Store not found."));
 
