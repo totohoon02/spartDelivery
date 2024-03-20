@@ -1,7 +1,9 @@
 package com.sparta.spartdelivery.dto;
 
 import com.sparta.spartdelivery.entity.Store;
+import lombok.Getter;
 
+@Getter
 public class StoreResponseDto {
     private final Integer storeId;
     private final String name;

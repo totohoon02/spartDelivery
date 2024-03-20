@@ -28,22 +28,8 @@ btnLogin.addEventListener("click", () => {
             if (!res.ok) {
                 throw new Error('Login failed');
             }
-            return res.json();
-        })
-        .then(data => {
-            const userRole = data.role;
-
-            // Redirect based on role
-            switch(userRole) {
-                case 'BOSS':
-                    window.location.href = "/store/create-store";
-                    break;
-                case 'CLIENT':
-                    window.location.href = "/store";
-                    break;
-                default:
-                    throw new Error('Unknown role');
-            }
+            console.log("로그인 성공");
+            window.location.href = "/store/stores"; // token
         })
         .catch(error => {
             console.error('Error during login:', error);

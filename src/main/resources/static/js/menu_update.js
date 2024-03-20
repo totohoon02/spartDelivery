@@ -13,13 +13,11 @@ btnSubmit.addEventListener("click", ()=>{
         alert("입력 값을 확인해주세요.");
         return;
     }
-    const token = localStorage.getItem('token');
 
     fetch("/update-menu", {
         method: "PUT",
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': token
         },
         body: JSON.stringify({
             menuName:menuName.value,

@@ -72,6 +72,19 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
+//        // 로그인 사용
+//        http.formLogin((formLogin) ->
+//                        formLogin
+//                                // 로그인 View 제공 (GET /api/user/login-page)
+//                                .loginPage("/login")
+//                                // 로그인 처리 (POST /api/user/login)
+//                                .loginProcessingUrl("/login2")
+//                                // 로그인 처리 후 성공 시 URL//
+//                                 .defaultSuccessUrl("/store/stores")
+//                                // 로그인 처리 후 실패 시 URL
+//                                .failureUrl("/login?error")
+//                                .permitAll()
+//        );
 
 
 

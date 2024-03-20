@@ -13,6 +13,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,14 +49,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
         UserRoleEnum role = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getRole();
 
+        // Set cookie
         String token = jwtUtil.createToken(username, role);
-
-        // JWT Cookie에 저장
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
         jwtUtil.addJwtToCookie(token, response);
 
         // JSON Response에 사용자 역할 추가
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+
+        try (PrintWriter out = response.getWriter()) {
+            out.print("{\"message\": \"로그인 성공!\"}");
+        } catch (IOException e) {
+            log.error("응답에 실패했습니다: {}", e.getMessage());
+            throw new RuntimeException("응답에 실패했습니다: " + e.getMessage());
+        }
 
         // Creating the response object
         Map<String, Object> responseData = new HashMap<>();
@@ -66,8 +74,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         // Ensure the response is committed
         response.getWriter().flush();
+
     }
-    
+
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
         response.setStatus(401);

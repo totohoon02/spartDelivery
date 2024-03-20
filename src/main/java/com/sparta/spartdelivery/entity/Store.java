@@ -1,6 +1,7 @@
 package com.sparta.spartdelivery.entity;
 
 import com.sparta.spartdelivery.enums.CategoryEnum;
+import com.sparta.spartdelivery.dto.StoreRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,15 +25,26 @@ public class Store {
     @Enumerated(EnumType.STRING)
     private CategoryEnum categoryEnum;
 
+    @Column
     private String phoneNumber;
 
+    @Column
     private String address;
 
+    @Column
     private String imageUrl;
 
-    private Integer totalRatings = 0;
+    @Column
+    private Integer totalRatings;
 
-    private Integer ratingsCount = 0;
+    @Column
+    private Integer ratingsCount;
+
+//    public Store(StoreRequestDto requestDto) {
+//        this.storeName = requestDto.getStoreName();
+//        this.address = requestDto.getStoreAddress();
+//        this.phoneNumber = requestDto.getPhoneNumber();
+//    }
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
@@ -47,4 +59,11 @@ public class Store {
     }
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Menu> menus;
+
+    public Store(StoreRequestDto requestDto) {
+        this.storeName = requestDto.getStoreName();
+        this.categoryEnum = requestDto.getCategory();
+        this.phoneNumber = requestDto.getPhoneNumber();
+        this.address = requestDto.getStoreAddress();
+    }
 }

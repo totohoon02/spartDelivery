@@ -29,6 +29,6 @@ btnSubmit.addEventListener("click", ()=>{
                 alert("업장등록 실패!");
             }
             // redirect if signup success
-            window.location.href = "/";
+            window.location.href = "/store/stores";
         })
 });
