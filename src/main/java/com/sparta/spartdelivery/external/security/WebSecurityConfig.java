@@ -68,6 +68,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/login2").permitAll() // 로그인 페이지 접근허가
                         .requestMatchers("/signup").permitAll() // 로그인 전단계인, 회원가입 요청 접근허가
                         .requestMatchers("/store").permitAll()
+                        .requestMatchers("/cart").permitAll()
                         .requestMatchers("/store/create-store").hasAuthority("ROLE_BOSS")
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
