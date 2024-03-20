@@ -26,7 +26,7 @@
         <p th:text="'Address: ' + ${store.address}">Address</p>
         <p th:text="'Phone: ' + ${store.phoneNumber}">Phone Number</p>
         <div class="rating" th:text="'Rating: ' + ${#numbers.formatDecimal(store.rating, 1, 'COMMA', 2, 'POINT')}">Rating</div>
-        <form action="/store/1/reviews" method="get">
+        <form action="/store/${store.storeId}/review" method="get">
             <button class="review-button" style="margin: 10px">리뷰 보기</button>
         </form>
     </div>

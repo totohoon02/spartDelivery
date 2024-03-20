@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface StoreRepository extends JpaRepository<Store, Long> {
+public interface StoreRepository extends JpaRepository<Store, Integer> {
     List<Store> findAllByCategoryEnum(CategoryEnum categoryEnum);
 
     @Query("SELECT s FROM Store s WHERE s.storeName LIKE :searchValue")

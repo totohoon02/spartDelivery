@@ -12,5 +12,5 @@ btnSubmit.addEventListener("click", () => {
 
     // 사용자를 서버의 /stores 엔드포인트로 리다이렉션
     // searchValue 쿼리 파라미터 포함
-    window.location.href = `/stores?searchValue=${encodeURIComponent(searchValue)}`;
+    window.location.href = `/store?searchValue=${encodeURIComponent(searchValue)}`;
 });

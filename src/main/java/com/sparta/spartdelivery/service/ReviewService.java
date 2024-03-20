@@ -34,7 +34,7 @@ public class ReviewService {
     public ReviewResponseDto saveReview(Integer storeId, ReviewSubmissionDto reviewDto) {
         User user = userRepository.findById(Long.valueOf(reviewDto.getUserId()))
                 .orElseThrow(() -> new EntityNotFoundException("User not found."));
-        Store store = storeRepository.findById(Long.valueOf(storeId))
+        Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new EntityNotFoundException("Store not found."));
 
         Review review = new Review();

@@ -61,7 +61,7 @@ public class StoreService {
 
     // 상점 상세 페이지 - 상점 정보와 메뉴 리스트 GET
     public StoreDetailResponseDto getStoreDetail(Integer storeId) {
-        Store store = storeRepository.findById(Long.valueOf(storeId))
+        Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new RuntimeException("Store not found with id: " + storeId));
 
         StoreDetailResponseDto responseDto = new StoreDetailResponseDto();
