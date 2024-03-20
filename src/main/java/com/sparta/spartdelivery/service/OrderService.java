@@ -1,19 +1,23 @@
 package com.sparta.spartdelivery.service;
 
-import com.sparta.spartdelivery.dto.*;
+import com.sparta.spartdelivery.dto.OrderDetailDto;
+import com.sparta.spartdelivery.dto.OrderResponseDto;
 import com.sparta.spartdelivery.entity.*;
 import com.sparta.spartdelivery.enums.OrderStatusEnum;
-import com.sparta.spartdelivery.repository.*;
-import jakarta.persistence.EntityNotFoundException;
-import org.hibernate.annotations.Check;
+import com.sparta.spartdelivery.repository.CartItemRepository;
+import com.sparta.spartdelivery.repository.OrderRepository;
+import com.sparta.spartdelivery.repository.StoreRepository;
+import com.sparta.spartdelivery.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,8 +40,21 @@ public class OrderService {
 
     // 결제하기
     @Transactional
-    public OrderResponseDto checkout(OrderRequestDto orderRequest) {
-        User user = userRepository.findById(Long.valueOf(orderRequest.getUserId()))
+    public OrderResponseDto checkout() {
+        // Obtain the current authentication object
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Ensure there is an authenticated user
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("No authenticated user");
+        }
+
+        // Assuming the principal can be cast to UserDetails and contains the username (email)
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String userEmail = userDetails.getUsername(); // Here, username is the user's email.
+
+        // Find the user by email (or username)
+        User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         List<CartItem> cartItems = cartItemRepository.findByUser(user);
@@ -68,6 +85,7 @@ public class OrderService {
 
         newOrder.setOrderDetails(orderDetails);
         newOrder.setTotalPrice(totalPrice);
+        newOrder.setOrderStatusEnum(OrderStatusEnum.ORDERED);
         orderRepository.save(newOrder);
 
         cartItemRepository.deleteAll(cartItems);
