@@ -21,6 +21,7 @@
     </div>
 </header>
 <div class="menu-container">
+            <input type="hidden" name="userId" th:value="${userId}">
     <header>
         <h1 style="display: flex; justify-content: center;">장바구니</h1>
         <div class="store-info" style="display: flex; flex-direction: column; align-items: center;">
@@ -48,7 +49,7 @@
     </section>
 
     <footer id="checkout">
-        <input type="hidden" id="userId" name="userId" value="1">
+                <input type="hidden" name="userId" th:value="${userId}">
         <button type="button" id="checkoutButton" class="checkout-button" th:text="${#numbers.formatInteger(totalPrice, 0)} + '원 결제하기'">결제하기</button>
     </footer>
 

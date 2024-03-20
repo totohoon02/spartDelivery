@@ -2,7 +2,7 @@
 
 // 페이지가 로드되었을 때 실행
     document.addEventListener('DOMContentLoaded', function() {
-        fetch('/cart/?userId=1')    // 변경 필요
+        fetch('/cart')    // 변경 필요
             .then(response => response.json())
             .then(data => {
                 updateCartPage(data);
@@ -12,17 +12,12 @@
         const checkoutButton = document.getElementById('checkoutButton');
 
         checkoutButton.addEventListener('click', function (event) {
-            const userId = document.getElementById('userId').value;
 
-            const orderData = {
-                userId: userId,
-            };
             fetch(`/order`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(orderData)
             })
                 .then(response => {
                     if (!response.ok) {
@@ -49,7 +44,7 @@
                 quantity++;
                 quantityInput.value = quantity;
                 const menuId = container.getAttribute('data-menu-id');
-                fetch(`/cart/${menuId}?userId=1`, {
+                fetch(`/cart/${menuId}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -62,7 +57,7 @@
                             updateItemTotalPrice(container);
                             updateCartTotalPrice();
                         } else {
-                            console.error('메뉴 삭제 중 에러 발생');
+                            console.error('메뉴 추가 중 에러 발생');
                         }
                     })
                     .catch(error => console.error('Error:', error));
@@ -76,7 +71,7 @@
                     quantity--;
                     quantityInput.value = quantity;
                     const menuId = container.getAttribute('data-menu-id');
-                    fetch(`/cart/${menuId}?userId=1`, {
+                    fetch(`/cart/${menuId}`, {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
@@ -96,7 +91,7 @@
                 } else {
                     // 수량이 0 이하가 되면 삭제 요청을 보냅니다.
                     const menuId = container.getAttribute('data-menu-id');
-                    fetch(`/cart/${menuId}?userId=1`, {
+                    fetch(`/cart/${menuId}`, {
                         method: 'DELETE'
                     })
                         .then(response => {

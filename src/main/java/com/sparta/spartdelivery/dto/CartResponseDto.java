@@ -13,4 +13,5 @@ public class CartResponseDto {
     private Store store;
     private List<CartItemResponseDto> cartItems;
     private Integer totalPrice;
+    private Integer userId;
 }

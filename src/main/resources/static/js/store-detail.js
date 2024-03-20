@@ -1,24 +1,47 @@
 document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', () => {
         const menuId = card.getAttribute('data-menu-id');
-        const storeId = document.querySelector('.header').dataset.storeId;
 
         if (confirm("이 메뉴를 장바구니에 추가하시겠습니까?")) {
-            // 장바구니에 추가하는 API 호출
-            fetch(`/cart/${menuId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    userId: 1, // Assume this is the user ID for now
-                    menuId: menuId,
-                    storeId: storeId
-                })
-            })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch(error => console.error('Error:', error));
+            addToCart(menuId);
         }
     });
 });
+function addToCart(menuId) {
+    fetch(`/cart/${menuId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        // credentials: 'include'
+    })
+        .then(response => {
+            if (response.ok) {
+                alert('Item added to the cart successfully.');
+                return response.json();
+            } else if (response.status === 409) {
+                    // console.log(response.status);
+                    // if (confirm("다른 상점의 메뉴가 장바구니에 추가되어 있습니다. 장바구니를 초기화하시겠습니까?")) {
+                    // clearCartAndAddItem(menuId);
+                // }
+            } else {
+                throw new Error('장바구니에 메뉴 추가에 실패했습니다.');
+            }
+        })
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+}
+function clearCartAndAddItem(menuId) {
+    fetch('/cart/clear', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        // credentials: 'include'
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('장바구니 삭제 실패');
+            }
+            return addToCart(menuId);
+        })
+        .catch(error => console.error('장바구니 삭제 실패:', error));
+}
