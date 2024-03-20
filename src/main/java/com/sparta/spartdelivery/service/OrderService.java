@@ -3,9 +3,9 @@ package com.sparta.spartdelivery.service;
 import com.sparta.spartdelivery.dto.*;
 import com.sparta.spartdelivery.entity.*;
 import com.sparta.spartdelivery.enums.OrderStatusEnum;
-import com.sparta.spartdelivery.repository.*;
-import jakarta.persistence.EntityNotFoundException;
-import org.hibernate.annotations.Check;
+import com.sparta.spartdelivery.repository.CartItemRepository;
+import com.sparta.spartdelivery.repository.OrderRepository;
+import com.sparta.spartdelivery.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,19 +21,18 @@ public class OrderService {
     private OrderRepository orderRepository;
     private UserRepository userRepository;
     private CartItemRepository cartItemRepository;
-    private StoreRepository storeRepository;
 
     @Autowired
     public OrderService(OrderRepository orderRepository, UserRepository userRepository,
-                        CartItemRepository cartItemRepository, StoreRepository storeRepository) {
+                        CartItemRepository cartItemRepository) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.cartItemRepository = cartItemRepository;
-        this.storeRepository = storeRepository;
     }
     // 주문 리스트 조회하기
     public List<GetOrderListResponseDto> getOrderList(User user) {
-        List<Order> orderList = orderRepository.findByUser(user);
+        Integer storeId = user.getStoreId();
+        List<Order> orderList = orderRepository.findByStore_storeId(storeId);
         return orderList.stream().map(GetOrderListResponseDto::new)
                 .toList();
     }
@@ -43,6 +41,8 @@ public class OrderService {
     // 결제하기
     @Transactional
     public OrderResponseDto checkout(User user) {
+        User client = userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자 입니다."));
 
         List<CartItem> cartItems = cartItemRepository.findByUser(user);
 
@@ -65,13 +65,28 @@ public class OrderService {
             totalPrice += cartItem.getQuantity() * cartItem.getMenu().getPrice();
         }
 
-        if (user.getPoint() < totalPrice) {
+        if (client.getPoint() < totalPrice) {
             throw new IllegalArgumentException("포인트가 충분하지 않습니다.");
         }
 
+        // 유저 포인트 차감
+        client.setPoint(user.getPoint() - totalPrice);
+
+        // 주문 정보 저장
+        newOrder.setUser(client);
+
         newOrder.setOrderDetails(orderDetails);
         newOrder.setTotalPrice(totalPrice);
+        newOrder.setOrderStatusEnum(OrderStatusEnum.ORDERED);
+        newOrder.setOrderedAt(LocalDateTime.now());
+        Store store = cartItems.get(0).getStore();
+        newOrder.setStore(store);
+
         orderRepository.save(newOrder);
+
+        // 배달 주문 시, 사장 포인트 적립
+        User boss = userRepository.findByStoreId(store.getStoreId());
+        boss.setPoint(boss.getPoint() + totalPrice);
 
         cartItemRepository.deleteAll(cartItems);
 
@@ -86,7 +101,7 @@ public class OrderService {
         responseDto.setAddress(store.getAddress());
         responseDto.setOrderId(order.getOrderId());
         responseDto.setTotalPrice(totalPrice);
-        responseDto.setOrderStatus(order.getOrderStatusEnum().toString());
+        responseDto.setOrderStatus(order.getOrderStatusEnum().getValue());
 
         List<OrderDetailDto> detailDtos = orderDetails.stream().map(detail -> {
             OrderDetailDto dto = new OrderDetailDto();
@@ -113,5 +128,20 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
         return new BossOrderResponseDto(order);
+    }
+
+    @Transactional
+    public PutOrderResponseDto markOrderAsDelivered(Integer orderId) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
+
+        if (order.getOrderStatusEnum().equals(OrderStatusEnum.ORDERED)) {
+            order.markOrderAsDelivered(OrderStatusEnum.DELIVERED, LocalDateTime.now());
+        } else {
+            throw new IllegalArgumentException("이미 배달완료된 주문 입니다.");
+        }
+
+        return new PutOrderResponseDto(order);
     }
 }

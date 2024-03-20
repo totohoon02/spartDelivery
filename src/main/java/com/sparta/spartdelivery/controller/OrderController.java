@@ -3,11 +3,13 @@ package com.sparta.spartdelivery.controller;
 import com.sparta.spartdelivery.dto.BossOrderResponseDto;
 import com.sparta.spartdelivery.dto.GetOrderListResponseDto;
 import com.sparta.spartdelivery.dto.OrderResponseDto;
+import com.sparta.spartdelivery.dto.PutOrderResponseDto;
 import com.sparta.spartdelivery.entity.User;
 import com.sparta.spartdelivery.enums.UserRoleEnum;
 import com.sparta.spartdelivery.external.security.UserDetailsImpl;
 import com.sparta.spartdelivery.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,7 +25,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @Secured({UserRoleEnum.Authority.BOSS, UserRoleEnum.Authority.CLIENT})
+    @Secured(UserRoleEnum.Authority.BOSS)
     @GetMapping("")
     public String getOrders(Model model,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
@@ -33,7 +35,7 @@ public class OrderController {
     }
     // 결제하고 주문 생성
     @PostMapping()
-    public ResponseEntity<OrderResponseDto> checkout(@RequestBody @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<OrderResponseDto> checkout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         OrderResponseDto orderResponse = orderService.checkout(user);
         return ResponseEntity.ok(orderResponse);
@@ -52,6 +54,14 @@ public class OrderController {
         BossOrderResponseDto bossOrderResponseDto = orderService.getBossOrderDetails(orderId);
         model.addAttribute("orderInfos", bossOrderResponseDto);
         return "order_detail";
+    }
+
+    @PutMapping("/{orderId}/deliver")
+    public ResponseEntity<PutOrderResponseDto> markOrderAsDelivered(@PathVariable Integer orderId) {
+
+        PutOrderResponseDto putOrderResponseDto = orderService.markOrderAsDelivered(orderId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(putOrderResponseDto);
     }
 
 //    @GetMapping("/{orderId}")

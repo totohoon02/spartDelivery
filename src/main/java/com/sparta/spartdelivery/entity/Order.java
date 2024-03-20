@@ -21,8 +21,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderId;
 
-    private Integer storeId;
-
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
@@ -41,4 +39,12 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "store_id", referencedColumnName = "storeId")
+    private Store store;
+
+    public void markOrderAsDelivered(OrderStatusEnum orderStatusEnum, LocalDateTime deliveredAt) {
+        this.orderStatusEnum = orderStatusEnum;
+        this.deliveredAt = deliveredAt;
+    }
 }

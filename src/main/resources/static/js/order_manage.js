@@ -14,18 +14,13 @@ document.addEventListener('DOMContentLoaded', function() {
 function markOrderAsDelivered(orderId) {
     const token = localStorage.getItem('token');
 
-    fetch('/orders/' + orderId + '/deliver', {
+    fetch('/order/' + orderId + '/deliver', {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token
-        },
-        body: JSON.stringify({ orderId: orderId })
     })
         .then(response => {
             if(response.ok) {
                 console.log("Order marked as delivered.");
-                window.location.href = "/orders"
+                window.location.href = "/order"
             } else {
                 console.log("Error occurred while updating order status.");
             }
@@ -48,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function goToOrderDetail(orderId) {
     // 주문 ID를 URL에 포함시켜 상세 페이지로 이동
-    window.location.href = '/orders/' + orderId;
+    window.location.href = '/order/boss/' + orderId;
 }
 
 

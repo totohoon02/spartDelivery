@@ -2,10 +2,11 @@ package com.sparta.spartdelivery.dto;
 
 import com.sparta.spartdelivery.entity.Order;
 import com.sparta.spartdelivery.entity.OrderDetail;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Getter
 public class BossOrderResponseDto {
     private Integer orderId;
     private String phoneNumber;
@@ -24,7 +25,8 @@ public class BossOrderResponseDto {
         this.orderedAt = order.getOrderedAt();
         this.orderDetails = order.getOrderDetails().stream().map(BossOrderDetailDto::new).toList();
     }
-    private class BossOrderDetailDto{
+    @Getter
+    public class BossOrderDetailDto{
         private Integer orderDetailId;
         private String imageUrl;
         private String menuName;
