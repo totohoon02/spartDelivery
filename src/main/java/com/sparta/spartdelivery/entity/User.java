@@ -44,6 +44,12 @@ public class User {
         this.userName = username;
         this.role = role;
     }
+
+    public void updateStoreId(Integer storeId){
+        this.storeId = storeId;
+    }
+
+
 }
 
 
