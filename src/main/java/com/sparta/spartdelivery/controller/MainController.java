@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MainController {
-    @GetMapping()
-    public String home(){
-        return "redirect:/login";
-    }
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
-    @GetMapping("/signup")
-    public String signup(){
-        return "signup";
-    }
+//    @GetMapping()
+//    public String home(){
+//        return "redirect:/login";
+//    }
+//    @GetMapping("/login")
+//    public String login(){
+//        return "login";
+//    }
+//    @GetMapping("/signup")
+//    public String signup(){
+//        return "signup";
+//    }
 
 }

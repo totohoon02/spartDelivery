@@ -65,5 +65,7 @@ public class Store {
         this.categoryEnum = requestDto.getCategory();
         this.phoneNumber = requestDto.getPhoneNumber();
         this.address = requestDto.getStoreAddress();
+        this.totalRatings = 0;
+        this.ratingsCount = 0;
     }
 }
