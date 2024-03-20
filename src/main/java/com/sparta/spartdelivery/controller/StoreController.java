@@ -1,23 +1,15 @@
 package com.sparta.spartdelivery.controller;
 
 import com.sparta.spartdelivery.dto.GetStoreResponseDto;
+import com.sparta.spartdelivery.dto.StoreDetailResponseDto;
 import com.sparta.spartdelivery.dto.StoreRequestDto;
 import com.sparta.spartdelivery.dto.StoreResponseDto;
-import com.sparta.spartdelivery.enums.CategoryEnum;
-import com.sparta.spartdelivery.entity.Menu;
-import com.sparta.spartdelivery.entity.Store;
-import com.sparta.spartdelivery.dto.StoreDetailResponseDto;
 import com.sparta.spartdelivery.service.StoreService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -47,6 +39,7 @@ public class StoreController {
     @GetMapping("/{storeId}")
     public String getStoreDetail(@PathVariable Integer storeId, Model model) {
         StoreDetailResponseDto storeDetail = storeService.getStoreDetail(storeId);
+
         model.addAttribute("store", storeDetail);
         return "store-detail";
     }
