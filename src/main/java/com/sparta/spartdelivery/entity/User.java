@@ -25,7 +25,7 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-    @Column(nullable = false)
+    @Column
     private Integer point;
 
     @Column(nullable = false)
