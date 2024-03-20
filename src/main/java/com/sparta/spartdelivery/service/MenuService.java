@@ -26,14 +26,25 @@ public class MenuService {
         this.storeRepository = storeRepository;
     }
 
-    public ResponseEntity<MenuResponseDto> createMenu(MenuRequestDto requestDto) {
+    @Transactional
+    public ResponseEntity<MenuResponseDto> createMenu(MenuRequestDto requestDto, Integer storeId) {
         Menu menu = new Menu(requestDto);
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 스토어입니다."));
+        menu.setStore(store);
         menuRepository.save(menu);
         return new ResponseEntity<>(new MenuResponseDto(menu), HttpStatus.OK);
     }
 
+
+    public MenuResponseDto getMenu(Integer menuId) {
+        Menu menu = menuRepository.findById(menuId)
+                .orElseThrow(() -> new NullPointerException("존재하지 않는 메뉴입니다."));
+        return new MenuResponseDto(menu);
+    }
+
     @Transactional
-    public ResponseEntity<MenuResponseDto> updateMenu(Long menuId, MenuRequestDto requestDto) {
+    public ResponseEntity<MenuResponseDto> updateMenu(Integer menuId, MenuRequestDto requestDto, Integer storeId) {
         Menu menu = menuRepository.findById(menuId).orElseThrow();
         menu.updateMenu(requestDto);
         return new ResponseEntity<>(new MenuResponseDto(menu), HttpStatus.OK);
@@ -46,4 +57,5 @@ public class MenuService {
         List<MenuResponseDto> menuInfos = menuRepository.findByStore(store).stream().map(MenuResponseDto::new).toList();
         return menuInfos;
     }
+
 }
