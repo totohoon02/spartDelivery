@@ -14,7 +14,9 @@ btnSubmit.addEventListener("click", ()=>{
         return;
     }
 
-    fetch("/update-store", {
+    const storeId = document.querySelector("#btnSubmit").getAttribute(("data-store-id"));
+
+    fetch(`/store/${storeId}`, {
         method: "PUT",
         headers: {
             'Content-Type': 'application/json',
@@ -31,14 +33,16 @@ btnSubmit.addEventListener("click", ()=>{
                 alert("업장등록 실패!");
             }
             // redirect if signup success
-            window.location.href = "/";
+            window.location.href = "/store";
         })
 });
 
-btnCancel.addEventListener("click", ()=>{window.location.href="/"});
+btnCancel.addEventListener("click", ()=>{window.location.href="/store"});
 
 btnDelete.addEventListener("click", ()=>{
-    fetch("/update-store", {
+    const storeId = document.querySelector("#btnDelete").getAttribute(("data-store-id"));
+
+    fetch(`/store/${storeId}`, {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json'
@@ -49,6 +53,6 @@ btnDelete.addEventListener("click", ()=>{
                 alert("업장삭제 실패!");
             }
             // redirect if signup success
-            window.location.href = "/";
+            window.location.href = "/store";
         })
 });

@@ -1,23 +1,18 @@
 package com.sparta.spartdelivery.controller;
 
 import com.sparta.spartdelivery.dto.GetStoreResponseDto;
+import com.sparta.spartdelivery.dto.StoreDetailResponseDto;
 import com.sparta.spartdelivery.dto.StoreRequestDto;
 import com.sparta.spartdelivery.dto.StoreResponseDto;
-import com.sparta.spartdelivery.enums.CategoryEnum;
-import com.sparta.spartdelivery.entity.Menu;
-import com.sparta.spartdelivery.entity.Store;
-import com.sparta.spartdelivery.dto.StoreDetailResponseDto;
+import com.sparta.spartdelivery.entity.User;
+import com.sparta.spartdelivery.external.security.UserDetailsImpl;
 import com.sparta.spartdelivery.service.StoreService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -30,7 +25,7 @@ public class StoreController {
         this.storeService = storeService;
     }
 
-    @GetMapping("/stores")
+    @GetMapping("")
     public String getStoreList(Model model, @RequestParam(value = "searchValue", required = false) String searchValue) {
         List<GetStoreResponseDto> storeInfos;
 
@@ -59,23 +54,30 @@ public class StoreController {
     }
 
     @PostMapping()
-    public ResponseEntity<StoreResponseDto> createStore(@RequestBody StoreRequestDto requestDto) {
-        return storeService.createStore(requestDto);
+    @PreAuthorize("hasAuthority('ROLE_BOSS')")
+    public ResponseEntity<StoreResponseDto> createStore(@RequestBody StoreRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return storeService.createStore(requestDto, user);
     }
 
     @GetMapping("/update-store")
-    public String updatePage() {
-        return "store_new";
+    @PreAuthorize("hasAuthority('ROLE_BOSS')")
+    public String updatePage(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        StoreDetailResponseDto storeDetailResponseDto = storeService.getStoreDetail(userDetails.getUser().getStoreId());
+        model.addAttribute("storeData", storeDetailResponseDto);
+        return "store_update";
     }
 
-//    @PostMapping()
-//    public ResponseEntity<StoreResponseDto> createStore(@RequestBody StoreRequestDto requestDto) {
-//        return storeService.createStore(requestDto);
-//    }
-//
-//    @PutMapping("/{storeId}")
-//    public ResponseEntity<StoreResponseDto> updateStore(@PathVariable("storeId") Long storeId,
-//            @RequestBody StoreRequestDto requestDto) {
-//        return storeService.updateStore(storeId, requestDto);
-//    }
+    @PutMapping("/{storeId}")
+    @PreAuthorize("hasAuthority('ROLE_BOSS')")
+    public ResponseEntity<StoreResponseDto> updateStore(@PathVariable("storeId") Integer storeId,
+            @RequestBody StoreRequestDto requestDto) {
+        return storeService.updateStore(storeId, requestDto);
+    }
+    @DeleteMapping("/{storeId}")
+    @PreAuthorize("hasAuthority('ROLE_BOSS')")
+    public ResponseEntity<StoreResponseDto> deleteStore(@PathVariable("storeId") Integer storeId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return storeService.deleteStore(storeId, user.getUserId());
+    }
 }

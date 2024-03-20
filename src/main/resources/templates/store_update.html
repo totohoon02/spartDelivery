@@ -39,19 +39,20 @@
           type="text"
           id="storeName"
           placeholder="대표 업체명을 입력해주세요"
+          th:value="${storeData.storeName}"
         />
         <label for="category">업종을 입력해주세요. *</label>
-        <input type="text" id="category" placeholder="업종을 입력해주세요" />
+        <input type="text" id="category" placeholder="업종을 입력해주세요" th:value="${storeData.category}"/>
         <label for="phoneNumber">전화번호를 입력해주세요. *</label>
-        <input type="text" id="phoneNumber" placeholder="- 없이 입력" />
+        <input type="text" id="phoneNumber" placeholder="- 없이 입력" th:value="${storeData.phoneNumber}"/>
         <label for="storeAddress">주소를 입력해주세요. *</label>
-        <input type="text" id="storeAddress" placeholder="도로명 주소" />
+        <input type="text" id="storeAddress" placeholder="도로명 주소" th:value="${storeData.address}"/>
       </div>
       <div class="buttonContainer">
         <button class="submitButton" id="btnCancel">취소하기</button>
-        <button class="submitButton" id="btnSubmit">등록하기</button>
+        <button class="submitButton" th:data-store-id="${storeData.storeId}" id="btnSubmit">등록하기</button>
       </div>
-      <p class="deleteStore" id="btnDelete">업체 삭제하기</p>
+      <p class="deleteStore" th:data-store-id="${storeData.storeId}" id="btnDelete">업체 삭제하기</p>
     </div>
 
     <!-- JS -->

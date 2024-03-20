@@ -3,6 +3,7 @@ package com.sparta.spartdelivery.service;
 import com.sparta.spartdelivery.dto.*;
 import com.sparta.spartdelivery.entity.Menu;
 import com.sparta.spartdelivery.entity.Review;
+import com.sparta.spartdelivery.entity.User;
 import com.sparta.spartdelivery.enums.CategoryEnum;
 import com.sparta.spartdelivery.entity.Store;
 import com.sparta.spartdelivery.repository.MenuRepository;
@@ -13,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StoreService {
@@ -106,9 +109,44 @@ public class StoreService {
 
         return responseDto;
     }
-    public ResponseEntity<StoreResponseDto> createStore(StoreRequestDto requestDto) {
+    @Transactional
+    public ResponseEntity<StoreResponseDto> createStore(StoreRequestDto requestDto, User user) {
+
         Store store = new Store(requestDto);
         storeRepository.save(store);
+        User user1 = userRepository.findById(user.getUserId()).orElseThrow();
+        user1.updateStoreId(store.getStoreId());
+
         return new ResponseEntity<>(new StoreResponseDto(store), HttpStatus.OK);
     }
+
+    @Transactional
+    public ResponseEntity<StoreResponseDto> updateStore(Integer storeId, StoreRequestDto requestDto) {
+        Optional<Store> optionalStore = storeRepository.findById(storeId);
+        if(optionalStore.isPresent()){
+            Store store = optionalStore.get();
+            store.updateStore(requestDto);
+            return new ResponseEntity<>(new StoreResponseDto(store), HttpStatus.OK);
+        }else{
+            throw new NullPointerException("스토어가 존재하지 않습니다.");
+        }
+    }
+
+    @Transactional
+    public ResponseEntity<StoreResponseDto> deleteStore(Integer storeId, Integer userId) {
+        Optional<Store> optionalStore = storeRepository.findById(storeId);
+        if(optionalStore.isPresent()){
+            Store store = optionalStore.get();
+            storeRepository.delete(store);
+
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+
+            user.updateStoreId(null);
+            return new ResponseEntity<>(new StoreResponseDto(store), HttpStatus.OK);
+        }else{
+            throw new NullPointerException("스토어가 존재하지 않습니다.");
+        }
+    }
+
 }

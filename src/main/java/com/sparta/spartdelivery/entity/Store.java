@@ -40,14 +40,11 @@ public class Store {
     @Column
     private Integer ratingsCount;
 
-//    public Store(StoreRequestDto requestDto) {
-//        this.storeName = requestDto.getStoreName();
-//        this.address = requestDto.getStoreAddress();
-//        this.phoneNumber = requestDto.getPhoneNumber();
-//    }
-
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Menu> menus;
 
     public void addRating(Byte rating) {
         this.totalRatings += rating;
@@ -57,10 +54,16 @@ public class Store {
         if (this.ratingsCount == 0) return 0;
         return (double) this.totalRatings / this.ratingsCount;
     }
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Menu> menus;
-
     public Store(StoreRequestDto requestDto) {
+        this.storeName = requestDto.getStoreName();
+        this.categoryEnum = requestDto.getCategory();
+        this.phoneNumber = requestDto.getPhoneNumber();
+        this.address = requestDto.getStoreAddress();
+        this.ratingsCount = 0;
+        this.totalRatings = 0;
+    }
+
+    public void updateStore(StoreRequestDto requestDto) {
         this.storeName = requestDto.getStoreName();
         this.categoryEnum = requestDto.getCategory();
         this.phoneNumber = requestDto.getPhoneNumber();
