@@ -34,18 +34,17 @@
 </div>
 <div th:each="menu : ${menuInfos}" class="menu-card">
     <div class="menu-image"
-         th:style="'background-image:url(' + ${menu.menuImageUrl} + '); background-size: cover; background-position: center;'">
+         th:style="'background-image:url(' + ${menu.imageUrl} + '); background-size: cover; background-position: center;'">
     </div>
     <div class="order-details">
         <h2 th:text="${menu.menuName}"></h2>
         <p class="order-total" th:text="'가격: ' + ${menu.price} + '원'"></p>
-        <p th:text="${menu.menuDescription}"></p>
+        <p th:text="${menu.description}"></p>
     </div>
     <div class="order-buttons">
-        <button type="button" class="button"
-                th:data-menu="${menu.menuJson}">
-            수정하기
-        </button>
+        <a th:href="@{/menu/update-menu/{menuId}(menuId=${menu.menuId})}" class="button-link">
+            <button type="button" class="button">수정하기</button>
+        </a>
     </div>
 </div>
 
