@@ -10,13 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CartItemRepository extends JpaRepository<CartItem, Long>{
+public interface CartItemRepository extends JpaRepository<CartItem, Integer>{
 
     List<CartItem> findByUser(User user);
 
     Optional<CartItem> findByUserAndMenu(User user, Menu menu);
-
-    List<CartItem> findByUser_userId(Integer userId);
 
     Optional<CartItem> findByUser_userIdAndMenu_menuId(int i, Integer menuId);
 }

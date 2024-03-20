@@ -48,7 +48,7 @@
     </section>
 
     <footer id="checkout">
-        <input type="hidden" id="userId" name="userId" value="1">
+        <input type="hidden" name="userId" th:value="${userId}">
         <button type="button" id="checkoutButton" class="checkout-button" th:text="${#numbers.formatInteger(totalPrice, 0)} + '원 결제하기'">결제하기</button>
     </footer>
 

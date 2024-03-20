@@ -10,6 +10,7 @@ import java.util.List;
 @Setter
 // 장바구니 조회 response
 public class CartResponseDto {
+    private Integer userId;
     private Store store;
     private List<CartItemResponseDto> cartItems;
     private Integer totalPrice;
