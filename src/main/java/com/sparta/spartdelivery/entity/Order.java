@@ -1,12 +1,11 @@
 package com.sparta.spartdelivery.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sparta.spartdelivery.enums.OrderStatusEnum;
-import jakarta.persistence.Entity;
-import lombok.Getter;
-import lombok.Setter;
 import jakarta.persistence.*;
-import org.hibernate.mapping.Join;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,12 +15,11 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "Orders")
+@NoArgsConstructor
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderId;
-
-    private Integer userId;
 
     private Integer storeId;
 
@@ -31,13 +29,16 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatusEnum orderStatusEnum;
 
+    @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime orderedAt;
 
     private LocalDateTime deliveredAt;
 
     private Integer totalPrice;
 
-
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

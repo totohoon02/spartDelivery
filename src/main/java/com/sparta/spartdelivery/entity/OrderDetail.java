@@ -22,6 +22,6 @@ public class OrderDetail{
     @JoinColumn(name = "menu_id", referencedColumnName = "menuId", nullable = false)
     private Menu menu;
 
-    private int quantity;
+    private Short quantity;
 
 }

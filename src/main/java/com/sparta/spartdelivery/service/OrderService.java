@@ -32,13 +32,17 @@ public class OrderService {
         this.cartItemRepository = cartItemRepository;
         this.storeRepository = storeRepository;
     }
+    // 주문 리스트 조회하기
+    public List<GetOrderListResponseDto> getOrderList(User user) {
+        List<Order> orderList = orderRepository.findByUser(user);
+        return orderList.stream().map(GetOrderListResponseDto::new)
+                .toList();
+    }
 
 
     // 결제하기
     @Transactional
-    public OrderResponseDto checkout(OrderRequestDto orderRequest) {
-        User user = userRepository.findById(Long.valueOf(orderRequest.getUserId()))
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    public OrderResponseDto checkout(User user) {
 
         List<CartItem> cartItems = cartItemRepository.findByUser(user);
 
@@ -47,8 +51,7 @@ public class OrderService {
         }
 
         Order newOrder = new Order();
-        newOrder.setUserId(user.getUserId());
-        newOrder.setOrderedAt(LocalDateTime.now());
+
         List<OrderDetail> orderDetails = new ArrayList<>();
         Integer totalPrice = 0;
 
@@ -99,10 +102,16 @@ public class OrderService {
         return responseDto;
     }
 
-    public OrderResponseDto getOrderDetails(Long orderId) {
+    public OrderResponseDto getCustomerOrderDetails(Integer orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
 
         return convertToDto(order, order.getTotalPrice(), order.getOrderDetails());
+    }
+
+    public BossOrderResponseDto getBossOrderDetails(Integer orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
+        return new BossOrderResponseDto(order);
     }
 }
