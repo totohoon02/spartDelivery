@@ -6,20 +6,24 @@ const profile = document.querySelector("#profile");
 const cart = document.querySelector("#cart");
 
 dashboard.addEventListener("click", () => {
-  window.location.href = "/dashboard";
+    window.location.href = "/dashboard";
 });
 business.addEventListener("click", () => {
-  window.location.href = "/business";
+    window.location.href = "/business";
 });
 menu.addEventListener("click", () => {
-  window.location.href = "/menu";
+    window.location.href = "/menu";
 });
 order.addEventListener("click", () => {
-  window.location.href = "/order";
+    window.location.href = "/order";
 });
-profile.addEventListener("click", () => {
-  window.location.href = "/profile";
-});
-cart.addEventListener("click", () => {
-  window.location.href = "/cart";
-});
+if (profile) {
+    profile.addEventListener("click", () => {
+        window.location.href = "/profile";
+    });
+}
+if (cart) {
+    cart.addEventListener("click", () => {
+        window.location.href = "/cart";
+    });
+}

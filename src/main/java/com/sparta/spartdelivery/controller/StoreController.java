@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +24,13 @@ public class StoreController {
 
     public StoreController(StoreService storeService) {
         this.storeService = storeService;
+    }
+
+    @GetMapping()
+    @ResponseBody
+    @PreAuthorize("hasAuthority('ROLE_BOSS') or hasAuthority('ROLE_CLIENT')")
+    public String testGet(){
+        return "testing";
     }
 
     @GetMapping("/stores")

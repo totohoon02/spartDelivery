@@ -4,12 +4,17 @@ import com.sparta.spartdelivery.entity.UserRoleEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
@@ -52,12 +57,49 @@ public class JwtUtil {
     }
 
     // header 에서 JWT 가져오기
-    public String getJwtFromHeader(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
-            return bearerToken.substring(7);
+//    public String getJwtFromHeader(HttpServletRequest request) {
+//        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+//        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+//            return bearerToken.substring(7);
+//        }
+//        return null;
+//    }
+
+    public String getTokenFromRequest(HttpServletRequest req) {
+        Cookie[] cookies = req.getCookies();
+        if(cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(AUTHORIZATION_HEADER)) {
+                    try {
+                        return URLDecoder.decode(cookie.getValue(), "UTF-8"); // Encode 되어 넘어간 Value 다시 Decode
+                    } catch (UnsupportedEncodingException e) {
+                        return null;
+                    }
+                }
+            }
         }
         return null;
+    }
+    // Set JWT cookie
+    public void addJwtToCookie(String token, HttpServletResponse res) {
+        try {
+            token = URLEncoder.encode(token, "utf-8").replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
+
+            Cookie cookie = new Cookie(AUTHORIZATION_HEADER, token);
+            cookie.setPath("/");
+
+            res.addCookie(cookie);
+        } catch (UnsupportedEncodingException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    public String substringToken(String tokenValue) {
+        if (StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)) {
+            return tokenValue.substring(7);// bearer + 공백 = 7
+        }
+        log.error("Not Found Token");
+        throw new NullPointerException("Not Found Token");
     }
 
     // 토큰 검증

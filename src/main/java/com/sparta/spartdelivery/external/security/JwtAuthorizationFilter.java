@@ -30,10 +30,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
 
-        String tokenValue = jwtUtil.getJwtFromHeader(req);
+        String tokenValue = jwtUtil.getTokenFromRequest(req);
+        log.debug("토큰 인증 전" + tokenValue);
 
         if (StringUtils.hasText(tokenValue)) {
-
+            tokenValue = jwtUtil.substringToken(tokenValue); //bearal 떼어주기
+            log.debug("hasText" + tokenValue);
             if (!jwtUtil.validateToken(tokenValue)) {
                 log.error("Token Error");
                 return;
@@ -42,6 +44,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
 
             try {
+                log.debug("setAuth");
                 setAuthentication(info.getSubject());
             } catch (Exception e) {
                 log.error(e.getMessage());
