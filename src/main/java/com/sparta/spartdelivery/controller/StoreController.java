@@ -1,18 +1,17 @@
 package com.sparta.spartdelivery.controller;
 
 import com.sparta.spartdelivery.dto.GetStoreResponseDto;
-import com.sparta.spartdelivery.service.StoreService;
 import com.sparta.spartdelivery.dto.StoreDetailResponseDto;
-import org.springframework.security.access.annotation.Secured;
+import com.sparta.spartdelivery.service.StoreService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.PathVariable;
 
 
 @Controller
@@ -24,7 +23,7 @@ public class StoreController {
         this.storeService = storeService;
     }
 
-    @GetMapping("/stores")
+    @GetMapping()
     public String getStoreList(Model model, @RequestParam(value = "searchValue", required = false) String searchValue) {
         List<GetStoreResponseDto> storeInfos;
 
@@ -47,6 +46,7 @@ public class StoreController {
 
     // store 등록, 수정
     @GetMapping("/create-store")
+    @PreAuthorize("hasAuthority('ROLE_BOSS')")
     public String createPage() {
         return "store_new";
     }

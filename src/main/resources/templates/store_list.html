@@ -39,9 +39,11 @@
 </div>
 <div class="gallery">
     <div th:each="store : ${storeInfos}" class="image-card">
-        <img th:src="@{${store.imageUrl}}" alt="Burger Image" th:alt="${store.storeName}"/>
-        <div class="image-category" th:text="${store.categoryValue}">카테고리</div>
-        <div class="image-title" th:text="${store.storeName}">상호명</div>
+        <a th:href="@{/store/{storeId}(storeId=${store.storeId})}">
+            <img th:src="@{${store.imageUrl}}" alt="Store Image" th:alt="${store.storeName}"/>
+            <div class="image-category" th:text="${store.categoryValue}">Category</div>
+            <div class="image-title" th:text="${store.storeName}">Store Name</div>
+        </a>
     </div>
 </div>
 
