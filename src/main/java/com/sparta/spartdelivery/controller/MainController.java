@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Controller
 public class MainController {
-    @GetMapping()
+    @GetMapping("/")
     public String home(){
         return "redirect:/login";
     }
