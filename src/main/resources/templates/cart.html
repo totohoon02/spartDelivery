@@ -17,11 +17,16 @@
                 <p class="navMenu" id="dashboard">Dashboard</p>
         <p class="navMenu" id="profile">Profile</p>
         <p class="navMenu navMenuTarget" id="cart">Cart</p>
-        <!--        <p class="navMenu" id="order">Order Management</p>-->
     </div>
 </header>
 <div class="menu-container">
-    <header>
+    <!--장바구니가 비어있는 경우 메시지 표시-->
+    <div th:if="${emptyCartMessage}" class="empty-cart-message" style="text-align: center;">
+        <h2 th:text="${emptyCartMessage}"></h2>
+        <!-- 사용자가 상점으로 돌아갈 수 있는 링크 또는 버튼 추가 -->
+        <a href="/store" class="back-to-store-link">상점으로 돌아가기</a>
+    </div>
+    <header th:unless="${emptyCartMessage}">
         <h1 style="display: flex; justify-content: center;">장바구니</h1>
         <div class="store-info" style="display: flex; flex-direction: column; align-items: center;">
             <h2 th:text="${store.storeName}">Store Name</h2>
@@ -29,7 +34,7 @@
             <p th:text="'Address: ' + ${store.address}">Address</p>
         </div>
     </header>
-    <section class="menu-section">
+    <section class="menu-section" th:unless="${emptyCartMessage}">
         <div th:each="cartItem, iterStat : ${cartItems}" class="menu-item" th:data-price="${cartItem.price}" th:attr="data-menu-id=${cartItem.menuId}">
             <div class="item-header">
                 <h2 th:text="${cartItem.menuName}">Menu Name</h2>
@@ -47,7 +52,7 @@
         </div>
     </section>
 
-    <footer id="checkout">
+    <footer id="checkout" th:unless="${emptyCartMessage}">
         <input type="hidden" name="userId" th:value="${userId}">
         <button type="button" id="checkoutButton" class="checkout-button" th:text="${#numbers.formatInteger(totalPrice, 0)} + '원 결제하기'">결제하기</button>
     </footer>
