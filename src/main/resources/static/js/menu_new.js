@@ -19,9 +19,9 @@ btnSubmit.addEventListener("click", ()=>{
         },
         body: JSON.stringify({
             menuName:menuName.value,
-            menuImage:menuImage.value,
-            menuPrice:menuPrice.value,
-            menuExplain:menuExplain.value
+            imageUrl:menuImage.value,
+            price:menuPrice.value,
+            description:menuExplain.value
         })
     })
         .then(res => {
@@ -29,6 +29,6 @@ btnSubmit.addEventListener("click", ()=>{
                 alert("메뉴등록 실패!");
             }
             // redirect if signup success
-            window.location.href = "/";
+            window.location.href = "/menu";
         })
 });

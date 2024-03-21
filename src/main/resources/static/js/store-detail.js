@@ -13,17 +13,15 @@ function addToCart(menuId) {
         headers: {
             'Content-Type': 'application/json'
         },
-        // credentials: 'include'
     })
         .then(response => {
             if (response.ok) {
                 alert('Item added to the cart successfully.');
                 return response.json();
             } else if (response.status === 409) {
-                    // console.log(response.status);
-                    // if (confirm("다른 상점의 메뉴가 장바구니에 추가되어 있습니다. 장바구니를 초기화하시겠습니까?")) {
-                    // clearCartAndAddItem(menuId);
-                // }
+                // console.log(response.status);
+                // if (confirm("다른 상점의 메뉴가 장바구니에 추가되어 있습니다. 장바구니를 초기화하시겠습니까?")) {
+                // clearCartAndAddItem(menuId);
             } else {
                 throw new Error('장바구니에 메뉴 추가에 실패했습니다.');
             }
@@ -35,7 +33,6 @@ function clearCartAndAddItem(menuId) {
     fetch('/cart/clear', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        // credentials: 'include'
     })
         .then(response => {
             if (!response.ok) {

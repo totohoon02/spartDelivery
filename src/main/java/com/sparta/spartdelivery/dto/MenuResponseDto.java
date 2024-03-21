@@ -16,9 +16,11 @@ public class MenuResponseDto {
     private String imageUrl;
 
     public MenuResponseDto(Menu menu) {
-        menuName = menu.getMenuName();
-        description = menu.getDescription();
-        price = menu.getPrice();
-        imageUrl = menu.getImageUrl();
+        this.menuId = menu.getMenuId();
+        this.menuName = menu.getMenuName();
+        this.description = menu.getDescription();
+        this.price = menu.getPrice();
+        this.imageUrl = menu.getImageUrl();
     }
+
 }

@@ -51,9 +51,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public ProfileResponseDto getUserProfile(Integer userId) {
-        User user = userRepository.findById(Long.valueOf(userId))
-                .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+    public ProfileResponseDto getUserProfile(User user) {
 
         ProfileResponseDto profileDto = new ProfileResponseDto();
         profileDto.setUserId(user.getUserId());

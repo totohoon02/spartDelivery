@@ -35,23 +35,9 @@ public class ReviewService {
 
     @Transactional
     public ReviewResponseDto saveReview(Integer storeId, ReviewSubmissionDto reviewDto) {
-        // Obtain the current authentication object
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // Ensure there is an authenticated user
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new IllegalStateException("No authenticated user");
-        }
-
-        // Assuming the principal can be cast to UserDetails and contains the username (email)
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String userEmail = userDetails.getUsername();
-
-        // Find the user by email (or username)
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with email: " + userEmail));
-
-        Store store = storeRepository.findById(Long.valueOf(storeId))
+        User user = userRepository.findById(reviewDto.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found."));
+        Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new EntityNotFoundException("Store not found."));
 
         Review review = new Review();
@@ -74,7 +60,7 @@ public class ReviewService {
 
     @Transactional
     public ReviewResponseDto updateReview(Integer reviewId, ReviewSubmissionDto reviewDto) {
-        Review review = reviewRepository.findById(Long.valueOf(reviewId)).orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
         review.setComment(reviewDto.getComment());
         review.setRating(reviewDto.getRating());
         Review updatedReview = reviewRepository.save(review);
@@ -84,7 +70,7 @@ public class ReviewService {
 
     @Transactional
     public void deleteReview(Integer reviewId) {
-        reviewRepository.deleteById(Long.valueOf(reviewId));
+        reviewRepository.deleteById(reviewId);
     }
 
     private ReviewResponseDto entityToDto(Review review) {

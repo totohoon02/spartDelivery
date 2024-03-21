@@ -39,7 +39,7 @@
             <p th:text="'주문 시간: ' + ${order.orderedAt}"></p>
         </div>
         <div class="order-buttons">
-            <button type="button" class="button-delivery" th:disabled="${order.orderStatus == 'Delivered'}" th:data-order-id="${order.orderId}">배달 완료</button>
+            <button type="button" class="button-delivery" th:disabled="${order.orderStatus == '배달완료'}" th:data-order-id="${order.orderId}">배달 완료</button>
             <button type="button" class="button-detail" th:data-order-id="${order.orderId}">자세히 보기</button>
         </div>
     </div>

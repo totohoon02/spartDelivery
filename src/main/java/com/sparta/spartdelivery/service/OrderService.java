@@ -6,6 +6,9 @@ import com.sparta.spartdelivery.entity.*;
 import com.sparta.spartdelivery.enums.OrderStatusEnum;
 import com.sparta.spartdelivery.repository.CartItemRepository;
 import com.sparta.spartdelivery.repository.OrderRepository;
+import com.sparta.spartdelivery.repository.UserRepository;
+import com.sparta.spartdelivery.repository.CartItemRepository;
+import com.sparta.spartdelivery.repository.OrderRepository;
 import com.sparta.spartdelivery.repository.StoreRepository;
 import com.sparta.spartdelivery.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,36 +29,28 @@ public class OrderService {
     private OrderRepository orderRepository;
     private UserRepository userRepository;
     private CartItemRepository cartItemRepository;
-    private StoreRepository storeRepository;
 
     @Autowired
     public OrderService(OrderRepository orderRepository, UserRepository userRepository,
-                        CartItemRepository cartItemRepository, StoreRepository storeRepository) {
+                        CartItemRepository cartItemRepository) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.cartItemRepository = cartItemRepository;
-        this.storeRepository = storeRepository;
+    }
+    // 주문 리스트 조회하기
+    public List<GetOrderListResponseDto> getOrderList(User user) {
+        Integer storeId = user.getStoreId();
+        List<Order> orderList = orderRepository.findByStore_storeId(storeId);
+        return orderList.stream().map(GetOrderListResponseDto::new)
+                .toList();
     }
 
 
     // 결제하기
     @Transactional
-    public OrderResponseDto checkout() {
-        // Obtain the current authentication object
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // Ensure there is an authenticated user
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new IllegalStateException("No authenticated user");
-        }
-
-        // Assuming the principal can be cast to UserDetails and contains the username (email)
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String userEmail = userDetails.getUsername(); // Here, username is the user's email.
-
-        // Find the user by email (or username)
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    public OrderResponseDto checkout(User user) {
+        User client = userRepository.findById(user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자 입니다."));
 
         List<CartItem> cartItems = cartItemRepository.findByUser(user);
 
@@ -64,8 +59,7 @@ public class OrderService {
         }
 
         Order newOrder = new Order();
-        newOrder.setUserId(user.getUserId());
-        newOrder.setOrderedAt(LocalDateTime.now());
+
         List<OrderDetail> orderDetails = new ArrayList<>();
         Integer totalPrice = 0;
 
@@ -79,14 +73,28 @@ public class OrderService {
             totalPrice += cartItem.getQuantity() * cartItem.getMenu().getPrice();
         }
 
-        if (user.getPoint() < totalPrice) {
+        if (client.getPoint() < totalPrice) {
             throw new IllegalArgumentException("포인트가 충분하지 않습니다.");
         }
+
+        // 유저 포인트 차감
+        client.setPoint(user.getPoint() - totalPrice);
+
+        // 주문 정보 저장
+        newOrder.setUser(client);
 
         newOrder.setOrderDetails(orderDetails);
         newOrder.setTotalPrice(totalPrice);
         newOrder.setOrderStatusEnum(OrderStatusEnum.ORDERED);
+        newOrder.setOrderedAt(LocalDateTime.now());
+        Store store = cartItems.get(0).getStore();
+        newOrder.setStore(store);
+
         orderRepository.save(newOrder);
+
+        // 배달 주문 시, 사장 포인트 적립
+        User boss = userRepository.findByStoreId(store.getStoreId());
+        boss.setPoint(boss.getPoint() + totalPrice);
 
         cartItemRepository.deleteAll(cartItems);
 
@@ -101,7 +109,7 @@ public class OrderService {
         responseDto.setAddress(store.getAddress());
         responseDto.setOrderId(order.getOrderId());
         responseDto.setTotalPrice(totalPrice);
-        responseDto.setOrderStatus(order.getOrderStatusEnum().toString());
+        responseDto.setOrderStatus(order.getOrderStatusEnum().getValue());
 
         List<OrderDetailDto> detailDtos = orderDetails.stream().map(detail -> {
             OrderDetailDto dto = new OrderDetailDto();
@@ -117,10 +125,31 @@ public class OrderService {
         return responseDto;
     }
 
-    public OrderResponseDto getOrderDetails(Long orderId) {
+    public OrderResponseDto getCustomerOrderDetails(Integer orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
 
         return convertToDto(order, order.getTotalPrice(), order.getOrderDetails());
+    }
+
+    public BossOrderResponseDto getBossOrderDetails(Integer orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
+        return new BossOrderResponseDto(order);
+    }
+
+    @Transactional
+    public PutOrderResponseDto markOrderAsDelivered(Integer orderId) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
+
+        if (order.getOrderStatusEnum().equals(OrderStatusEnum.ORDERED)) {
+            order.markOrderAsDelivered(OrderStatusEnum.DELIVERED, LocalDateTime.now());
+        } else {
+            throw new IllegalArgumentException("이미 배달완료된 주문 입니다.");
+        }
+
+        return new PutOrderResponseDto(order);
     }
 }

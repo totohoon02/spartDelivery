@@ -3,20 +3,15 @@ package com.sparta.spartdelivery.controller;
 import com.sparta.spartdelivery.dto.ReviewResponseDto;
 import com.sparta.spartdelivery.dto.ReviewSubmissionDto;
 import com.sparta.spartdelivery.dto.StoreDetailResponseDto;
-import com.sparta.spartdelivery.entity.Review;
-import com.sparta.spartdelivery.entity.Store;
+import com.sparta.spartdelivery.external.security.UserDetailsImpl;
 import com.sparta.spartdelivery.service.ReviewService;
 import com.sparta.spartdelivery.service.StoreService;
-import org.apache.coyote.Response;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -40,8 +35,9 @@ public class ReviewController {
     }
 
     @GetMapping("/{storeId}/review")
-    public String showReviewForm(@PathVariable Long storeId, Model model) {
+    public String showReviewForm(Model model, Integer storeId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         model.addAttribute("storeId", storeId);
+        model.addAttribute("userId", userDetails.getUser().getUserId());
         return "review-write";
     }
 

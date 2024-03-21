@@ -39,31 +39,34 @@
                 type="text"
                 id="menuImage"
                 placeholder="메뉴 이미지 URL"
+                th:value="${menu.imageUrl}"
         />
         <label for="menuName">메뉴 이름을 입력해주세요. *</label>
         <input
           type="text"
           id="menuName"
           placeholder="메뉴 이름을 입력해주세요"
+          th:value="${menu.menuName}"
         />
         <label for="menuPrice">메뉴 가격을 입력해 주세요. *</label>
         <input
           type="text"
           id="menuPrice"
           placeholder="메뉴 가격을 입력해 주세요"
+          th:value="${menu.price}"
         />
         <label for="menuExplain">메뉴 설명을 입력해주세요.</label>
         <input
           type="text"
           id="menuExplain"
           placeholder="메뉴 설명을 입력해주세요"
+          th:value="${menu.description}"
         />
       </div>
       <div class="buttonContainer">
         <button class="submitButton" id="btnCancel">취소하기</button>
-        <button class="submitButton" id="btnSubmit">등록하기</button>
+        <button class="submitButton" id="btnSubmit" th:data-menu-id="${menu.menuId}">등록하기</button>
       </div>
-      <p class="deleteStore" id="btnDelete">메뉴 삭제하기</p>
     </div>
 
     <!-- JS -->

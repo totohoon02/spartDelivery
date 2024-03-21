@@ -29,7 +29,7 @@ btnLogin.addEventListener("click", () => {
                 throw new Error('Login failed');
             }
             console.log("로그인 성공");
-            window.location.href = "/store/stores"; // token
+            window.location.href = "/store"; // token
         })
         .catch(error => {
             console.error('Error during login:', error);
