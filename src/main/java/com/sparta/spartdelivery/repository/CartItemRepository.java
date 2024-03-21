@@ -18,5 +18,4 @@ public interface CartItemRepository extends JpaRepository<CartItem, Integer>{
 
     Optional<CartItem> findByUser_userIdAndMenu_menuId(int i, Integer menuId);
 
-    void deleteByUser(User user);
 }
