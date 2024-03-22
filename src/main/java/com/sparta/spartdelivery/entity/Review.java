@@ -1,16 +1,13 @@
 package com.sparta.spartdelivery.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.Getter;
 import jakarta.persistence.*;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
-@Setter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "Review")
 public class Review {
     @Id
@@ -29,4 +26,12 @@ public class Review {
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User user;
 
+    // 리뷰 수정을 위한 메소드
+    public void updateComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void updateRating(Byte rating) {
+        this.rating = rating;
+    }
 }

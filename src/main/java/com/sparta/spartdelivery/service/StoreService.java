@@ -3,9 +3,9 @@ package com.sparta.spartdelivery.service;
 import com.sparta.spartdelivery.dto.*;
 import com.sparta.spartdelivery.entity.Menu;
 import com.sparta.spartdelivery.entity.Review;
+import com.sparta.spartdelivery.entity.Store;
 import com.sparta.spartdelivery.entity.User;
 import com.sparta.spartdelivery.enums.CategoryEnum;
-import com.sparta.spartdelivery.entity.Store;
 import com.sparta.spartdelivery.repository.MenuRepository;
 import com.sparta.spartdelivery.repository.ReviewRepository;
 import com.sparta.spartdelivery.repository.StoreRepository;
@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StoreService {
@@ -89,23 +90,11 @@ public class StoreService {
         }
 
         List<Review> reviews = reviewRepository.findByStore_storeId(storeId);
-        List<ReviewResponseDto> reviewResponseDto = new ArrayList<>(reviews.size());
+        List<ReviewResponseDto> reviewResponseDtos = reviews.stream()
+                .map(ReviewResponseDto::convertReviewToDto)
+                .collect(Collectors.toList());
 
-        for (Review review : reviews) {
-            ReviewResponseDto reviewDto = new ReviewResponseDto();
-            if (review.getUser() != null) {
-                reviewDto.setUserName(review.getUser().getUserName());
-            } else {
-                reviewDto.setUserName("Anonymous");
-            }
-
-            reviewDto.setRating(review.getRating());
-            reviewDto.setComment(review.getComment());
-            reviewResponseDto.add(reviewDto);
-        }
-
-        responseDto.setMenus(menuResponseDtos);
-        responseDto.setReviews(reviewResponseDto);
+        responseDto.setReviews(reviewResponseDtos);
 
         return responseDto;
     }
