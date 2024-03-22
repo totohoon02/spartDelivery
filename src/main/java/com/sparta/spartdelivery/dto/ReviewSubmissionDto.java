@@ -1,14 +1,15 @@
 package com.sparta.spartdelivery.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReviewSubmissionDto {
-    private final String comment;
-    private final Byte rating;
+    private String comment;
+    private Byte rating;
 
-    public ReviewSubmissionDto(String comment, Byte rating) {
-        this.comment = comment;
-        this.rating = rating;
-    }
+
 }
