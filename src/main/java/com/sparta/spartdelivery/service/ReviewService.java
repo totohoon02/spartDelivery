@@ -39,7 +39,6 @@ public class ReviewService {
                 .build();
 
         store.addRating(review.getRating());
-        storeRepository.save(store);
 
         Review savedReview = reviewRepository.save(review);
         return ReviewResponseDto.convertReviewToDto(savedReview);
@@ -58,6 +57,7 @@ public class ReviewService {
         review.updateComment(reviewDto.getComment());
         review.updateRating(reviewDto.getRating());
 
+        reviewRepository.save(review);
         return ReviewResponseDto.convertReviewToDto(review);
     }
 

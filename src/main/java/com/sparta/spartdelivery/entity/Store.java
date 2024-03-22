@@ -35,10 +35,10 @@ public class Store {
     private String imageUrl;
 
     @Column
-    private Integer totalRatings;
+    private Integer totalRatings = 0;
 
     @Column
-    private Integer ratingsCount;
+    private Integer ratingsCount = 0;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
@@ -59,8 +59,6 @@ public class Store {
         this.categoryEnum = requestDto.getCategory();
         this.phoneNumber = requestDto.getPhoneNumber();
         this.address = requestDto.getStoreAddress();
-        this.ratingsCount = 0;
-        this.totalRatings = 0;
     }
 
     public void updateStore(StoreRequestDto requestDto) {

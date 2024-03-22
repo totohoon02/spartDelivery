@@ -1,12 +1,14 @@
 package com.sparta.spartdelivery.dto;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public class ReviewSubmissionDto {
-    private String comment;
-    private Byte rating;
-    private Integer userId;
+    private final String comment;
+    private final Byte rating;
+
+    public ReviewSubmissionDto(String comment, Byte rating) {
+        this.comment = comment;
+        this.rating = rating;
+    }
 }
