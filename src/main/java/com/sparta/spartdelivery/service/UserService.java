@@ -24,7 +24,7 @@ public class UserService {
     public void signup(SignupRequestDto requestDto) {
         String email = requestDto.getEmail();
         String password = passwordEncoder.encode(requestDto.getPassword());
-        String emailCode = requestDto.getEmailCode();;
+        String emailCode = requestDto.getEmailCode();
 
         // 회원 중복 확인
         Optional<User> checkUsername = userRepository.findByEmail(email);

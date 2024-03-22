@@ -8,7 +8,7 @@ public enum OrderStatusEnum implements EnumModel {
     ORDERED("주문완료"),
     DELIVERED("배달완료");
 
-    private String value;
+    private final String value;
 
     OrderStatusEnum(String value) {
         this.value = value;

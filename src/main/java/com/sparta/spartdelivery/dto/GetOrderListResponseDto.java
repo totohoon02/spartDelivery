@@ -6,11 +6,11 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 @Getter
 public class GetOrderListResponseDto {
-        private Integer orderId;
-        private String address;
-        private Integer totalPrice;
-        private LocalDateTime orderedAt;
-        private String orderStatus;
+        private final Integer orderId;
+        private final String address;
+        private final Integer totalPrice;
+        private final LocalDateTime orderedAt;
+        private final String orderStatus;
 
         public GetOrderListResponseDto(Order order) {
                 this.orderId = order.getOrderId();

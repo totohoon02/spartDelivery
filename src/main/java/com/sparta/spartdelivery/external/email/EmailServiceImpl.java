@@ -89,11 +89,11 @@ public class EmailServiceImpl implements EmailService {
 
             switch (index) {
                 case 0:
-                    key.append((char) ((int) (rnd.nextInt(26)) + 97));
+                    key.append((char) (rnd.nextInt(26) + 97));
                     //  a~z  (ex. 1+97=98 => (char)98 = 'b')
                     break;
                 case 1:
-                    key.append((char) ((int) (rnd.nextInt(26)) + 65));
+                    key.append((char) (rnd.nextInt(26) + 65));
                     //  A~Z
                     break;
                 case 2:

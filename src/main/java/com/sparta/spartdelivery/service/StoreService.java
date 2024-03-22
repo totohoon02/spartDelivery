@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class StoreService {
-    private StoreRepository storeRepository;
-    private MenuRepository menuRepository;
-    private ReviewRepository reviewRepository;
-    private UserRepository userRepository;
+    private final StoreRepository storeRepository;
+    private final MenuRepository menuRepository;
+    private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public StoreService(StoreRepository storeRepository, MenuRepository menuRepository,

@@ -10,7 +10,7 @@ public enum CategoryEnum implements EnumModel {
     WESTERN("양식"),
     FASTFOOD("패스트푸드");
 
-    private String value;
+    private final String value;
 
     CategoryEnum(String value) {
         this.value = value;
