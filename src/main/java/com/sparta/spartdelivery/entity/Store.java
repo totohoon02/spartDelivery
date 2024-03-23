@@ -63,6 +63,18 @@ public class Store {
         this.totalRatings = 0;
     }
 
+    public Store(String storeName, CategoryEnum categoryEnum, String phoneNumber, String address, String imageUrl, Integer totalRatings, Integer ratingsCount, List<Review> reviews, List<Menu> menus) {
+        this.storeName = storeName;
+        this.categoryEnum = categoryEnum;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.imageUrl = imageUrl;
+        this.totalRatings = totalRatings;
+        this.ratingsCount = ratingsCount;
+        this.reviews = reviews;
+        this.menus = menus;
+    }
+
     public void updateStore(StoreRequestDto requestDto) {
         this.storeName = requestDto.getStoreName();
         this.categoryEnum = requestDto.getCategory();
