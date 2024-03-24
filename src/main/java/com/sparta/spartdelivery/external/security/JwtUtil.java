@@ -31,7 +31,6 @@ public class JwtUtil {
     public static final String AUTHORIZATION_KEY = "auth";
     // Token 식별자
     public static final String BEARER_PREFIX = "Bearer ";
-    // 토큰 만료시간
 
     @Value("${jwt.secret.key}") // Base64 Encode 한 SecretKey
     private String secretKey;
@@ -45,17 +44,29 @@ public class JwtUtil {
     }
 
     // 토큰 생성
-    public String createToken(String username, UserRoleEnum role) {
+    public String createAccessToken(String username, UserRoleEnum role) {
         Date date = new Date();
 
-        // 토큰 만료시간
-        // 60분
-        long TOKEN_TIME = 60 * 60 * 1000L;
+        long TOKEN_TIME = 1 * 60 * 1000L; // 토큰만료시간, 1시간이 좋다고 생각하나 테스트상 1분으로
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(username) // 사용자 식별자값(ID)
                         .claim(AUTHORIZATION_KEY, role) // 사용자 권한
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
+                        .setIssuedAt(date) // 발급일
+                        .signWith(key, signatureAlgorithm) // 암호화 알고리즘
+                        .compact();
+    }
+
+    public String createRefreshToken(String username, UserRoleEnum role) {
+        Date date = new Date();
+
+        long REFRESH_TOKEN_TIME = 1 * 1 * 10 * 60 * 1000L; // refresh토큰 만료시간, 24시간~7일이 좋다고 생각하나 테스트상 10분
+        return BEARER_PREFIX +
+                Jwts.builder()
+                        .setSubject(username) // 사용자 식별자값(ID)
+                        .claim(AUTHORIZATION_KEY, role) // 사용자 권한
+                        .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_TIME)) // 만료 시간
                         .setIssuedAt(date) // 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
                         .compact();
@@ -70,11 +81,11 @@ public class JwtUtil {
 //        return null;
 //    }
 
-    public String getTokenFromRequest(HttpServletRequest req) {
+    public String getTokenFromRequest(HttpServletRequest req, String cookieName) {
         Cookie[] cookies = req.getCookies();
         if(cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(AUTHORIZATION_HEADER)) {
+                if (cookie.getName().equals(cookieName)) {
                     try {
                         return URLDecoder.decode(cookie.getValue(), "UTF-8"); // Encode 되어 넘어간 Value 다시 Decode
                     } catch (UnsupportedEncodingException e) {
@@ -85,14 +96,14 @@ public class JwtUtil {
         }
         return null;
     }
+
     // Set JWT cookie
-    public void addJwtToCookie(String token, HttpServletResponse res) {
+    public void addJwtToCookie(String token, HttpServletResponse res, String cookieName) {
         try {
             token = URLEncoder.encode(token, "utf-8").replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
 
-            Cookie cookie = new Cookie(AUTHORIZATION_HEADER, token);
+            Cookie cookie = new Cookie(cookieName, token);
             cookie.setPath("/");
-
             res.addCookie(cookie);
         } catch (UnsupportedEncodingException e) {
             log.error(e.getMessage());

@@ -49,10 +49,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
         UserRoleEnum role = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getRole();
 
-        // Set cookie
-        String token = jwtUtil.createToken(username, role);
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
-        jwtUtil.addJwtToCookie(token, response);
+        // Access Token 생성 및 전달
+        String accessToken = jwtUtil.createAccessToken(username, role);
+        response.addHeader("accessToken", accessToken);
+        jwtUtil.addJwtToCookie(accessToken, response, "accessToken");
+
+        // Refresh Token 생성 및 전달
+        String refreshToken = jwtUtil.createRefreshToken(username, role);
+        response.addHeader("refreshToken", refreshToken);
+        jwtUtil.addJwtToCookie(refreshToken, response, "refreshToken");
 
         // JSON Response에 사용자 역할 추가
         response.setContentType("application/json");
@@ -74,7 +79,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         // Ensure the response is committed
         response.getWriter().flush();
-
     }
 
     @Override
