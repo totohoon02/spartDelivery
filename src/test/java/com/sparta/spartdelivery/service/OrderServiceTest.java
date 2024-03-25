@@ -40,16 +40,7 @@ public class OrderServiceTest {
         public void getValidCartItems_Success() {
             Store store = new Store();
             Menu menu = new Menu();
-            User user = new User(
-                    1
-                    , "1123"
-                    , "email@email.com"
-                    , UserRoleEnum.CLIENT
-                    , 123
-                    , "oksu"
-                    , "010-0000-0000"
-                    , "서울시 주소"
-                    , 1);
+            User user = new User();
 
             CartItem cartItem = new CartItem(
                     1,
@@ -67,8 +58,8 @@ public class OrderServiceTest {
             );
             List<CartItem> cartItems = Arrays.asList(cartItem, cartItem2);
             when(cartItemRepository.findByUser(user)).thenReturn(cartItems);
+
             List<CartItem> result = orderService.getValidCartItems(user);
-            System.out.println("result = " + result);
             Assertions.assertFalse(result.isEmpty()); // 결과가 비어있지 않음을 검증
             Assertions.assertEquals(cartItems.size(), result.size()); // 기대하는 크기가 맞는지 검증
         }
@@ -168,16 +159,17 @@ public class OrderServiceTest {
             Integer initialPoint = 123;
             Integer totalPrice = 123;
 
-            User user = new User(
-                    1
-                    , "1123"
-                    , "email@email.com"
-                    , UserRoleEnum.CLIENT
-                    , initialPoint
-                    , "oksu"
-                    , "010-0000-0000"
-                    , "서울시 주소"
-                    , 1);
+            User user = User.builder()
+                    .userId(1)
+                    .password("1123")
+                    .email("email@email.com")
+                    .role(UserRoleEnum.BOSS)
+                    .point(initialPoint)
+                    .userName("oksu")
+                    .address("서울시 주소")
+                    .storeId(1)
+                    .phoneNumber("010-0000-0000")
+                    .build();
 
             // when
             Integer finalPoint = user.depositPoint(totalPrice);

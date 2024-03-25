@@ -31,7 +31,7 @@ public class OrderController {
     @GetMapping("")
     public String getOrders(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
-        List<GetOrderListResponseDto> orderInfos = orderService.getOrderList(user);
+        List<GetOrderListResponseDto> orderInfos = orderService. getOrderList(user);
         model.addAttribute("orderInfos", orderInfos);
         return "order_manage";
     }

@@ -51,51 +51,59 @@ public class OrderServiceIntegrationTest {
         String storeAddress = "storeAddress";
         Integer totalPrice = 10 * 100;
         OrderStatusEnum orderStatusEnum = OrderStatusEnum.ORDERED;
-        user = new User(
-                "email@email.com"
-                , "1123"
-                , UserRoleEnum.CLIENT
-                , 10000
-                , "oksu"
-                , "010-0000-0000"
-                , "서울시 주소"
-                , 1
-        );
-        userRepository.save(user);
+        User customer = User.builder()
+                .email("email@email.com")
+                .password("1123")
+                .role(UserRoleEnum.CLIENT)
+                .point(10000)
+                .address("서울시 주소")
+                .phoneNumber("010-0000-0000")
+                .userName("oksu")
+                .build();
+        userRepository.save(customer);
 
-        Store store = new Store(
-                "storeName",
-                CategoryEnum.KOREAN,
-                storePhoneNumber,
-                storeAddress,
-                "imageUrl",
-                50,
-                10,
-                null,
-                null)
-                ;
+        Store store = Store
+                .builder()
+                .storeName("storeName")
+                .categoryEnum(CategoryEnum.KOREAN)
+                .address(storeAddress)
+                .phoneNumber(storePhoneNumber)
+                .imageUrl("imageUrl")
+                .totalRatings(50)
+                .ratingsCount(10)
+                .build();
+
         storeRepository.save(store);
 
-        Menu menu = new Menu(
-                1,
-                store,
-                "menuName",
-                1000,
-                "description",
-                "imageUrl"
-        );
+        User boss = User.builder()
+                .email("boss@email.com")
+                .password("1123")
+                .role(UserRoleEnum.BOSS)
+                .point(0)
+                .address("서울시 주소")
+                .phoneNumber("010-0000-0000")
+                .userName("boss3")
+                .storeId(store.getStoreId())
+                .build();
+        userRepository.save(boss);
+
+        Menu menu = Menu.builder()
+                .store(store)
+                .menuName("menuName")
+                .price(1000)
+                .build();
+
         menuRepository.save(menu);
 
         CartItem cartItem = new CartItem(
-                1,
                 (short) 1,
-                user,
+                customer,
                 menu,
                 store
         );
         cartItemRepository.save(cartItem);
 
-        OrderResponseDto order = orderService.checkout(user);
+        OrderResponseDto order = orderService.checkout(customer);
 
         assertNotNull(order.getOrderId()); // orderId 가 존재하는지 확인
         assertEquals(order.getPhoneNumber(), storePhoneNumber);
@@ -111,34 +119,33 @@ public class OrderServiceIntegrationTest {
     public void checkout_point_insufficient() {
         String storePhoneNumber = "010-1234-1234";
         String storeAddress = "storeAddress";
+        Integer insufficientPoint = 500;
         Integer totalPrice = 10 * 100;
         OrderStatusEnum orderStatusEnum = OrderStatusEnum.ORDERED;
 
-        User user = new User("email@email.com", "1123", UserRoleEnum.CLIENT, 500, // 잔액을 주문 총액보다 적게 설정
-                "oksu", "010-0000-0000", "서울시 주소", 1);
+        User user = User.builder()
+                .email("email@email.com")
+                .password("1123")
+                .role(UserRoleEnum.CLIENT)
+                .point(insufficientPoint)
+                .userName("Oksu1")
+                .build();
         userRepository.save(user);
 
-        store = new Store(
-                "storeName",
-                CategoryEnum.KOREAN,
-                storePhoneNumber,
-                storeAddress,
-                "imageUrl",
-                50,
-                10,
-                null,
-                null)
+        store = Store.builder().storeName("storeName")
+                .categoryEnum(CategoryEnum.KOREAN)
+                .phoneNumber(storePhoneNumber)
+                .address(storeAddress)
+                .build()
         ;
+
         storeRepository.save(store);
 
-        Menu menu = new Menu(
-                1,
-                store,
-                "menuName",
-                10001,
-                "description",
-                "imageUrl"
-        );
+        Menu menu = Menu.builder()
+                .store(store)
+                .menuName("menuName")
+                .price(10001)
+                .build();
         menuRepository.save(menu);
 
         CartItem cartItem = new CartItem(
@@ -182,24 +189,22 @@ public class OrderServiceIntegrationTest {
 
     @Test
     public void markOrderAsDelivered_orderStatusNotOrdered() {
-        // 주문 ID가 존재하는 경우
-        Integer orderId = 1;
+                // 주문 생성
+        Order order = Order.builder()
+                .orderStatusEnum(OrderStatusEnum.DELIVERED)
+                .build();
+        Order createdOrder = orderRepository.save(order);
 
-        // 주문 생성
-        Order order = new Order();
-        order.setOrderId(orderId);
-        order.setOrderStatusEnum(OrderStatusEnum.DELIVERED);
-        orderRepository.save(order);
 
         // 주문 상태가 ORDERED가 아닌 경우
         assertThrows(IllegalArgumentException.class, () -> {
-            orderService.markOrderAsDelivered(orderId);
+            orderService.markOrderAsDelivered(createdOrder.getOrderId());
         });
 
         // 예외 메시지 확인
         String expectedMessage = "이미 배달완료된 주문 입니다.";
         String actualMessage = assertThrows(IllegalArgumentException.class, () -> {
-            orderService.markOrderAsDelivered(orderId);
+            orderService.markOrderAsDelivered(createdOrder.getOrderId());
         }).getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
     }
