@@ -42,10 +42,10 @@
     cursor: pointer;
 }
 .navMenu:hover {
-    color: blue;
+    color: red;
 }
 .navMenuTarget{
-    color: #6941c6;
+    color: #C82717;
 }
 
 .form-container {
@@ -122,7 +122,7 @@ textarea {
 }
 
 .submit-button {
-    background-color: #6e57e0;
+    background-color: #c73f32;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -134,5 +134,5 @@ textarea {
 }
 
 .submit-button:hover {
-    background-color: #5d4bcf;
+    background-color: #561109;
 }

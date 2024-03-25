@@ -42,10 +42,10 @@
     cursor: pointer;
 }
 .navMenu:hover {
-    color: blue;
+    color: red;
 }
 .navMenuTarget{
-    color: #6941c6;
+    color: #C82717;
 }
 
 
@@ -113,7 +113,7 @@ h1 {
 
 
 .write-review-btn {
-    background-color: #6e57e0;
+    background-color: #C82717;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -125,5 +125,5 @@ h1 {
 }
 
 .write-review-btn:hover {
-    background-color: #5d4bcf;
+    background-color: #561109;
 }

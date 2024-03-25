@@ -34,10 +34,10 @@
   cursor: pointer;
 }
 .navMenuTarget{
-  color: #6941c6;
+  color: #C82717;
 }
 .navMenu:hover {
-  color: blue;
+  color: red;
 }
 
 /* 공통설정 */
@@ -52,7 +52,7 @@
   text-align: center;
 }
 .title1 {
-  color: #6941c6;
+  color: #C82717;
   font-weight: bold;
   margin-bottom: 15px;
   font-size: 12px;

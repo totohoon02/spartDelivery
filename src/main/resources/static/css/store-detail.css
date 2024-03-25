@@ -42,10 +42,10 @@
     cursor: pointer;
 }
 .navMenu:hover {
-    color: blue;
+    color: red;
 }
 .navMenuTarget{
-    color: #6941c6;
+    color: #C82717;
 }
 
 body {
@@ -126,7 +126,7 @@ body {
 }
 
 .cart-button {
-    background-color: #6e57e0;
+    background-color: #c73f32;
     color: #ffffff;
     padding: 1rem 2rem;
     border: none;
@@ -139,7 +139,7 @@ body {
 }
 
 .cart-button:hover {
-    background-color: #5d4bcf;
+    background-color: #561109;
 }
 
 

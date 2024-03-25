@@ -84,6 +84,7 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
+    @Setter
     @Column
     private Integer point;
 

@@ -42,10 +42,10 @@
     cursor: pointer;
 }
 .navMenu:hover {
-    color: blue;
+    color: red;
 }
 .navMenuTarget{
-    color: #6941c6;
+    color: #C82717;
 }
 
 body {
@@ -80,7 +80,7 @@ body {
 }
 
 .btn-pay {
-    background-color: #6e57e0;
+    background-color: #C82717;
     color: white;
     border: none;
     padding: 10px 20px;
