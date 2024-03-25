@@ -54,7 +54,7 @@ function loginWithGoogle() {
     const url = 'https://accounts.google.com/o/oauth2/v2/auth?client_id=' +
         "1002565559885-da9crru1uq8m2i7dscquu9fghgk0soaq.apps.googleusercontent.com"+
         '&redirect_uri=' +
-        "http://localhost:8080/google-login" +
+        "http://spparta.store/google-login" +
         '&response_type=code' +
         '&scope=email profile';
 
