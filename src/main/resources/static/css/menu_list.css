@@ -5,23 +5,23 @@
     width: 100vw;
     height: 10vh;
 }
-
 .leftBox {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
 .logoImg {
-    width: 50px;
-    height: 50px;
+    width: 150px;
+    height: 80px;
     border-radius: 50%;
     border: none;
+    margin-left: 32px;
 }
-
 .navTitle {
+    margin-left: 24px;
+
     font-weight: bolder;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .rightBox {
@@ -30,21 +30,19 @@
     align-items: center;
     margin-right: 10px;
 }
-
 .navMenu {
-    margin: 0px 10px;
+    margin: 10px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 20px;
     cursor: pointer;
 }
-
-.navMenuTarget {
-    color: #6941c6;
+.navMenuTarget{
+    color: red
 }
-
 .navMenu:hover {
-    color: blue;
+    color: #C82717;
 }
+
 
 /* 공통설정 */
 
@@ -59,7 +57,7 @@
 }
 
 .title1 {
-    color: #6941c6;
+    color: #C82717;
     font-weight: bold;
     margin-bottom: 15px;
     font-size: 12px;
@@ -82,7 +80,7 @@
     width: 50vw;
     color: white;
     border-radius: 5px;
-    background-color: #7f56d9;
+    background-color: #C82717;
     border: none;
     padding: 10px 0px;
     cursor: pointer;
@@ -136,7 +134,7 @@
     border: none;
     border-radius: 5px;
     color: white;
-    background-color: #7B68EE;
+    background-color: #c73f32;
     cursor: pointer;
 }
 

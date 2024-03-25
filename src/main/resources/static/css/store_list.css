@@ -11,14 +11,17 @@
   align-items: center;
 }
 .logoImg {
-  width: 50px;
-  height: 50px;
+  width: 150px;
+  height: 80px;
   border-radius: 50%;
   border: none;
+  margin-left: 32px;
 }
 .navTitle {
+  margin-left: 24px;
+
   font-weight: bolder;
-  font-size: 20px;
+  font-size: 24px;
 }
 
 .rightBox {
@@ -30,14 +33,14 @@
 .navMenu {
   margin: 10px;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 20px;
   cursor: pointer;
 }
 .navMenuTarget{
-  color: #6941c6;
+color: red
 }
 .navMenu:hover {
-  color: blue;
+  color: #C82717;
 }
 
 /* 공통설정 */
@@ -52,13 +55,13 @@
   text-align: center;
 }
 .title1 {
-  color: #6941c6;
+  color: #C82717;
   font-weight: bold;
   margin-bottom: 15px;
-  font-size: 12px;
+  font-size: 16px;
 }
 .title2 {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bolder;
   margin-bottom: 15px;
 }
@@ -90,7 +93,8 @@
   width: 50vw;
   color: white;
   border-radius: 5px;
-  background-color: #7f56d9;
+  background-color: #C82717;
+
   border: none;
   padding: 10px;
   cursor: pointer;
@@ -111,14 +115,14 @@
 
 .search-bar button {
   border: none;
-  background-color: #7f56d9;
+  background-color: #C82717;
   color: white;
   padding: 10px 20px;
   cursor: pointer;
 }
 
 .search-bar button:hover {
-  background-color: #3b256c;
+  background-color: #561109;
 }
 
 .search-icon {
@@ -135,33 +139,55 @@
 * {
   box-sizing: border-box;
 }
+
+
 .gallery {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  width: 100%;
-  margin-top: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Increase the min size of the column */
+  gap: 5rem;
+  margin-top: 40px;
+  margin-left: 200px;
+  margin-right: 200px;
+
 }
+
 .image-card {
-  border: 1px solid #ccc;
+  border: 1px solid #ccc; /* Adjust border color and width as needed */
+  border-radius: 15px; /* Adjust the border-radius as needed */
   padding: 8px;
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  /*align-items: center;*/
+  overflow: hidden; /* Ensure that the children do not overflow the rounded corners */
 }
+
 .image-card img {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 8px;
+  border-radius: 15px; /* This should match the border-radius of the .image-card if you want the image itself also rounded */
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
 }
-.image-title {
-  text-align: left;
-  font-size: 1.2rem;
-  color: #333;
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust number of columns for smaller screens */
+  }
 }
-.image-category {
-  text-align: left;
-  font-size: 0.8rem;
-  color: #333;
+
+@media (min-width: 769px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust number of columns for larger screens */
+  }
+}
+
+
+.image-category, .image-title {
+  margin-top: .5rem; /* space between image and text */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 20px;
+  width: 100%; /* to ensure text does not overflow the card width */
 }

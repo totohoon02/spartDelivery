@@ -1,52 +1,48 @@
 /* 네브바설정 */
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 100vw;
     height: 10vh;
-    background-color: white;
-    z-index: 1000;
-    box-shadow: 0px 1px grey;
 }
-
 .leftBox {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 50px;
 }
 .logoImg {
-    width: 50px;
-    height: 50px;
+    width: 150px;
+    height: 80px;
     border-radius: 50%;
     border: none;
+    margin-left: 32px;
 }
 .navTitle {
+    margin-left: 24px;
+
     font-weight: bolder;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .rightBox {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 50px;
+    margin-right: 10px;
 }
 .navMenu {
-    margin: 0px 10px;
+    margin: 10px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 20px;
     cursor: pointer;
 }
-.navMenu:hover {
-    color: blue;
-}
 .navMenuTarget{
-    color: #6941c6;
+    color: red
 }
+.navMenu:hover {
+    color: #C82717;
+}
+
 
 body {
     font-family: 'Arial', sans-serif;
@@ -109,7 +105,7 @@ h1 {
 }
 
 .redeem-button {
-    background-color: #6e57e0;
+    background-color: #c73f32;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -120,5 +116,5 @@ h1 {
 }
 
 .redeem-button:hover {
-    background-color: #5d4bcf;
+    background-color: #561109;
 }

@@ -39,7 +39,7 @@ public class ReviewController {
 
     // 리뷰 작성 페이지
     @GetMapping("/{storeId}/review")
-    public String showReviewForm(Model model, Integer storeId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public String showReviewForm(Model model, @PathVariable Integer storeId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         model.addAttribute("storeId", storeId);
         model.addAttribute("userId", userDetails.getUser().getUserId());
         return "review-write";
