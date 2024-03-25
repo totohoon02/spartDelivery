@@ -11,13 +11,16 @@ import com.sparta.spartdelivery.external.email.EmailCodeRepository;
 import com.sparta.spartdelivery.external.security.JwtUtil;
 import com.sparta.spartdelivery.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 @Slf4j
 @Service
@@ -96,20 +99,29 @@ public class UserService {
         user.setRole(UserRoleEnum.valueOf(profileCompletionDto.getRole()));
             user.setAddress(profileCompletionDto.getAddress());
             user.setPhoneNumber(profileCompletionDto.getPhoneNumber());
-            user.setPoint((Objects.equals(UserRoleEnum.CLIENT.toString(), profileCompletionDto.getRole())) ? 1000000 : 0); // Set point based on role
+//            user.setPoint((Objects.equals(UserRoleEnum.CLIENT.toString(), profileCompletionDto.getRole())) ? 1000000 : 0); // Set point based on role
 
             userRepository.save(user);
 
     }
 
-    public String updateAndRegenerateToken(ProfileCompletionDto profileCompletionDto) {
+    public void updateAndRegenerateToken(ProfileCompletionDto profileCompletionDto, HttpSession session, HttpServletResponse response) {
+        Map<String, String> tokenMap = new HashMap<String, String>();
+
         User updatedUser = findByEmail(profileCompletionDto.getEmail());
 
         // Assuming the role conversion and setting is done here or inside updateUserProfile method
         updateUserProfile(profileCompletionDto);
 
         // Generate new JWT token with updated user details
-        return jwtUtil.createToken(updatedUser.getEmail(), updatedUser.getRole());
+        String accessToken = jwtUtil.createAccessToken(updatedUser.getEmail(), updatedUser.getRole());
+        String refreshToken = jwtUtil.createRefreshToken(updatedUser.getEmail(), updatedUser.getRole());
+
+        // Add the JWT to a cookie and the session
+        jwtUtil.addJwtToCookie(accessToken, response,"accessToken"); // For cookie
+        jwtUtil.addJwtToCookie(refreshToken, response,"refreshToken"); // For cookie
+        session.setAttribute("accessToken", accessToken);
+        session.setAttribute("refreshToken", refreshToken);
     }
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
