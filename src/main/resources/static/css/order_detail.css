@@ -10,36 +10,39 @@
   justify-content: center;
   align-items: center;
 }
+
 .logoImg {
-  width: 50px;
-  height: 50px;
+  width: 150px;
+  height: 80px;
   border-radius: 50%;
   border: none;
+  margin-left: 32px;
 }
 .navTitle {
+  margin-left: 24px;
   font-weight: bolder;
-  font-size: 20px;
+  font-size: 24px;
 }
+
 
 .rightBox {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 10px;
+  margin-right: 56px;
 }
 .navMenu {
   margin: 10px;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 20px;
   cursor: pointer;
 }
 .navMenuTarget{
-  color: #C82717;
+  color: red
 }
 .navMenu:hover {
-  color: red;
+  color: #C82717;
 }
-
 /* 공통설정 */
 
 .container {
