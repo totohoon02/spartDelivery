@@ -5,23 +5,23 @@
     width: 100vw;
     height: 10vh;
 }
-
 .leftBox {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
 .logoImg {
-    width: 50px;
-    height: 50px;
+    width: 150px;
+    height: 80px;
     border-radius: 50%;
     border: none;
+    margin-left: 32px;
 }
-
 .navTitle {
+    margin-left: 24px;
+
     font-weight: bolder;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .rightBox {
@@ -30,21 +30,19 @@
     align-items: center;
     margin-right: 10px;
 }
-
 .navMenu {
-    margin: 0px 10px;
+    margin: 10px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 20px;
     cursor: pointer;
 }
-
-.navMenuTarget {
+.navMenuTarget{
+    color: red
+}
+.navMenu:hover {
     color: #C82717;
 }
 
-.navMenu:hover {
-    color: red;
-}
 
 /* 공통설정 */
 
