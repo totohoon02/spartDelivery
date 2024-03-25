@@ -89,8 +89,8 @@ public class GoogleLoginServiceImpl implements SocialLoginService {
     }
 
     @Override
-    public SocialUserResponseDto getUserInfo(String accessToken) {
-        ResponseEntity<?> response = googleUserApi.getUserInfo(accessToken);
+    public SocialUserResponseDto getUserInfo(String googleToken) {
+        ResponseEntity<?> response = googleUserApi.getUserInfo(googleToken);
 
         log.info("google user response");
         log.info(response.toString());

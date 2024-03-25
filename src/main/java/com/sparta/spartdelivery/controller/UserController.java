@@ -86,26 +86,32 @@ public class UserController {
     @GetMapping("/google-login")
     public String googleOAuth2Callback(@RequestParam("code") String code,  HttpSession session, HttpServletResponse response) {
         try {
-            String accessToken = googleLoginService.exchangeCodeForAccessToken(code);
-            SocialUserResponseDto userDetailsDto = googleLoginService.getUserInfo(accessToken);
+            String googleToken = googleLoginService.exchangeCodeForAccessToken(code);
+            SocialUserResponseDto userDetailsDto = googleLoginService.getUserInfo(googleToken);
 
             User user = googleLoginService.processUserDetails(userDetailsDto);
             if (user.getPhoneNumber() != null && !user.getPhoneNumber().isEmpty()) {
                 // User already has a phone number, so generate a token and redirect to the store page
-                String token = jwtUtil.createToken(user.getEmail(), user.getRole());
+                String accessToken = jwtUtil.createAccessToken(user.getEmail(), user.getRole());
+                String refreshToken = jwtUtil.createRefreshToken(user.getEmail(), user.getRole());
 
                 // Add the JWT to a cookie and the session
-                jwtUtil.addJwtToCookie(token, response); // For cookie
-                session.setAttribute(JwtUtil.AUTHORIZATION_HEADER, token);
+                jwtUtil.addJwtToCookie(accessToken, response,"accessToken"); // For cookie
+                jwtUtil.addJwtToCookie(refreshToken, response,"refreshToken"); // For cookie
+                session.setAttribute("accessToken", accessToken);
+                session.setAttribute("refreshToken", refreshToken);
 
                 return "redirect:/store";
             } else {
                 // User does not have a phone number, proceed to profile completion
-                String token = jwtUtil.createToken(user.getEmail(), UserRoleEnum.CLIENT);
+                String accessToken = jwtUtil.createAccessToken(user.getEmail(), UserRoleEnum.CLIENT);
+                String refreshToken = jwtUtil.createRefreshToken(user.getEmail(), UserRoleEnum.CLIENT);
 
                 // Add the JWT to a cookie and the session
-                jwtUtil.addJwtToCookie(token, response); // For cookie
-                session.setAttribute(JwtUtil.AUTHORIZATION_HEADER, token);
+                jwtUtil.addJwtToCookie(accessToken, response,"accessToken"); // For cookie
+                jwtUtil.addJwtToCookie(refreshToken, response,"refreshToken"); // For cookie
+                session.setAttribute("accessToken", accessToken);
+                session.setAttribute("refreshToken", refreshToken);
 
                 // Store the userDetails DTO in the session for further needs
                 session.setAttribute("userDetails", userDetailsDto);
@@ -137,11 +143,8 @@ public class UserController {
             // Process and save the profile data
             userService.updateUserProfile(profileCompletionDto);
 
-            String newToken = userService.updateAndRegenerateToken(profileCompletionDto);
+            userService.updateAndRegenerateToken(profileCompletionDto, session, response);
 
-            // Update JWT in cookie or session
-            jwtUtil.addJwtToCookie(newToken, response); // For cookie
-            session.setAttribute(JwtUtil.AUTHORIZATION_HEADER, newToken);
             return "redirect:/store";
         } catch (Exception e) {
             return "redirect:/profile-complete";
