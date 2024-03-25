@@ -76,47 +76,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         filterChain.doFilter(req, res);
     }
 
-//    @Override
-//    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
-//
-//        String accessToken = jwtUtil.getTokenFromRequest(req, "accessToken");
-//        log.debug("토큰 인증 전" + accessToken);
-//
-//        if (StringUtils.hasText(accessToken)) {
-//            accessToken = jwtUtil.substringToken(accessToken); //bearal 떼어주기
-//            log.debug("hasText" + accessToken);
-//            if (!jwtUtil.validateToken(accessToken)) { //토큰이 유효하나 만료되었을시
-//                log.error("Token Error");
-//                // 쿠키에서 토큰 삭제
-//                Cookie[] cookies = req.getCookies();
-//                if (cookies != null) {
-//                    for (Cookie cookie : cookies) {
-//                        if (cookie.getName().equals("accessToken")) {
-//                            cookie.setValue("");
-//                            cookie.setMaxAge(0);
-//                            cookie.setPath("/");
-//                            res.addCookie(cookie);
-//                            break;
-//                        }
-//                    }
-//                }
-//                res.sendRedirect(req.getContextPath() + "/login"); //login페이지로 리다이렉트
-//                return;
-//            }
-//
-//            Claims info = jwtUtil.getUserInfoFromToken(accessToken);
-//
-//            try {
-//                setAuthentication(info.getSubject());
-//            } catch (Exception e) {
-//                log.error(e.getMessage());
-//                return;
-//            }
-//        }
-//
-//        filterChain.doFilter(req, res);
-//    }
-
     // 인증 처리
     public void setAuthentication(String username) {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
