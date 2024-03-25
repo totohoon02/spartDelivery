@@ -3,14 +3,15 @@ package com.sparta.spartdelivery.service;
 import com.sparta.spartdelivery.dto.*;
 import com.sparta.spartdelivery.entity.Menu;
 import com.sparta.spartdelivery.entity.Review;
-import com.sparta.spartdelivery.entity.User;
-import com.sparta.spartdelivery.enums.CategoryEnum;
 import com.sparta.spartdelivery.entity.Store;
+import com.sparta.spartdelivery.entity.User;
 import com.sparta.spartdelivery.repository.MenuRepository;
 import com.sparta.spartdelivery.repository.ReviewRepository;
 import com.sparta.spartdelivery.repository.StoreRepository;
 import com.sparta.spartdelivery.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,10 @@ import java.util.Optional;
 
 @Service
 public class StoreService {
-    private StoreRepository storeRepository;
-    private MenuRepository menuRepository;
-    private ReviewRepository reviewRepository;
-    private UserRepository userRepository;
+    private final StoreRepository storeRepository;
+    private final MenuRepository menuRepository;
+    private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public StoreService(StoreRepository storeRepository, MenuRepository menuRepository,
@@ -38,30 +39,16 @@ public class StoreService {
 
 
     // 메인페이지 - 상점 리스트 GET
-    public List<GetStoreResponseDto> getStoreList(){
-        return storeRepository.findAll()
-                .stream().map(GetStoreResponseDto::new)
-                .toList();
+    public Page<GetStoreResponseDto> getStoreList(Pageable pageable){
+        Page<Store> storePage = storeRepository.findAll(pageable);
+        return storePage.map(GetStoreResponseDto::new);
     }
 
     // 메인페이지 - 상점 검색 리스트 GET
-    public List<GetStoreResponseDto> getFilteredStoreList(String searchValue) {
-        List<Store> responseList = new ArrayList<>();
-        // 1. 카테고리 명이 동일한 경우
-        responseList.addAll(storeRepository.findAllByCategoryEnum(
-                CategoryEnum.findByValue(searchValue)));
-
-        // 2. 가게명 LIKE 검색이 되는 경우
-        responseList.addAll(storeRepository.findByStoreNameLike("%"+searchValue+"%"));
-
-        // 3. 지역명 LIKE 검색이 되는 경우
-        responseList.addAll(storeRepository.findByAddressLike("%"+searchValue+"%"));
-
-    return responseList
-                .stream().map(GetStoreResponseDto::new)
-                .toList();
+    public Page<GetStoreResponseDto> getFilteredStoreList(String searchValue, Pageable pageable) {
+        Page<Store> storePage = storeRepository.findAllBySearchValue(searchValue, pageable);
+        return storePage.map(GetStoreResponseDto::new);
     }
-
     // 상점 상세 페이지 - 상점 정보와 메뉴 리스트 GET
     public StoreDetailResponseDto getStoreDetail(Integer storeId) {
         Store store = storeRepository.findById(storeId)
