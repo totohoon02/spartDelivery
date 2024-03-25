@@ -91,7 +91,7 @@ public class User {
     }
 
     public Integer withdrawPoint(Integer totalPrice) throws IllegalArgumentException{
-        if (this.point < totalPrice) {
+        if (this.point == null || this.point < totalPrice) {
             throw new IllegalArgumentException("포인트가 충분하지 않습니다.");
         }
         this.point -= totalPrice;

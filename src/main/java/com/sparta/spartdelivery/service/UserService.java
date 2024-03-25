@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 @Slf4j
 @Service
@@ -99,7 +100,7 @@ public class UserService {
         user.setRole(UserRoleEnum.valueOf(profileCompletionDto.getRole()));
             user.setAddress(profileCompletionDto.getAddress());
             user.setPhoneNumber(profileCompletionDto.getPhoneNumber());
-//            user.setPoint((Objects.equals(UserRoleEnum.CLIENT.toString(), profileCompletionDto.getRole())) ? 1000000 : 0); // Set point based on role
+            user.setPoint((Objects.equals(UserRoleEnum.CLIENT.toString(), profileCompletionDto.getRole())) ? 1000000 : 0); // Set point based on role
 
             userRepository.save(user);
 

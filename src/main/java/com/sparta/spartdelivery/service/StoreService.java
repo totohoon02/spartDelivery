@@ -77,6 +77,7 @@ public class StoreService {
             menuDto.setDescription(menu.getDescription());
             menuResponseDtos.add(menuDto);
         }
+        responseDto.setMenus(menuResponseDtos);
 
         List<Review> reviews = reviewRepository.findByStore_storeId(storeId);
         List<ReviewResponseDto> reviewResponseDtos = reviews.stream()

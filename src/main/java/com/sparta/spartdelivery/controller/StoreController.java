@@ -7,6 +7,7 @@ import com.sparta.spartdelivery.dto.StoreResponseDto;
 import com.sparta.spartdelivery.entity.User;
 import com.sparta.spartdelivery.external.security.UserDetailsImpl;
 import com.sparta.spartdelivery.service.StoreService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/store")
+@Slf4j(topic = "StoreController")
 public class StoreController {
     private final StoreService storeService;
 
@@ -31,7 +33,7 @@ public class StoreController {
     @GetMapping("")
     public String getStoreList(Model model,
                                @RequestParam(value = "searchValue", required = false) String searchValue,
-                               @PageableDefault(size = 10) Pageable pageable) {
+                               @PageableDefault(size = 100) Pageable pageable) {
         Page<GetStoreResponseDto> storePage;
 
         if (searchValue != null && !searchValue.isEmpty()) {
@@ -48,6 +50,9 @@ public class StoreController {
     public String getStoreDetail(@PathVariable Integer storeId, Model model) {
         StoreDetailResponseDto storeDetail = storeService.getStoreDetail(storeId);
         model.addAttribute("store", storeDetail);
+        log.info("getStoreDetail");
+        log.info(storeDetail.toString());
+
         return "store-detail";
     }
 
