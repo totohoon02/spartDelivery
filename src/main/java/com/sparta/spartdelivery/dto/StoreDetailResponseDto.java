@@ -13,6 +13,7 @@ public class StoreDetailResponseDto {
     private String phoneNumber;
     private String address;
     private String description;
+    private String image;
     private String category;
     private Double rating;
     private List<MenuResponseDto> menus;

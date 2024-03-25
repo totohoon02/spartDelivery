@@ -63,6 +63,7 @@ public class StoreService {
         responseDto.setAddress(store.getAddress());
         responseDto.setCategory(store.getCategoryEnum().toString());
         responseDto.setRating(store.getRating());
+        responseDto.setImage(store.getImageUrl());
 
         List<Menu> menus = menuRepository.findByStore(store);
         List<MenuResponseDto> menuResponseDtos = new ArrayList<>(menus.size());

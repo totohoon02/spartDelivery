@@ -6,6 +6,7 @@ const storeName = document.querySelector("#storeName");
 const category = document.querySelector("#category");
 const phoneNumber = document.querySelector("#phoneNumber");
 const storeAddress = document.querySelector("#storeAddress");
+const storeImage = document.querySelector("#storeImage");
 
 
 btnSubmit.addEventListener("click", ()=>{
@@ -25,7 +26,9 @@ btnSubmit.addEventListener("click", ()=>{
             storeName:storeName.value,
             category:category.value,
             phoneNumber:phoneNumber.value,
-            storeAddress:storeAddress.value
+            storeAddress:storeAddress.value,
+            storeImage:storeImage.value
+
         })
     })
         .then(res => {

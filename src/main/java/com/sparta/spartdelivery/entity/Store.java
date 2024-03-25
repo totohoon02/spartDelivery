@@ -60,6 +60,7 @@ public class Store {
         this.categoryEnum = requestDto.getCategory();
         this.phoneNumber = requestDto.getPhoneNumber();
         this.address = requestDto.getStoreAddress();
+        this.imageUrl = requestDto.getStoreImage();
     }
 
     public void updateStore(StoreRequestDto requestDto) {
@@ -67,5 +68,6 @@ public class Store {
         this.categoryEnum = requestDto.getCategory();
         this.phoneNumber = requestDto.getPhoneNumber();
         this.address = requestDto.getStoreAddress();
+        this.imageUrl = requestDto.getStoreImage();
     }
 }

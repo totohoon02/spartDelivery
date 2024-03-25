@@ -4,10 +4,11 @@ const storeName = document.querySelector("#storeName");
 const category = document.querySelector("#category");
 const phoneNumber = document.querySelector("#phoneNumber");
 const storeAddress = document.querySelector("#storeAddress");
+const storeImage = document.querySelector("#storeImage");
 
 
 btnSubmit.addEventListener("click", ()=>{
-    if (storeName.value === "" || category.value === "" || phoneNumber.value === "" || storeAddress.value === "") {
+    if (storeName.value === "" || category.value === "" || phoneNumber.value === "" || storeAddress.value === "" || storeImage.value === "") {
         alert("입력 값을 확인해주세요.");
         return;
     }
@@ -21,7 +22,8 @@ btnSubmit.addEventListener("click", ()=>{
             storeName:storeName.value,
             category:category.value,
             phoneNumber:phoneNumber.value,
-            storeAddress:storeAddress.value
+            storeAddress:storeAddress.value,
+            storeImage:storeImage.value
         })
     })
         .then(res => {

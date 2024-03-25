@@ -9,4 +9,5 @@ public class StoreRequestDto {
     private CategoryEnum category;
     private String phoneNumber;
     private String storeAddress;
+    private String storeImage;
 }
