@@ -8,7 +8,7 @@
   text-align: center;
 }
 .title1 {
-  color: #6941c6;
+  color: #C82717;
   font-weight: bold;
   margin-bottom: 15px;
   font-size: 12px;
@@ -41,9 +41,22 @@
   margin-bottom: 15px;
   padding: 10px 0px;
 }
+
 .submitContainer{
   display: none;
 }
+
+.authButton {
+  width: 50vw;
+  color: white;
+  border-radius: 5px;
+  background-color: #7f56d9;
+  border: none;
+  padding: 10px 0px;
+  cursor: pointer;
+}
+
+
 .submitButton {
   width: 50vw;
   color: white;
@@ -55,3 +68,24 @@
   margin-top: 20px;
 }
 
+
+.google-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 40px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+  border-radius: 20px;
+  border: 1px solid #000;
+}
+.google-button:hover {
+  background-color: #e0e0e0;
+}
+.google-button img {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}

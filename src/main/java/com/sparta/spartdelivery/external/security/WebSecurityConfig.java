@@ -62,6 +62,9 @@ public class WebSecurityConfig {
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
                         .requestMatchers("/").permitAll() // 메인 페이지 요청 허가
+                        .requestMatchers("/google-login").permitAll()
+                        .requestMatchers("/google-login/**").permitAll()
+                        .requestMatchers("/profile-complete").permitAll()
                         .requestMatchers("/emailConfirm").permitAll() // 로그인 전단계인, 이메일인증 요청 접근허가
                         .requestMatchers("/emailConfirm/**").permitAll() // 로그인 전단계인, 이메일인증 요청 접근허가
                         .requestMatchers("/login").permitAll() // 로그인 페이지 접근허가
@@ -69,6 +72,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/signup").permitAll() // 로그인 전단계인, 회원가입 요청 접근허가
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
+
 
         // 필터 관리
         http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);

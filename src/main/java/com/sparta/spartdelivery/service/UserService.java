@@ -1,18 +1,24 @@
 package com.sparta.spartdelivery.service;
 
+import com.sparta.spartdelivery.dto.ProfileCompletionDto;
 import com.sparta.spartdelivery.dto.ProfileResponseDto;
+import com.sparta.spartdelivery.dto.SignupRequestDto;
+import com.sparta.spartdelivery.dto.UserResponseDto;
 import com.sparta.spartdelivery.entity.User;
 import com.sparta.spartdelivery.enums.UserRoleEnum;
 import com.sparta.spartdelivery.external.email.EmailCode;
 import com.sparta.spartdelivery.external.email.EmailCodeRepository;
-import com.sparta.spartdelivery.dto.SignupRequestDto;
+import com.sparta.spartdelivery.external.security.JwtUtil;
 import com.sparta.spartdelivery.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -20,6 +26,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailCodeRepository emailCodeRepository;
+    private final JwtUtil jwtUtil;
+
+
 
     public void signup(SignupRequestDto requestDto) {
         String email = requestDto.getEmail();
@@ -41,12 +50,13 @@ public class UserService {
         }
 
         // 사용자 등록
-        User user = new User(email, password, requestDto.getUserName(), requestDto.getRole());
-        if (requestDto.getRole() == UserRoleEnum.CLIENT) {
-            user.setPoint(1000000);
-        } else {
-            user.setPoint(0);
-        }
+        User user = User.builder()
+                .email(email)
+                .password(password)
+                .userName(requestDto.getUserName())
+                .role(requestDto.getRole())
+                .point(requestDto.getRole() == UserRoleEnum.CLIENT ? 1000000 : 0) // Set point based on role
+                .build();
 
         userRepository.save(user);
     }
@@ -60,5 +70,47 @@ public class UserService {
         profileDto.setAddress(user.getAddress());
         profileDto.setPoint(user.getPoint());
         return profileDto;
+    }
+
+
+
+    public UserResponseDto getUser(Integer userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("유저 정보를 찾을 수 없습니다."));
+
+        return UserResponseDto.builder()
+                .id(user.getId())
+                .userId(user.getUserId())
+                .userEmail(user.getEmail())
+                .userName(user.getUserName())
+                .build();
+    }
+
+
+    @Transactional
+    public void updateUserProfile( ProfileCompletionDto profileCompletionDto) {
+        User user = userRepository.findByEmail(profileCompletionDto.getEmail())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        user.setRole(UserRoleEnum.valueOf(profileCompletionDto.getRole()));
+            user.setAddress(profileCompletionDto.getAddress());
+            user.setPhoneNumber(profileCompletionDto.getPhoneNumber());
+
+            userRepository.save(user);
+
+    }
+
+    public String updateAndRegenerateToken(ProfileCompletionDto profileCompletionDto) {
+        User updatedUser = findByEmail(profileCompletionDto.getEmail());
+
+        // Assuming the role conversion and setting is done here or inside updateUserProfile method
+        updateUserProfile(profileCompletionDto);
+
+        // Generate new JWT token with updated user details
+        return jwtUtil.createToken(updatedUser.getEmail(), updatedUser.getRole());
+    }
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with email: " + email));
     }
 }

@@ -1,0 +1,119 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="ko">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Complete Your Profile - SPPARTA DELIVERY</title>-->
+<!--    <script src="https://cdn.tailwindcss.com"></script>-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: 'Open Sans', sans-serif;-->
+<!--        }-->
+<!--    </style>-->
+<!--    &lt;!&ndash; Adjust these paths as necessary &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="/css/reset.css"/>-->
+<!--    <link rel="stylesheet" href="/css/profile-complete.css"/>-->
+<!--</head>-->
+<!--<body class="bg-gray-100">-->
+<!--<div class="min-h-screen flex items-center justify-center px-4">-->
+<!--    <input type="hidden" id="userEmail" name="userEmail" th:value="${userDetails.email}">-->
+<!--    <input type="hidden" id="userName" name="userName" th:value="${userDetails.name}">-->
+
+
+
+<!--    <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">-->
+<!--        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">-->
+<!--            Complete Your Profile-->
+<!--        </h2>-->
+<!--        <form class="mt-8 space-y-6" action="/profile-complete" method="POST">-->
+<!--            <input type="hidden" name="email" value="/* User Email From OAuth2 */">-->
+<!--            <div class="rounded-md shadow-sm -space-y-px">-->
+<!--                <div>-->
+<!--                    <label for="address" class="sr-only">Address</label>-->
+<!--                    <input id="address" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Address">-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <label for="phone-number" class="sr-only">Phone Number</label>-->
+<!--                    <input id="phone-number" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Phone Number">-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <label for="role" class="sr-only">Role</label>-->
+<!--                    <select id="role" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">-->
+<!--                        <option value="">Select Role</option>-->
+<!--                        <option value="CLIENT">Client</option>-->
+<!--                        <option value="BOSS">Boss</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div>-->
+<!--                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">-->
+<!--                    Complete Profile-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPPARTA DELIVERY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/reset.css}"/>
+</head>
+<body class="bg-gray-100">
+<div class="min-h-screen flex items-center justify-center px-4">
+
+
+    <div class="flex justify-around items-center bg-white p-8 rounded-lg shadow-lg max-w-6xl w-full max-h-5xl">
+        <!-- Placeholder image -->
+        <img th:src="@{/images/DELIVERY.png}" alt="Decorative auth image" class="hidden lg:block w-[600px] h-[800px]">
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                        회원가입을 완료하세요
+                    </h2>
+        <form class="mt-8 space-y-6"  id="profile-completion-form">
+            <input type="hidden" id="email" name="email" th:value="${userDetails.email}">
+            <input type="hidden" id="userName" name="userName" th:value="${userDetails.name}">
+            <div class="rounded-md shadow-sm -space-y-px">
+                <div>
+                    <label for="address" class="sr-only">Address</label>
+                    <input id="address" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Address">
+                </div>
+                <div>
+                    <label for="phone-number" class="sr-only">Phone Number</label>
+                    <input id="phone-number" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Phone Number">
+                </div>
+                <div>
+                    <label for="role" class="sr-only">Role</label>
+                    <select id="role" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+                        <option value="">Select Role</option>
+                        <option value="CLIENT">Client</option>
+                        <option value="BOSS">Boss</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Complete Profile
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script th:src="@{/js/profile-complete.js}"></script>
+</body>
+</html>

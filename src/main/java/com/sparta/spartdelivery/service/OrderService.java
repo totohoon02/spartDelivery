@@ -70,7 +70,8 @@ public class OrderService {
         }
 
         // 유저 포인트 차감
-        client.setPoint(user.getPoint() - totalPrice);
+        client.subtractPoint(user.getPoint() - totalPrice);
+        userRepository.save(client);
 
         // 주문 정보 저장
         newOrder.setUser(client);
@@ -86,7 +87,9 @@ public class OrderService {
 
         // 배달 주문 시, 사장 포인트 적립
         User boss = userRepository.findByStoreId(store.getStoreId());
-        boss.setPoint(boss.getPoint() + totalPrice);
+        boss.addPoint(boss.getPoint() + totalPrice);
+        userRepository.save(boss);
+
 
         cartItemRepository.deleteAll(cartItems);
 
