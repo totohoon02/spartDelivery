@@ -10,7 +10,7 @@
 <!-- NAV BAR -->
 <header class="navbar">
     <div class="leftBox">
-        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg" />
+        <img th:src="@{/images/logo.jpg}" alt="x" class="logoImg"/>
         <p class="navTitle">Menu</p>
     </div>
     <div class="rightBox">
@@ -25,7 +25,9 @@
         <h1 th:text="${store.storeName}">Store Name</h1>
         <p th:text="'Address: ' + ${store.address}">Address</p>
         <p th:text="'Phone: ' + ${store.phoneNumber}">Phone Number</p>
-        <div class="rating" th:text="'Rating: ' + ${#numbers.formatDecimal(store.rating, 1, 'COMMA', 2, 'POINT')}">Rating</div>
+        <div class="rating" th:text="'Rating: ' + ${#numbers.formatDecimal(store.rating, 1, 'COMMA', 2, 'POINT')}">
+            Rating
+        </div>
         <form th:action="@{/store/{storeId}/reviews(storeId=${store.storeId})}" method="get">
             <button class="review-button" style="margin: 10px">리뷰 보기</button>
         </form>
@@ -33,25 +35,20 @@
 
 
     <div class="menu-info">
-            <div class="row row-cols-1 row-cols-md-4 g-4 mx-auto w-75 pb-5" style="margin-bottom: 30px">
-                <div th:each="menu : ${store.menus}" class="col">
-                    <div class="card h-100" th:attr="data-menu-id=${menu.menuId}">
-                        <img th:src="${menu.imageUrl}" th:alt="${menu.menuName}" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${menu.menuName}" style="font-size: 20px;"></h5>
-                            <p th:text="${menu.description}" class="menu-description" style="font-size: 15px;"></p>
-                            <p th:text="'가격' + ${menu.price} + '원'" class="menu-price" style="font-size: 15px;"></p>
-                        </div>
+        <div class="row row-cols-1 row-cols-md-4 g-4 mx-auto w-75 pb-5" style="margin-bottom: 30px">
+            <div th:each="menu : ${store.menus}" class="col">
+                <div class="card h-100" th:attr="data-menu-id=${menu.menuId}">
+                    <img th:src="${menu.imageUrl}" th:alt="${menu.menuName}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${menu.menuName}" style="font-size: 20px;"></h5>
+                        <p th:text="${menu.description}" class="menu-description" style="font-size: 15px;"></p>
+                        <p th:text="'가격' + ${menu.price} + '원'" class="menu-price" style="font-size: 15px;"></p>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
     <form action="/cart" method="get">
-<!--        userId 넣는 로직 필요-->
-<!--        <input type="hidden" name="userId" th:value="${userId}">-->
-        <input type="hidden" name="userId" value=1>
 
         <button class="cart-button">장바구니 보기</button>
     </form>

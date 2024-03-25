@@ -5,10 +5,10 @@ import lombok.Getter;
 
 @Getter
 public class GetStoreResponseDto {
-    private Integer storeId;
-    private String storeName;
-    private String categoryValue;
-    private String imageUrl;
+    private final Integer storeId;
+    private final String storeName;
+    private final String categoryValue;
+    private final String imageUrl;
 
     public GetStoreResponseDto(Store store) {
         this.storeId = store.getStoreId();

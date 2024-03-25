@@ -114,16 +114,13 @@ public class OrderServiceTest {
             Integer initialPoint = 123;
             Integer totalPrice = 123;
 
-            User user = new User(
-                    1
-                    , "1123"
-                    , "email@email.com"
-                    , UserRoleEnum.CLIENT
-                    , initialPoint
-                    , "oksu"
-                    , "010-0000-0000"
-                    , "서울시 주소"
-                    , 1);
+            User user = User.builder()
+                    .email("email@email.com")
+                    .password("1123")
+                    .role(UserRoleEnum.CLIENT)
+                    .point(initialPoint)
+                    .userName("oksu")
+                    .build();
 
             // when
             Integer finalPoint = user.withdrawPoint(totalPrice);
@@ -137,16 +134,14 @@ public class OrderServiceTest {
         public void withdrawPoint_Failure() {
             Integer initialPoint = 123;
             Integer totalPrice = 124;
-            User user = new User(
-                    1
-                    , "1123"
-                    , "email@email.com"
-                    , UserRoleEnum.CLIENT
-                    , initialPoint
-                    , "oksu"
-                    , "010-0000-0000"
-                    , "서울시 주소"
-                    , 1);
+
+            User user = User.builder()
+                    .email("email@email.com")
+                    .password("1123")
+                    .role(UserRoleEnum.CLIENT)
+                    .point(initialPoint)
+                    .userName("oksu")
+                    .build();
 
             assertThrows(IllegalArgumentException.class, () -> {
                 user.withdrawPoint(totalPrice);

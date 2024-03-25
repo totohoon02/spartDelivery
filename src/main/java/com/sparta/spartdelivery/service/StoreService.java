@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StoreService {
@@ -49,6 +50,7 @@ public class StoreService {
         Page<Store> storePage = storeRepository.findAllBySearchValue(searchValue, pageable);
         return storePage.map(GetStoreResponseDto::new);
     }
+
     // 상점 상세 페이지 - 상점 정보와 메뉴 리스트 GET
     public StoreDetailResponseDto getStoreDetail(Integer storeId) {
         Store store = storeRepository.findById(storeId)
@@ -76,23 +78,11 @@ public class StoreService {
         }
 
         List<Review> reviews = reviewRepository.findByStore_storeId(storeId);
-        List<ReviewResponseDto> reviewResponseDto = new ArrayList<>(reviews.size());
+        List<ReviewResponseDto> reviewResponseDtos = reviews.stream()
+                .map(ReviewResponseDto::convertReviewToDto)
+                .collect(Collectors.toList());
 
-        for (Review review : reviews) {
-            ReviewResponseDto reviewDto = new ReviewResponseDto();
-            if (review.getUser() != null) {
-                reviewDto.setUserName(review.getUser().getUserName());
-            } else {
-                reviewDto.setUserName("Anonymous");
-            }
-
-            reviewDto.setRating(review.getRating());
-            reviewDto.setComment(review.getComment());
-            reviewResponseDto.add(reviewDto);
-        }
-
-        responseDto.setMenus(menuResponseDtos);
-        responseDto.setReviews(reviewResponseDto);
+        responseDto.setReviews(reviewResponseDtos);
 
         return responseDto;
     }

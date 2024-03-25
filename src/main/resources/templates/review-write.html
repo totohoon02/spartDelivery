@@ -24,8 +24,8 @@
 <div class="form-container">
     <h1>리뷰 작성</h1>
     <form id="reviewForm">
-        <input type="hidden" id="userId" name="userId" value=1>
-        <input type="hidden" id="storeId" name="storeId" value=1>
+        <input type="hidden" id="userId" name="userId" th:value="${userId}">
+        <input type="hidden" id="storeId" name="storeId" th:value="${storeId}">
 
         <label for="rating">점수를 선택하세요 *</label>
         <div id="rating">

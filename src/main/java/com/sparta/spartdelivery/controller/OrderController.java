@@ -8,6 +8,7 @@ import com.sparta.spartdelivery.entity.User;
 import com.sparta.spartdelivery.enums.UserRoleEnum;
 import com.sparta.spartdelivery.external.security.UserDetailsImpl;
 import com.sparta.spartdelivery.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -21,17 +22,15 @@ import java.util.List;
 @Controller
 @RequestMapping("/order")
 public class OrderController {
+    @Autowired
     private OrderService orderService;
-
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
 
     @Secured(UserRoleEnum.Authority.BOSS)
     @GetMapping("")
     public String getOrders(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
-        List<GetOrderListResponseDto> orderInfos = orderService. getOrderList(user);
+        List<GetOrderListResponseDto> orderInfos = orderService.getOrderList(user);
+
         model.addAttribute("orderInfos", orderInfos);
         return "order_manage";
     }

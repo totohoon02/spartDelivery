@@ -1,14 +1,15 @@
 package com.sparta.spartdelivery.dto;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.sparta.spartdelivery.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReviewSubmissionDto {
     private String comment;
     private Byte rating;
-    private Integer userId;
+
+
 }

@@ -64,3 +64,26 @@ btnSignup.addEventListener("click", () => {
             alert(error.message);
         });
 });
+
+
+function showSocialLoginPopup(url) {
+    // Open a popup window with the given URL
+    const width = 600;
+    const height = 600;
+    const left = window.innerWidth / 2 - width / 2;
+    const top = window.innerHeight / 2 - height / 2;
+    const options = `width=${width},height=${height},top=${top},left=${left},menubar=no,toolbar=no,location=no,resizable=yes,scrollbars=yes`;
+    window.open(url, 'social-login', options);
+}
+
+function loginWithGoogle() {
+    console.log('Login with Google clicked');
+    const url = 'https://accounts.google.com/o/oauth2/v2/auth?client_id=' +
+        "1002565559885-da9crru1uq8m2i7dscquu9fghgk0soaq.apps.googleusercontent.com"+
+        '&redirect_uri=' +
+        "http://localhost:8080/google-login" +
+        '&response_type=code' +
+        '&scope=email profile';
+
+    this.showSocialLoginPopup(url)
+}

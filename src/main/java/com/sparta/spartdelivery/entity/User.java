@@ -1,16 +1,16 @@
 package com.sparta.spartdelivery.entity;
 
 import com.sparta.spartdelivery.enums.UserRoleEnum;
+import com.sparta.spartdelivery.enums.UserType;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
-@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "Users")
-@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +19,10 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String password;
+        private String password;
 
-    @Column(nullable = false)
+    @Setter
+    @Column()
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
@@ -32,12 +32,20 @@ public class User {
     @Column(nullable = false)
     private String userName;
 
+    @Setter
     private String phoneNumber;
 
+    @Setter
     private String address;
 
     @Column
     private Integer storeId;
+
+    @Column(columnDefinition = "ENUM('GOOGLE', 'NORMAL') DEFAULT 'NORMAL'")
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
+
+    private String id;
 
     public User(String email, String password, String username, UserRoleEnum role) {
         this.email = email;
