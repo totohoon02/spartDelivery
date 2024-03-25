@@ -7,6 +7,9 @@ import com.sparta.spartdelivery.dto.StoreResponseDto;
 import com.sparta.spartdelivery.entity.User;
 import com.sparta.spartdelivery.external.security.UserDetailsImpl;
 import com.sparta.spartdelivery.service.StoreService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,24 +28,25 @@ public class StoreController {
         this.storeService = storeService;
     }
 
-    @GetMapping
-    public String getStoreList(Model model, @RequestParam(value = "searchValue", required = false) String searchValue) {
-        List<GetStoreResponseDto> storeInfos;
+    @GetMapping("")
+    public String getStoreList(Model model,
+                               @RequestParam(value = "searchValue", required = false) String searchValue,
+                               @PageableDefault(size = 10) Pageable pageable) {
+        Page<GetStoreResponseDto> storePage;
 
         if (searchValue != null && !searchValue.isEmpty()) {
-            storeInfos = storeService.getFilteredStoreList(searchValue);
+            storePage = storeService.getFilteredStoreList(searchValue, pageable);
         } else {
-            storeInfos = storeService.getStoreList();
+            storePage = storeService.getStoreList(pageable);
         }
 
-        model.addAttribute("storeInfos", storeInfos);
+        model.addAttribute("storePage", storePage);
         return "store_list";
     }
 
     @GetMapping("/{storeId}")
     public String getStoreDetail(@PathVariable Integer storeId, Model model) {
         StoreDetailResponseDto storeDetail = storeService.getStoreDetail(storeId);
-
         model.addAttribute("store", storeDetail);
         return "store-detail";
     }

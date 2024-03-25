@@ -1,13 +1,9 @@
 package com.sparta.spartdelivery.dto;
 
-import com.sparta.spartdelivery.entity.OrderDetail;
-import com.sparta.spartdelivery.entity.Store;
-import com.sparta.spartdelivery.enums.OrderStatusEnum;
+import com.sparta.spartdelivery.entity.Order;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,4 +15,13 @@ public class OrderResponseDto {
     private Integer totalPrice;
     private String orderStatus;
     private List<OrderDetailDto> orderDetails;
+
+    public OrderResponseDto(Order order) {
+        this.orderId = order.getOrderId();
+        this.phoneNumber = order.getStore().getPhoneNumber();
+        this.address = order.getStore().getAddress();
+        this.totalPrice = order.getTotalPrice();
+        this.orderStatus = order.getOrderStatusEnum().getValue();
+        this.orderDetails = order.getOrderDetails().stream().map(OrderDetailDto::new).toList();
+    }
 }

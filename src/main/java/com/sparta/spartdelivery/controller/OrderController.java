@@ -27,13 +27,14 @@ public class OrderController {
 
     @Secured(UserRoleEnum.Authority.BOSS)
     @GetMapping("")
-    public String getOrders(Model model,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public String getOrders(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userDetails.getUser();
         List<GetOrderListResponseDto> orderInfos = orderService.getOrderList(user);
 
         model.addAttribute("orderInfos", orderInfos);
         return "order_manage";
     }
+
     // 결제하고 주문 생성
     @PostMapping()
     public ResponseEntity<OrderResponseDto> checkout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -64,19 +65,5 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(putOrderResponseDto);
     }
-
-//    @GetMapping("/{orderId}")
-//    public ResponseEntity<CheckoutResponseDto> getOrderById(@PathVariable Long orderId) {
-//        CheckoutResponseDto checkoutResponse = orderService.getOrderById(orderId); // Assuming such a method exists
-//       return ResponseEntity.ok(checkoutResponse);
-//    }
-
-//    // 모든 주문 보기 (사용자용) -> userId는 임시, auth로 받아올것
-//    @GetMapping("/{userId}")
-//    public String getAllOrdersByUser(@PathVariable Long userId, Model model) {
-//        List<OrderResponseDto> orders = orderService.getAllOrders(userId);
-//        model.addAttribute("orders", orders);
-//        return "checkout";
-//    }
 }
 

@@ -1,6 +1,6 @@
 package com.sparta.spartdelivery.dto;
 
-import com.sparta.spartdelivery.entity.Menu;
+import com.sparta.spartdelivery.entity.OrderDetail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +16,12 @@ public class OrderDetailDto {
     private String description;
     private int quantity;
     private Integer price;
+
+    public OrderDetailDto(OrderDetail orderDetail) {
+        this.menuId = orderDetail.getMenu().getMenuId();
+        this.menuName = orderDetail.getMenu().getMenuName();
+        this.description = orderDetail.getMenu().getDescription();
+        this.quantity = orderDetail.getQuantity();
+        this.price = orderDetail.getMenu().getPrice();
+    }
 }

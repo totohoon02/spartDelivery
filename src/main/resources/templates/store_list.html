@@ -38,7 +38,7 @@
     </div>
 </div>
 <div class="gallery">
-    <div th:each="store : ${storeInfos}" class="image-card">
+    <div th:each="store : ${storePage.content}" class="image-card">
         <a th:href="@{/store/{storeId}(storeId=${store.storeId})}">
             <img th:src="@{${store.imageUrl}}" alt="Store Image" th:alt="${store.storeName}"/>
             <div class="image-category" th:text="${store.categoryValue}">Category</div>

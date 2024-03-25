@@ -1,7 +1,10 @@
 package com.sparta.spartdelivery.service;
 
 import com.sparta.spartdelivery.dto.*;
-import com.sparta.spartdelivery.entity.*;
+import com.sparta.spartdelivery.entity.CartItem;
+import com.sparta.spartdelivery.entity.Order;
+import com.sparta.spartdelivery.entity.OrderDetail;
+import com.sparta.spartdelivery.entity.User;
 import com.sparta.spartdelivery.enums.OrderStatusEnum;
 import com.sparta.spartdelivery.repository.CartItemRepository;
 import com.sparta.spartdelivery.repository.OrderRepository;
@@ -11,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,7 @@ public class OrderService {
         this.userRepository = userRepository;
         this.cartItemRepository = cartItemRepository;
     }
+
     // 주문 리스트 조회하기
     public List<GetOrderListResponseDto> getOrderList(User user) {
         Integer storeId = user.getStoreId();
@@ -41,90 +44,35 @@ public class OrderService {
     // 결제하기
     @Transactional
     public OrderResponseDto checkout(User user) {
+        // 1. user id 로 새로운 User 객체 생성
         User client = userRepository.findById(user.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자 입니다."));
+        // 2. CartItems 가져 오기
+        List<CartItem> cartItems = getValidCartItems(client);
 
-        List<CartItem> cartItems = cartItemRepository.findByUser(user);
+        // 3. 카트 결제 금액 계산
+        Integer totalPrice = calculateTotalPrice(cartItems);
 
-        if (cartItems.isEmpty()) {
-            throw new IllegalArgumentException("장바구니가 비어있습니다.");
-        }
+        // 4. 카트 Item 으로 Order, Orderdetail
+        Order newOrder = createOrder(client, cartItems, totalPrice);
 
-        Order newOrder = new Order();
+        // 5. 유저 포인트 충분 여부 검증 및 포인트 차감
+        client.withdrawPoint(totalPrice);
 
-        List<OrderDetail> orderDetails = new ArrayList<>();
-        Integer totalPrice = 0;
+        // 6. 배달 주문 시, 사장 포인트 적립
+        User boss = userRepository.findByStoreId(newOrder.getStore().getStoreId());
+        boss.depositPoint(totalPrice);
 
-        for (CartItem cartItem : cartItems) {
-            OrderDetail orderDetail = new OrderDetail();
-            orderDetail.setOrder(newOrder);
-            orderDetail.setMenu(cartItem.getMenu());
-            orderDetail.setQuantity(cartItem.getQuantity());
-            orderDetails.add(orderDetail);
-
-            totalPrice += cartItem.getQuantity() * cartItem.getMenu().getPrice();
-        }
-
-        if (client.getPoint() < totalPrice) {
-            throw new IllegalArgumentException("포인트가 충분하지 않습니다.");
-        }
-
-        // 유저 포인트 차감
-        client.subtractPoint(user.getPoint() - totalPrice);
-        userRepository.save(client);
-
-        // 주문 정보 저장
-        newOrder.setUser(client);
-
-        newOrder.setOrderDetails(orderDetails);
-        newOrder.setTotalPrice(totalPrice);
-        newOrder.setOrderStatusEnum(OrderStatusEnum.ORDERED);
-        newOrder.setOrderedAt(LocalDateTime.now());
-        Store store = cartItems.get(0).getStore();
-        newOrder.setStore(store);
-
-        orderRepository.save(newOrder);
-
-        // 배달 주문 시, 사장 포인트 적립
-        User boss = userRepository.findByStoreId(store.getStoreId());
-        boss.addPoint(boss.getPoint() + totalPrice);
-        userRepository.save(boss);
-
-
+        // 카트 삭제
         cartItemRepository.deleteAll(cartItems);
 
-        return convertToDto(newOrder, totalPrice, orderDetails);
-    }
-
-    private OrderResponseDto convertToDto(Order order, Integer totalPrice, List<OrderDetail> orderDetails) {
-        OrderResponseDto responseDto = new OrderResponseDto();
-        Store store = orderDetails.get(0).getMenu().getStore();
-
-        responseDto.setPhoneNumber(store.getPhoneNumber());
-        responseDto.setAddress(store.getAddress());
-        responseDto.setOrderId(order.getOrderId());
-        responseDto.setTotalPrice(totalPrice);
-        responseDto.setOrderStatus(order.getOrderStatusEnum().getValue());
-
-        List<OrderDetailDto> detailDtos = orderDetails.stream().map(detail -> {
-            OrderDetailDto dto = new OrderDetailDto();
-            dto.setMenuId(detail.getMenu().getMenuId());
-            dto.setMenuName(detail.getMenu().getMenuName());
-            dto.setDescription(detail.getMenu().getDescription());
-            dto.setQuantity(detail.getQuantity());
-            dto.setPrice(detail.getMenu().getPrice());
-            return dto;
-        }).collect(Collectors.toList());
-        responseDto.setOrderDetails(detailDtos);
-
-        return responseDto;
+        return new OrderResponseDto(newOrder);
     }
 
     public OrderResponseDto getCustomerOrderDetails(Integer orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("주문을 찾을 수 없습니다."));
-
-        return convertToDto(order, order.getTotalPrice(), order.getOrderDetails());
+        return new OrderResponseDto(order);
     }
 
     public BossOrderResponseDto getBossOrderDetails(Integer orderId) {
@@ -147,4 +95,47 @@ public class OrderService {
 
         return new PutOrderResponseDto(order);
     }
+
+    public List<CartItem> getValidCartItems(User user) {
+        // 1. 해당 User가 CartItem 을 가지고 있는지 확인
+        List<CartItem> cartItems = cartItemRepository.findByUser(user);
+        // 2. CartItems 비었는지 확인
+        if (cartItems.isEmpty()) {
+            throw new IllegalArgumentException("장바구니가 비어있습니다.");
+        }
+        return cartItems;
+    }
+
+    private Integer calculateTotalPrice(List<CartItem> cartItems) {
+        return cartItems.stream()
+                .mapToInt(cartItem -> cartItem.getQuantity() * cartItem.getMenu().getPrice())
+                .sum();
+    }
+
+    public Order createOrder(User user, List<CartItem> cartItems, Integer totalPrice) {
+        Order newOrder = new Order();
+        newOrder.setUser(user);
+        newOrder.setTotalPrice(totalPrice);
+        newOrder.setOrderedAt(LocalDateTime.now());
+        newOrder.setStore(cartItems.get(0).getStore());
+        newOrder.setOrderStatusEnum(OrderStatusEnum.ORDERED);
+
+        List<OrderDetail> orderDetails = cartItems.stream()
+                .map(cartItem -> convertToOrderDetail(cartItem, newOrder))
+                .collect(Collectors.toList());
+
+        newOrder.setOrderDetails(orderDetails);
+        orderRepository.save(newOrder);
+
+        return newOrder;
+    }
+
+    private OrderDetail convertToOrderDetail(CartItem cartItem, Order order) {
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setOrder(order);
+        orderDetail.setMenu(cartItem.getMenu());
+        orderDetail.setQuantity(cartItem.getQuantity());
+        return orderDetail;
+    }
+
 }

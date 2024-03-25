@@ -18,7 +18,7 @@ btnAuth.addEventListener("click", () => {
         return
     }
 
-    fetch(`http://localhost:8080/emailConfirm/${email.value}`, {
+    fetch(`/emailConfirm/${email.value}`, {
         method: "POST"
     }).then(res => alert("이메일 전송 완료."));
 
