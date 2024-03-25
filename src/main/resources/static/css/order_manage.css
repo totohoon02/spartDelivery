@@ -10,6 +10,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .logoImg {
   width: 150px;
   height: 80px;
@@ -19,16 +20,16 @@
 }
 .navTitle {
   margin-left: 24px;
-
   font-weight: bolder;
   font-size: 24px;
 }
+
 
 .rightBox {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 10px;
+  margin-right: 56px;
 }
 .navMenu {
   margin: 10px;
@@ -42,8 +43,6 @@
 .navMenu:hover {
   color: #C82717;
 }
-
-
 /* 공통설정 */
 
 .container {
